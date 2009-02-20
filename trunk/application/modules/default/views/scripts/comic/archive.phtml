@@ -1,0 +1,90 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<h2><?php echo $tr->_("Comic archive");?></h2>
+<?php
+foreach($this->years as $year)
+{
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'year' => $year), '', false);
+  if($year == 'all')
+  {
+    $txt = $tr->_("All years");
+  }
+  else
+  {
+    $txt = $year;
+  }
+  echo '<li><a href="' . $link . '">' . $txt . '</a></li>';
+}
+?>
+
+<br />
+
+<?php
+$l = $this->clist;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  
+  $order = $this->order == 'ASC' ? 'desc' : 'asc';
+
+  echo '<tr>';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'id', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '">' . $tr->_("Comic ID") . '</a></td>';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'name', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '">' . $tr->_("Name") . '</a></td>';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'idea', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '">' . $tr->_("Idea") . '</a></td>';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'published', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link. '">' . $tr->_("Published") . '</a></td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    $name = $this->escape($l[$i]['name']);
+    $published = $this->escape($l[$i]['published']);
+    $published = str_replace(' ', '&nbsp;', $published);
+    $idea = $this->escape($l[$i]['idea']);
+
+    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name), '', true);
+
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="left"><a href="' . $link . '">' . $id . '</a></td>';
+    echo '<td align="left"><a href="' . $link . '">' . $name . '</a></td>';
+    echo '<td align="left">' . $idea . '</td>';
+    echo '<td align="left">' . $published . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No comics");
+}
+?>

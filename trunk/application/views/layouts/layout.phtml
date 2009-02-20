@@ -1,0 +1,109 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+$auth = Zend_Auth::getInstance();
+$db = Zend_Registry::get('DB');
+
+echo "\x3c?xml version=\"1.0\" encoding=\"UTF-8\"?\x3e\n";
+echo $this->doctype() . "\n";
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<!--
+zfComicEngine (c) Pekka Järvinen 2009
+-->
+  <title>My Comic</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php
+// Favicon
+$this->headLink(array('rel' => 'icon', 'type' => 'image/png', 'href' => '/images/favicon.png'));
+
+// RSS links
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Posts"), 'href' => $this->url(array('controller' => 'index', 'action' => 'feed'), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Comics"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comic' ), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Comic comments"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comments' ), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Latest comic comments for latest comic"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), '', true)));
+
+// CSS
+$this->headLink()->appendStylesheet('/css/');
+
+echo $this->headLink();
+?>
+
+<!-- Stupid IE -->
+<!--[if lt IE 8]>
+<script src="/javascript/iefix/IE8.js" type="text/javascript"></script>
+<![endif]-->
+
+<?php
+// Dojo
+if ($this->dojo()->isEnabled())
+{
+  $this->dojo()->setLocalPath('/javascript/dojo/dojo.js');
+  $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+  $this->dojo()->requireModule('dijit._editor.plugins.LinkDialog');
+  $this->dojo()->requireModule('dijit._editor.plugins.FontChoice');
+  $this->dojo()->requireModule('dijit._editor.plugins.EnterKeyHandling');
+
+  echo $this->dojo();
+}
+?>
+</head>
+<body class="tundra">
+
+  <h1>My Comic</h1>
+
+  <div id="header">
+    <?php if ($auth->hasIdentity()): ?>
+    <div id="admin-menu">
+      <?php printf($tr->_("Logged in as %s"), $auth->getIdentity()->name);?>
+      <ul>
+        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Posts");?></a></li>
+        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Comic");?></a></li>
+        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments'), '', true); ?>"><?php echo $tr->_("Comic comments");?></a></li>
+        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'pages'), '', true); ?>"><?php echo $tr->_("Pages");?></a></li>
+        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'bans'), '', true); ?>"><?php echo $tr->_("Bans");?></a></li>
+        <li id="logout"><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), '', true); ?>"><?php echo $tr->_("Logout");?></a></li>
+      </ul>
+    </div>
+    <?php endif; ?>
+
+    <div id="menu">
+      <ul>
+        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Front page");?></a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Comic");?></a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'archive'), '', true); ?>"><?php echo $tr->_("Comic archive");?></a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'about'), '', true); ?>"><?php echo $tr->_("About");?></a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'feedback'), '', true); ?>"><?php echo $tr->_("Feedback");?></a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'guestbook', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Guest book");?></a></li>
+        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'links'), '', true); ?>"><?php echo $tr->_("Links");?></a></li>
+      </ul>
+    </div>
+  </div><!-- /header -->
+
+  <div id="content">
+    <?php echo $this->layout()->content; echo "\n"; ?>
+  </div><!-- /content -->
+  
+  <br />
+  
+  <div id="footer">
+    <hr />
+
+<?php
+$profiler = $db->getProfiler();
+
+$totalTime = $profiler->getTotalElapsedSecs();
+$queryCount = $profiler->getTotalNumQueries();
+
+echo sprintf($tr->_("Executed %s SQL queries in %s seconds"), $queryCount, round($totalTime, 3));
+?>
+ |
+<?php
+echo sprintf($tr->_("Rendered in %s seconds"), round(microtime(true) - SCRIPT_START_TIME, 3));
+?>
+ |
+    Powered by raspi's zfComicEngine
+  </div><!-- /footer -->
+
+</body>
+</html>

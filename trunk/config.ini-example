@@ -1,0 +1,12 @@
+[database]
+salt     = insert-salt-here
+host     = database host/ip
+username = database user
+password = database password
+dbname   = database name
+
+[language]
+language = en_US
+
+[contact]
+sender = me@example.com
