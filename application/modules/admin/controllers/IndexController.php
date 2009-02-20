@@ -135,6 +135,7 @@ class Admin_IndexController extends Controller
    */
   public function loginAction()
   {
+    $authors = new Authors();
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'database');
 
     $form = new comicForm();
@@ -168,12 +169,45 @@ class Admin_IndexController extends Controller
       {
         $values = $form->getValues();
 
+        $pw = md5($config->salt . $values['password']);
+
+        $select = $authors->select();
+        $select->from($authors, array('c' => 'COUNT(*)'));
+        $info = $authors->fetchRow($select)->toArray();
+        $usercount = (int)$info['c'];
+        
+        // No users, create first user
+        if ($usercount === 0)
+        {
+          $insert = array(
+            'name' => 'Not set',
+            'email' => $values['email'],
+            'password' => $pw
+          );
+
+          $this->_db->beginTransaction();
+
+          try
+          {
+            $authors->insert($insert);
+
+            $this->_db->commit();
+          }
+          catch (Exception $e)
+          {
+            $this->_db->rollBack();
+            echo $e->getMessage();
+            var_dump($e);
+            die;
+          }
+
+        } // /if
+
+        // Login
         $authAdapter = new Zend_Auth_Adapter_DbTable($this->_db);
         $authAdapter->setTableName('AUTHORS');
         $authAdapter->setIdentityColumn('email');
         $authAdapter->setCredentialColumn('password');
-
-        $pw = md5($config->salt . $values['password']);
 
         $authAdapter->setIdentity($values['email']);
         $authAdapter->setCredential($pw);
@@ -221,7 +255,7 @@ class Admin_IndexController extends Controller
       $this->_auth->clearIdentity();
     }
 
-    return $this->_helper->redirector('/');
+    return $this->_helper->redirector->gotoUrl("/");
   }
 
   /**
