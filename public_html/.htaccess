@@ -1,0 +1,18 @@
+AcceptPathInfo On
+RewriteEngine On          
+RewriteBase /   
+
+# Extension is NOT ...
+RewriteCond %{REQUEST_FILENAME} !\.(php|jpg|png|gif|js|txt|htm|html)$
+
+# File is NOT index.php
+RewriteCond %{REQUEST_FILENAME} !index\.php
+
+# Is NOT file
+RewriteCond %{REQUEST_FILENAME} !-f    
+
+# Is NOT directory
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Create rewriting rule
+RewriteRule ^(.*) index.php/$1 [QSA,L]
