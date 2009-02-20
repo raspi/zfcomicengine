@@ -1,0 +1,191 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$first = $this->first;
+$latest = $this->latest;
+
+$next = $this->next;
+$prev = $this->previous;
+
+$selected = $this->selected;
+
+$first_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $first, 'name' => $this->escape($this->fname)), '', true);
+$last_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $latest, 'name' => $this->escape($this->lname)), '', true);
+$next_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $next, 'name' => $this->escape($this->nextname)), '', true);
+$prev_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $prev, 'name' => $this->escape($this->prevname)), '', true);
+$random_link = $this->url(array('controller' => 'comic', 'action' => 'random'), '', true);
+
+$comic_image = $this->url(array('controller' => 'comic', 'action' => 'display-comic', 'id' => $this->info['md5sum'], 'name' => $this->escape($this->info['name'])), '', true);
+
+$add_link_first = $selected != $first ? true : false;
+$add_link_last = $selected != $latest ? true : false;
+
+$comments = $this->comments;
+
+// Navigation links
+$nav = null;
+
+$nav .= '<li class="button comic-button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-latest">';   if ($add_link_last)  {$nav .= '<a href="' . $last_link . '">';}  $nav .= $tr->_("Latest");   if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-random"><a href="' . $random_link . '">' . $tr->_("Random") . '</a></li>';
+$nav .= "\n";
+
+?>
+<style type="text/css">
+<!--
+  #comment-form #fieldset-mail
+  {
+    display: none;
+    visibility: hidden;
+  }
+
+  #comment-form fieldset #fieldset-add
+  {
+    border: none;
+  }
+
+  #fieldset-add dl dd, #fieldset-add dl dt
+  {
+    float:left;
+  }
+
+  #fieldset-add dl dd
+  {
+    padding-right: 1em;
+    padding-left: 0.5em;
+  }
+
+  #fieldset-add
+  {
+    border: 0px solid #fff;
+  }
+
+  #fieldset-add input
+  {
+    border: 1px solid #000;
+  }
+
+  #fieldset-add #name
+  {
+    width: 5em;
+  }
+
+  #fieldset-add #comment
+  {
+    width: 20em;
+  }
+  
+  .zend_form
+  {
+    margin-top: -2em;
+  }
+
+-->
+</style>
+<h2><?php echo $tr->_("Comic");?><a name="comic" /></h2>
+<div id="comic-image">
+  <div id="comic-info">
+    <?php echo $this->info['published'];?> <b>::</b> <?php echo $this->escape($this->info['name']);?> <?php if(!empty($this->info['idea'])) {echo '('; echo sprintf($tr->_("Idea: %s"), $this->escape($this->info['idea'])); echo ')';}?>
+  </div>
+
+  <!-- Top navigation -->
+  <div class="comic-navigation" id="comic-navigation-top">
+    <ul class="navigation-list" id="navigation-list-top">
+      <?php echo $nav;?>
+    </ul>
+  </div>
+
+  <!-- Comic -->
+  <img src="<?php echo $comic_image; ?>" alt="" border="0" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" />
+
+  <!-- Bottom navigation -->
+  <div class="comic-navigation" id="comic-navigation-bottom">
+    <ul class="navigation-list" id="navigation-list-bottom">
+      <?php echo $nav;?>
+    </ul>
+  </div>
+
+</div><!-- /comic-image -->
+
+<h2><?php echo $tr->_("Comments");?><a name="comments" /></h2>
+<div id="comment-form">
+  <?php echo $this->commentform;?>
+</div>
+
+<div id="comment-list">
+<?php
+if (is_array($comments) && !empty($comments))
+{
+  echo '<table width="100%" cellspacing="0" cellpadding="0" id="comic-comments">' . "\n";
+  
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center"><b>' . $tr->_("Date") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Nick") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Comment") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Rate") . '</b></td>';
+  echo "</tr>\n";
+  
+  $even = true;
+
+  for($i=0; $i<count($comments); $i++)
+  {
+    $class = null;
+    
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+    
+    $isstaff = $comments[$i]['isstaff'] == '1' ? true : false;
+    
+    if($isstaff)
+    {
+      $class = 'staff-comment ';
+    }
+    
+    
+    $nick = $this->escape($comments[$i]['nick']);
+    $comment = $this->escape($comments[$i]['comment']);
+    $rate = $comments[$i]['rate'];
+    if(empty($rate))
+    {
+      $rate = '&nbsp;';
+    }
+    $added = $comments[$i]['added'];
+    $added = str_replace(' ', '&nbsp;', $added);
+
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="right" class="comment-added">' . $added . '</td>';
+    echo '<td align="right" class="comment-nick"><b>' . $nick . '</b>:&nbsp;</td>';
+    echo '<td align="left" class="comment-text">&nbsp;' . $comment . '</td>';
+    echo '<td align="center" class="comment-rate">' . $rate . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  } // /for
+
+  echo "</table>\n";
+  
+  echo "<br />\n";
+  
+  echo sprintf($tr->_("%d comment(s)"), count($comments));
+
+}
+else
+{
+  echo $tr->_("No comments");
+}
+?>
+</div>

@@ -1,0 +1,21 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$pages = $this->pages;
+
+echo '<ul style="text-transform: capitalize">';
+for($i=0; $i<count($pages); $i++)
+{
+  $page = $pages[$i];
+  
+  $link = $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'pages', 'page' => $page), '', true);
+  
+  echo '<li><a href="' . $link. '">' . $page . '</a></li>';
+  
+}
+
+echo '</ul>';
+
+echo $this->form;
+?>
+

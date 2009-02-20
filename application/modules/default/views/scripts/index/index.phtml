@@ -1,0 +1,42 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$posts = $this->posts;
+?>
+
+<h2><?php echo $tr->_("Front page");?></h2>
+
+<div id="intro">
+<?php echo $this->introtext;?>
+</div>
+
+<div id="posts">
+<?php
+
+if(is_array($posts) && !empty($posts))
+{
+  for($i=0; $i<count($posts); $i++)
+  {
+    $subject = $this->escape($posts[$i]['subject']);
+    $txt = $posts[$i]['content'];
+    $author = 'foo';
+    $day = 'bar';
+    
+    echo '<div class="entry">';
+    echo '<div class="entry-subject">';
+    echo $subject;
+    echo '</div>';
+    echo '<div class="entry-content">';
+    echo $txt;
+    echo '</div>';
+
+    echo '<div class="entry-author">';
+    echo "$author $day";
+    echo '</div>';
+
+    echo '</div>';
+    
+  }
+}
+?>
+</div>

@@ -1,0 +1,87 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+<style type="text/css">
+<!--
+  #fieldset-mail
+  {
+    display: none;
+    visibility: hidden;
+  }
+
+  fieldset #fieldset-add
+  {
+    border: none;
+  }
+
+  #fieldset-add
+  {
+    border: 0px solid #fff;
+  }
+
+  #fieldset-add input, #fieldset-add textarea
+  {
+    border: 1px solid #000;
+  }
+
+  .zend_form
+  {
+    margin-top: -2em;
+  }
+-->
+</style>
+<h2><?php echo $tr->_("Add question");?></h2>
+<div id="guestbook-form">
+  <?php echo $this->gbform;?>
+</div>
+
+<h2><?php echo $tr->_("Guestbook");?></h2>
+<?php
+$l = $this->entries;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $name = $this->escape($l[$i]['name']);
+    $q = $this->escape($l[$i]['question']);
+    $a = $l[$i]['answer'];
+    $published = $this->escape($l[$i]['added']);
+    $published = str_replace(' ', '&nbsp;', $published);
+
+
+    echo sprintf('<div class="%s">', trim($class));
+    echo '<div class="asker">' . "$name $published" . '</div>';
+    echo '<div class="question">' . $q . '</div>';
+    if(!empty($a))
+    {
+      echo '<div class="answer">' . $a . '</div>';
+    }
+    echo "</div>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No comics");
+}
+?>
