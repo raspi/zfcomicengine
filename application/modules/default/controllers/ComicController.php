@@ -376,6 +376,7 @@ class ComicController extends Controller
       $select = $comics->select();
       $select->from($comics, array('years' => 'YEAR(published)'));
       $select->order(array('years DESC'));
+      $select->group(array('years'));
       $result = $comics->fetchAll($select)->toArray();
       
       $ylist = array();
