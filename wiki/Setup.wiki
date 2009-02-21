@@ -1,0 +1,66 @@
+#summary Setup
+#labels Featured
+
+= Install PHP5, Apache2, MySQL5 =
+Ubuntu Intrepid Ibex:
+{{{
+aptitude install libapache2-mod-php5 
+aptitude install mysql-server-5.0 
+aptitude install php5 php5-{curl,gd,mysql,mcrypt,mhash} phpmyadmin
+}}}
+
+= Get latest version from SVN trunk =
+Example:
+{{{
+svn --force export http://zfcomicengine.googlecode.com/svn/trunk/ /home/zfce
+}}}
+Or if you want SVN metadata, use [http://code.google.com/p/zfcomicengine/source/checkout checkout]
+
+= Add Apache virtual host =
+Example for Ubuntu:
+  * Open file `/etc/apache2/sites-available/zfce.vhost` with your favorite editor
+  * run `a2ensite zfce.vhost` to add zfce.vhost to apache's sites-enabled directory
+  * restart apache `/etc/init.d/apache2 restart`
+
+`/etc/apache2/sites-available/zfce.vhost` contents:
+{{{
+<VirtualHost *>
+  DocumentRoot /home/zfce/public_html
+  ServerName comic.example.com
+  Options +All
+</VirtualHost>
+}}}
+
+= Add MySQL Database =
+Example:
+Database = zfce
+Username = zfce
+Password = zfcepass
+
+{{{
+mysql -u root -p
+}}}
+
+SQL:
+{{{
+CREATE DATABASE zfce;
+GRANT USAGE ON *.* to zfce@localhost IDENTIFIED BY 'zfcepass';
+GRANT ALL PRIVILEGES ON zfce.* TO zfce@localhost;
+FLUSH PRIVILEGES;
+}}}
+To quit write `quit` or `\q`
+
+= Configure zfce =
+  * Modify `config.ini` with database settings
+  * Generate string at _least 64 characters_ long as *salt* (a-z, A-Z, 0-9)
+
+= Initialize database =
+
+
+Example:
+{{{
+mysql zfce -u zfce -p < db.sql
+}}}
+
+= Ready to go =
+Go to comic page and you should be redirected to admin page. Give your email address and password. zfce generates first user and logs you in. Add comics, posts and pages.
