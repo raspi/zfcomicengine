@@ -9,10 +9,15 @@ $prev = $this->previous;
 
 $selected = $this->selected;
 
+// Link to this page
+$this_link = 'http://' . $_SERVER['HTTP_HOST'] . $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $selected, 'name' => $this->escape($this->fname)), '', true);
+
+// Next, previous first and last comic links
 $first_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $first, 'name' => $this->escape($this->fname)), '', true);
 $last_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $latest, 'name' => $this->escape($this->lname)), '', true);
 $next_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $next, 'name' => $this->escape($this->nextname)), '', true);
 $prev_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $prev, 'name' => $this->escape($this->prevname)), '', true);
+
 $random_link = $this->url(array('controller' => 'comic', 'action' => 'random'), '', true);
 
 $comic_image = $this->url(array('controller' => 'comic', 'action' => 'display-comic', 'id' => $this->info['md5sum'], 'name' => $this->escape($this->info['name'])), '', true);
@@ -41,11 +46,6 @@ $nav .= "\n";
     visibility: hidden;
   }
 
-  #comment-form fieldset #fieldset-add
-  {
-    border: none;
-  }
-
   #fieldset-add dl dd, #fieldset-add dl dt
   {
     float:left;
@@ -55,16 +55,6 @@ $nav .= "\n";
   {
     padding-right: 1em;
     padding-left: 0.5em;
-  }
-
-  #fieldset-add
-  {
-    border: 0px solid #fff;
-  }
-
-  #fieldset-add input
-  {
-    border: 1px solid #000;
   }
 
   #fieldset-add #name
@@ -104,6 +94,17 @@ $nav .= "\n";
   <div class="comic-navigation" id="comic-navigation-bottom">
     <ul class="navigation-list" id="navigation-list-bottom">
       <?php echo $nav;?>
+    </ul>
+  </div>
+
+  <!-- Bookmark this -->
+  <div id="bookmark-list">
+    <ul id="bookmarks">
+      <li><a id="facebook" title="<?php echo $tr->_("Submit to Facebook");?>" href="http://www.facebook.com/share.php?u=<?php echo $this_link;?>&amp;t=<?php echo $this->info['name'];?>" target="_blank">Facebook</a></li>
+      <li><a id="stumbleupon" title="<?php echo $tr->_("Submit to StumbleUpon");?>" href="http://stumbleupon.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">StumbleUpon</a></li>
+      <li><a id="digg" title="<?php echo $tr->_("Submit to Digg");?>" href="http://digg.com/submit?phase=2&amp;url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>&bodytext=&amp;" target="_blank">Digg</a></li>
+      <li><a id="delicious" title="<?php echo $tr->_("Submit to Delicious");?>" href="http://del.icio.us/post?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">Delicious</a> </li>
+      <li><a id="reddit" title="<?php echo $tr->_("Submit to Reddit");?>" href="http://reddit.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">reddit</a></li>
     </ul>
   </div>
 

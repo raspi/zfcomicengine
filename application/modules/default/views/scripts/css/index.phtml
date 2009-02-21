@@ -100,6 +100,17 @@ h1, h2, h3, h4
   text-align: right;
 }
 
+/* Forms */
+fieldset
+{
+  border: 0px solid #fff;
+}
+
+input, textarea
+{
+  border: 1px solid #000;
+}
+
 /******************************************************************************/
 
 /* Posts */
@@ -174,7 +185,81 @@ h1, h2, h3, h4
   padding-right:1em;
 }
 
+#comic-navigation-bottom
+{
+  margin-bottom: 0.5em;
+}
+
+/* Logout link */
 #logout a
 {
   color: #f11;
+}
+
+/* Bookmarks */
+#bookmark-list
+{
+  background-color: #fff;
+  border: 1px solid #000;
+  width: 28em;
+}
+
+#bookmark-list ul
+{
+  margin: auto auto;
+  text-align: center;
+}
+
+#bookmarks
+{
+  clear: both;
+	margin: 0;
+	padding: 5px 0 0 0;
+	list-style: none;
+}
+
+#bookmarks li
+{
+	background-repeat: no-repeat;
+	position: relative;
+	white-space: nowrap;
+	display: inline;
+}
+
+#bookmarks li a
+{
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	padding-right: 7px;
+	text-decoration: none;
+}
+
+#bookmarks li a:hover
+{
+  text-decoration: underline;
+}
+
+#bookmarks li a#delicious
+{
+	background-image: url('/images/delicious.gif');
+}
+
+#bookmarks li a#digg
+{
+	background-image: url('/images/digg.gif');
+}
+
+#bookmarks li a#facebook
+{
+	background-image: url('/images/facebook.gif');
+}
+
+#bookmarks li a#reddit
+{
+	background-image: url('/images/reddit.gif');
+}
+
+#bookmarks li a#stumbleupon
+{
+	background-image: url('/images/stumbleupon.gif');
 }
