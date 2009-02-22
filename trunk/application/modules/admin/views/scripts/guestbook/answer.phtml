@@ -1,0 +1,9 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<h2><?php echo $tr->_("Guestbook entry");?></h2>
+<p><?php echo $this->escape($this->gb['question']);?></p>
+
+<h2><?php echo $tr->_("Answer to guestbook entry");?></h2>
+<?php echo $this->form;?>
