@@ -4,7 +4,9 @@
  */
 class comicForm extends Zend_Form
 {
-
+  /**
+   * @var bool
+   */
   public $add_asterisk = true;
 
   public function init()
@@ -17,6 +19,9 @@ class comicForm extends Zend_Form
     {
       Zend_Dojo::enableForm($subForm);
     }
+    
+    // XHTML 1.1
+    $this->setAttrib('name', 'form');
 
   } // /function
 

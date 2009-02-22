@@ -6,7 +6,7 @@ $db = Zend_Registry::get('DB');
 echo "\x3c?xml version=\"1.0\" encoding=\"UTF-8\"?\x3e\n";
 echo $this->doctype() . "\n";
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <!--
 zfComicEngine (c) Pekka Järvinen 2009
@@ -34,6 +34,7 @@ echo $this->headLink();
 <script src="/javascript/iefix/IE8.js" type="text/javascript"></script>
 <![endif]-->
 
+<!-- Dojo -->
 <?php
 // Dojo
 if ($this->dojo()->isEnabled())
@@ -47,12 +48,17 @@ if ($this->dojo()->isEnabled())
   echo $this->dojo();
 }
 ?>
+<!-- /Dojo -->
+
+<?php
+echo $this->headStyle();
+?>
 </head>
 <body class="tundra">
-
-  <h1>My Comic</h1>
-
   <div id="header">
+
+    <h1>My Comic</h1>
+
     <?php if ($auth->hasIdentity()): ?>
     <div id="admin-menu">
       <?php printf($tr->_("Logged in as %s"), $auth->getIdentity()->name);?>
@@ -83,8 +89,6 @@ if ($this->dojo()->isEnabled())
   <div id="content">
     <?php echo $this->layout()->content; echo "\n"; ?>
   </div><!-- /content -->
-  
-  <br />
   
   <div id="footer">
     <hr />

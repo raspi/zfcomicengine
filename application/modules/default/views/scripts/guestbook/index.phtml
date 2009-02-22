@@ -1,8 +1,8 @@
 <?php
 $tr = Zend_Registry::get('Zend_Translate');
-?>
-<style type="text/css">
-<!--
+
+// Custom CSS
+$css = <<<CSS
   #fieldset-mail
   {
     display: none;
@@ -13,8 +13,9 @@ $tr = Zend_Registry::get('Zend_Translate');
   {
     margin-top: -2em;
   }
--->
-</style>
+CSS;
+$this->headStyle()->appendStyle($css);
+?>
 <h2><?php echo $tr->_("Add question");?></h2>
 <div id="guestbook-form">
   <?php echo $this->gbform;?>

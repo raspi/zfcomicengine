@@ -37,44 +37,45 @@ $nav .= '<li class="button comic-button-latest">';   if ($add_link_last)  {$nav 
 $nav .= '<li class="button comic-button-random"><a href="' . $random_link . '">' . $tr->_("Random") . '</a></li>';
 $nav .= "\n";
 
+// Custom CSS
+$css = <<<CSS
+#comment-form #fieldset-mail
+{
+  display: none;
+  visibility: hidden;
+}
+
+#fieldset-add dl dd, #fieldset-add dl dt
+{
+  float:left;
+}
+
+#fieldset-add dl dd
+{
+  padding-right: 1em;
+  padding-left: 0.5em;
+}
+
+#fieldset-add #name
+{
+  width: 5em;
+}
+
+#fieldset-add #comment
+{
+  width: 20em;
+}
+
+.zend_form
+{
+  margin-top: -2em;
+}
+
+CSS;
+
+$this->headStyle()->appendStyle($css);
 ?>
-<style type="text/css">
-<!--
-  #comment-form #fieldset-mail
-  {
-    display: none;
-    visibility: hidden;
-  }
-
-  #fieldset-add dl dd, #fieldset-add dl dt
-  {
-    float:left;
-  }
-
-  #fieldset-add dl dd
-  {
-    padding-right: 1em;
-    padding-left: 0.5em;
-  }
-
-  #fieldset-add #name
-  {
-    width: 5em;
-  }
-
-  #fieldset-add #comment
-  {
-    width: 20em;
-  }
-  
-  .zend_form
-  {
-    margin-top: -2em;
-  }
-
--->
-</style>
-<h2><?php echo $tr->_("Comic");?><a name="comic" /></h2>
+<h2><?php echo $tr->_("Comic");?><a id="comic" /></h2>
 <div id="comic-image">
   <div id="comic-info">
     <?php echo $this->info['published'];?> <b>::</b> <?php echo $this->escape($this->info['name']);?> <?php if(!empty($this->info['idea'])) {echo '('; echo sprintf($tr->_("Idea: %s"), $this->escape($this->info['idea'])); echo ')';}?>
@@ -88,7 +89,7 @@ $nav .= "\n";
   </div>
 
   <!-- Comic -->
-  <img src="<?php echo $comic_image; ?>" alt="" border="0" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" />
+  <img src="<?php echo $comic_image; ?>" alt="" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" />
 
   <!-- Bottom navigation -->
   <div class="comic-navigation" id="comic-navigation-bottom">
@@ -102,7 +103,7 @@ $nav .= "\n";
     <ul id="bookmarks">
       <li><a id="facebook" title="<?php echo $tr->_("Submit to Facebook");?>" href="http://www.facebook.com/share.php?u=<?php echo $this_link;?>&amp;t=<?php echo $this->info['name'];?>" target="_blank">Facebook</a></li>
       <li><a id="stumbleupon" title="<?php echo $tr->_("Submit to StumbleUpon");?>" href="http://stumbleupon.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">StumbleUpon</a></li>
-      <li><a id="digg" title="<?php echo $tr->_("Submit to Digg");?>" href="http://digg.com/submit?phase=2&amp;url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>&bodytext=&amp;" target="_blank">Digg</a></li>
+      <li><a id="digg" title="<?php echo $tr->_("Submit to Digg");?>" href="http://digg.com/submit?phase=2&amp;url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>&amp;bodytext=&amp;" target="_blank">Digg</a></li>
       <li><a id="delicious" title="<?php echo $tr->_("Submit to Delicious");?>" href="http://del.icio.us/post?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">Delicious</a> </li>
       <li><a id="reddit" title="<?php echo $tr->_("Submit to Reddit");?>" href="http://reddit.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">reddit</a></li>
     </ul>
@@ -110,7 +111,7 @@ $nav .= "\n";
 
 </div><!-- /comic-image -->
 
-<h2><?php echo $tr->_("Comments");?><a name="comments" /></h2>
+<h2><?php echo $tr->_("Comments");?><a id="comments" /></h2>
 <div id="comment-form">
   <?php echo $this->commentform;?>
 </div>
