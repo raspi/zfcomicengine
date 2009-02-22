@@ -1,0 +1,8 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<h2><?php echo $tr->_("Edit author");?></h2>
+<p><?php echo $tr->_('Note: if you modify your own info the "Logged in as" information refreshes after you re-login.');?></p>
+
+<?php echo $this->form;?>
