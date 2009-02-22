@@ -22,6 +22,7 @@ class Admin_IndexController extends Controller
     {
       switch ($action)
       {
+        // Forbidden pages for logged in user
         case 'login':
         case 'reset-password':
           return $this->_redirect('/admin/index');
@@ -130,7 +131,7 @@ class Admin_IndexController extends Controller
 
     $this->view->form = $form;
 
-  }
+  } // /function
 
 
   /**
@@ -248,7 +249,7 @@ class Admin_IndexController extends Controller
 
     $this->view->form = $form;
 
-  }
+  } // /function
 
   /**
    * Logout
@@ -261,7 +262,7 @@ class Admin_IndexController extends Controller
     }
 
     return $this->_helper->redirector->gotoUrl("/");
-  }
+  } // /function
 
   /**
    * Add new post
@@ -538,7 +539,7 @@ class Admin_IndexController extends Controller
 
       $this->view->form = $form;
 
-    }
+    } // /if
 
   } // /function
 
@@ -547,6 +548,185 @@ class Admin_IndexController extends Controller
    */
   public function bansAction()
   {
-  }
+  } // /function
+  
+  public function authorsAction()
+  {
+    $users = new Authors();
+    $users->cache_result = false;
+
+    $select = $users->select();
+    $select->from($users, array('id', 'name', 'email'));
+    $this->view->userlist = $users->fetchAll($select)->toArray();
+
+  } // /function
+
+  public function addAuthorAction()
+  {
+    $users = new Authors();
+    $users->cache_result = false;
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . "/admin/index/add-author/");
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Add new author'));
+
+    $name = new Zend_Form_Element_Text('name');
+    $name->setRequired(true);
+    $name->setLabel($this->tr->_('Name'));
+    $name->addFilter('StringTrim');
+    $name->addValidator('StringLength', false, array(2));
+
+    $email = new Zend_Form_Element_Text('email');
+    $email->setRequired(true);
+    $email->setLabel($this->tr->_('Email'));
+    $email->addFilter('StringTrim');
+    $email->addFilter('StringToLower');
+    $email->addValidator('StringLength', false, array(7));
+    $email->addValidator('EmailAddress');
+
+    $form->addElement($name);
+    $form->addElement($email);
+
+    $form->addElement($submit);
+
+    // POST
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+
+        $select = $users->select();
+        $select->from($users, array('c' => 'COUNT(*)'));
+        $select->where('email = ?', $values['email']);
+        $result = $users->fetchRow($select)->toArray();
+        $emailExists = (bool) ((int)$result['c'] > 0 ? true : false);
+
+        if (!$emailExists)
+        {
+          $insert = array(
+            'name' => $values['name'],
+            'email' => $values['email']
+          );
+
+          $this->_db->beginTransaction();
+
+          try
+          {
+            $users->insert($insert);
+
+            $this->_db->commit();
+
+            return $this->_helper->redirector->gotoUrl("/admin/index/authors");
+          }
+          catch (Exception $e)
+          {
+            $this->_db->rollBack();
+            echo $e->getMessage();
+            var_dump($e);
+            die;
+          }
+
+        }
+
+      } // /Valid
+
+    } // /POST
+
+    $this->view->form = $form;
+
+
+  } // /function
+
+
+  /**
+   * Edit author information
+   */
+  public function editAuthorAction()
+  {
+    $users = new Authors();
+    $users->cache_result = false;
+
+    $id = $this->getRequest()->getParam('id', false);
+
+    $select = $users->select();
+    $select->from($users, array('name', 'email'));
+    $select->where('id = ?', $id);
+    $info = $users->fetchRow($select)->toArray();
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . "/admin/index/edit-author/id/" . $id);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Edit post'));
+
+    $name = new Zend_Form_Element_Text('name');
+    $name->setRequired(true);
+    $name->setLabel($this->tr->_('Name'));
+    $name->addFilter('StringTrim');
+    $name->addValidator('StringLength', false, array(2));
+
+    $email = new Zend_Form_Element_Text('email');
+    $email->setRequired(true);
+    $email->setLabel($this->tr->_('Email'));
+    $email->addFilter('StringTrim');
+    $email->addFilter('StringToLower');
+    $email->addValidator('StringLength', false, array(7));
+    $email->addValidator('EmailAddress');
+
+    $form->addElement($name);
+    $form->addElement($email);
+
+    $form->addElement($submit);
+
+    $form->populate(
+      array(
+        'name' => $info['name'],
+        'email' => $info['email']
+      )
+    );
+
+    // POST
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+
+        $update = array(
+          'name' => $values['name'],
+          'email' => $values['email']
+        );
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $users->update($update, $users->getAdapter()->quoteInto('id = ?', $id));
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/index/authors");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      } // /Valid
+
+    } // /POST
+
+    $this->view->form = $form;
+
+
+  } // /function
 
 } // /class
