@@ -16,7 +16,7 @@ $css = <<<CSS
 CSS;
 $this->headStyle()->appendStyle($css);
 ?>
-<h2><?php echo $tr->_("Add question");?></h2>
+<h2><?php echo $tr->_("Add new guestbook entry");?></h2>
 <div id="guestbook-form">
   <?php echo $this->gbform;?>
 </div>
@@ -45,7 +45,7 @@ if(is_array($l) && !empty($l))
     }
 
     $name = $this->escape($l[$i]['name']);
-    $q = $this->escape($l[$i]['question']);
+    $q = nl2br($this->escape($l[$i]['question']));
     $a = $l[$i]['answer'];
     $published = $this->escape($l[$i]['added']);
     $published = str_replace(' ', '&nbsp;', $published);
