@@ -139,7 +139,7 @@ class ComicController extends Controller
     // This leads to ignoring comment
     $stupid_spam_bots = new Zend_Form_Element_Text('email');
     $stupid_spam_bots->setRequired(false);
-    $stupid_spam_bots->setLabel($this->tr->_('Do not fill this field!'));
+    $stupid_spam_bots->setLabel($this->tr->_('Email'));
     $stupid_spam_bots->addFilter('StringTrim');
 
     $name = new Zend_Form_Element_Text('name');
@@ -239,7 +239,7 @@ class ComicController extends Controller
     $select = $comments->select();
     $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff'));
     $select->where('comicid = ?', $iComicID);
-    $select->order(array('added DESC'));
+    $select->order(array('added ASC', 'id ASC'));
     $result = $comments->fetchAll($select);
     
     $this->view->comments = array();
