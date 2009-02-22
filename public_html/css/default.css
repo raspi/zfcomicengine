@@ -11,6 +11,8 @@
 
 body
 {
+  font-family: "Segoe UI", "Microsoft Sans Serif", Arial, Geneva, Sans-Serif;
+  font-size: 0.8em;
   background-color: #eee;
 }
 
@@ -30,6 +32,11 @@ h1, h2, h3, h4
   background-color: #ffe;
 }
 
+.form-dd-submit
+{
+  padding-top: 1em;
+}
+
 /******************************************************************************/
 
 /* Header */
@@ -38,6 +45,17 @@ h1, h2, h3, h4
 {
   display: block;
   clear: both;
+  background-color: #ddf;
+}
+
+#header h1
+{
+  padding-left: 1em;
+}
+
+#header #menu
+{
+  padding-left: 1em;
 }
 
 #header #menu ul
@@ -48,6 +66,11 @@ h1, h2, h3, h4
 	list-style: none;
 	border: none;
 	white-space: nowrap;
+}
+
+#header #menu ul li:hover
+{
+  background-color: #fff;
 }
 
 #header #menu ul li
@@ -70,6 +93,12 @@ h1, h2, h3, h4
 
 
 /* Admin menu */
+#header #admin-menu
+{
+  padding-left: 1em;
+  background-color: #feaea;
+}
+
 #header #admin-menu ul
 {
 	clear: both;
@@ -89,6 +118,7 @@ h1, h2, h3, h4
 	background-repeat: no-repeat;
 	height: 100%;
 	display: inline;
+	padding-right: 1em;
 }
 
 /******************************************************************************/
@@ -145,6 +175,7 @@ input, textarea
   padding-bottom: 1em;
 }
 
+/* Menu */
 #menu
 {
   background-color: #fed;
@@ -202,7 +233,7 @@ input, textarea
 {
   background-color: #fff;
   border: 1px solid #000;
-  width: 28em;
+  width: 35em;
 }
 
 #bookmark-list ul
