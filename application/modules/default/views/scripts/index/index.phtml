@@ -12,7 +12,6 @@ $posts = $this->posts;
 
 <div id="posts">
 <?php
-
 if(is_array($posts) && !empty($posts))
 {
   for($i=0; $i<count($posts); $i++)
@@ -34,9 +33,12 @@ if(is_array($posts) && !empty($posts))
     echo "$author $day";
     echo '</div>';
 
-    echo '</div>';
-    
-  }
+    echo "</div>\n";
+  } // /for
+}
+else
+{
+  echo $tr->_('No posts');
 }
 ?>
 </div>
