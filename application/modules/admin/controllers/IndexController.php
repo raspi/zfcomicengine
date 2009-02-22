@@ -39,6 +39,7 @@ class Admin_IndexController extends Controller
   public function indexAction()
   {
     $posts = new Posts();
+    $posts->cache_result = false;
     
     $select = $posts->select();
     $select->from($posts, array('id', 'subject', 'added'));
@@ -60,7 +61,9 @@ class Admin_IndexController extends Controller
   {
 
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', array('database', 'contact'));
+
     $users = new Authors();
+    $users->cache_result = false;
 
     $form = new comicForm();
     $form->setMethod(Zend_Form::METHOD_POST);
@@ -136,6 +139,8 @@ class Admin_IndexController extends Controller
   public function loginAction()
   {
     $authors = new Authors();
+    $authors->cache_result = false;
+
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'database');
 
     $form = new comicForm();
@@ -264,6 +269,7 @@ class Admin_IndexController extends Controller
   public function addAction()
   {
     $posts = new Posts();
+    $posts->cache_result = false;
 
     $form = new comicForm();
     $form->setMethod(Zend_Form::METHOD_POST);
@@ -282,9 +288,16 @@ class Admin_IndexController extends Controller
     $text->setRequired(true);
     $text->setLabel($this->tr->_('Content'));
     $text->addFilter('StringTrim');
-    $text->addValidator('NotEmpty', true);
+    $text->addValidator('NotEmpty', false);
     $text->addValidator('StringLength', false, array(5, 65535));
     //$text->addValidator(new validate_XML(), false);
+    $text->setPlugins(array(
+      'undo', 'redo', '|',
+      'cut', 'copy', 'paste', '|',
+      'removeFormat', 'bold', 'italic', 'underline', '|',
+      'insertOrderedList', 'insertUnorderedList', '|',
+      'createLink', 'unlink', 'formatBlock'
+    ));
 
     $form->addElement($subject);
     $form->addElement($text);
@@ -341,6 +354,7 @@ class Admin_IndexController extends Controller
     $ID = $this->getRequest()->getParam('id', false);
 
     $posts = new Posts();
+    $posts->cache_result = false;
 
     $select = $posts->select();
     $select->from($posts, array('subject', 'added', 'content'));
@@ -367,6 +381,13 @@ class Admin_IndexController extends Controller
     $text->addValidator('NotEmpty', true);
     $text->addValidator('StringLength', false, array(5, 65535));
     //$text->addValidator(new validate_XML(), false);
+    $text->setPlugins(array(
+      'undo', 'redo', '|',
+      'cut', 'copy', 'paste', '|',
+      'removeFormat', 'bold', 'italic', 'underline', '|',
+      'insertOrderedList', 'insertUnorderedList', '|',
+      'createLink', 'unlink', 'formatBlock'
+    ));
 
     $form->addElement($subject);
     $form->addElement($text);
@@ -432,6 +453,7 @@ class Admin_IndexController extends Controller
     if (in_array($page, $p))
     {
       $pages = new Pages();
+      $pages->cache_result = false;
 
       $select = $pages->select();
       $select->from($pages, array('content'));
@@ -461,6 +483,13 @@ class Admin_IndexController extends Controller
       $text->addValidator('NotEmpty', true);
       $text->addValidator('StringLength', false, array(5, 65535));
       //$text->addValidator(new validate_XML(), false);
+      $text->setPlugins(array(
+        'undo', 'redo', '|',
+        'cut', 'copy', 'paste', '|',
+        'removeFormat', 'bold', 'italic', 'underline', '|',
+        'insertOrderedList', 'insertUnorderedList', '|',
+        'createLink', 'unlink', 'formatBlock'
+      ));
 
       $form->addElement($text);
 
