@@ -12,6 +12,7 @@ class Admin_ComicController extends Controller
   public function indexAction()
   {
     $comics = new Comics();
+    $comics->cache_result = false;
 
     $select = $comics->select();
     $select->from($comics, array('id', 'name', 'added'));
@@ -32,6 +33,7 @@ class Admin_ComicController extends Controller
   public function addAction()
   {
     $comic_files = new Comics();
+    $comic_files->cache_result = false;
 
     $form = new comicForm();
     $form->setMethod(Zend_Form::METHOD_POST);
@@ -203,6 +205,7 @@ class Admin_ComicController extends Controller
     $ID = $this->getRequest()->getParam('id', false);
 
     $comics = new Comics();
+    $comics->cache_result = false;
 
     $select = $comics->select();
     $select->from($comics, array('name', 'idea'));
@@ -287,15 +290,13 @@ class Admin_ComicController extends Controller
   {
     $ID = $this->getRequest()->getParam('id', false);
     // @TODO
-  }
+  } // /function
   
   /**
    * Comments
    */
   public function commentsAction()
   {
-  }
-
-
+  } // /function
 
 } // /class
