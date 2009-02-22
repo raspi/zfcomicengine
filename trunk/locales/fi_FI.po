@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: zfComicEngine 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-22 23:57+0200\n"
-"PO-Revision-Date: 2009-02-23 00:07+0200\n"
+"PO-Revision-Date: 2009-02-23 00:12+0200\n"
 "Last-Translator: Pekka Järvinen <pekka.jarvinen@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -270,7 +270,7 @@ msgstr "Lisää kommentti"
 
 #: ..\application\modules\default\controllers\ComicController.php:171
 msgid "Rate comic"
-msgstr "Arvostele sarjakuva"
+msgstr "Arvostele"
 
 #: ..\application\modules\default\controllers\ComicController.php:184
 #: ..\application\modules\default\controllers\GuestbookController.php:66
@@ -438,5 +438,5 @@ msgstr "Suoritettiin %s SQL-kyselyä %s sekunnissa"
 #: ..\application\views\layouts\layout.phtml:109
 #, php-format
 msgid "Rendered in %s seconds"
-msgstr "Luotiin %s sekunnissa"
+msgstr "Sivu luotiin %s sekunnissa"
 
