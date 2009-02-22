@@ -3,4 +3,74 @@ $tr = Zend_Registry::get('Zend_Translate');
 ?>
 
 <h2><?php echo $tr->_("Edit comments");?></h2>
-...
+<?php
+$l = $this->comments;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center">' . $tr->_("Comment ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Comic ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Nick") . '</td>';
+  echo '<td align="center">' . $tr->_("Comment") . '</td>';
+  echo '<td align="center">' . $tr->_("Rate") . '</td>';
+  echo '<td align="center">' . $tr->_("Added") . '</td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    $comicid = $l[$i]['comicid'];
+    $rate = $l[$i]['rate'];
+
+    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'edit-comment', 'id' => $id), '', true);
+    $filter_by_comicid_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments', 'comicid' => $comicid), '', false);
+
+    $nick = $this->escape($l[$i]['nick']);
+    $comment = $this->escape($l[$i]['comment']);
+
+    $added = $this->escape($l[$i]['added']);
+    $added = str_replace(' ', '&nbsp;', $added);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="center"><a href="' . $filter_by_comicid_link . '">' . $comicid . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $nick . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $comment . '</a></td>';
+    echo '<td align="center"><a href="' . $edit_link . '">' . $rate . '</a></td>';
+    echo '<td align="center"><a href="' . $edit_link . '">' . $added . '</a></td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No comments");
+}
+?>

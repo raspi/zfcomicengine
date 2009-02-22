@@ -297,6 +297,38 @@ class Admin_ComicController extends Controller
    */
   public function commentsAction()
   {
+    $comments = new Comments();
+    $comments->cache_result = false;
+
+    $comics = new Comics();
+    $comics->cache_result = false;
+
+    $select = $comments->select();
+    $select->from($comments, array('c' => 'COUNT(id)'));
+    $comment_count = $comments->fetchRow($select)->toArray();
+    $comment_count = (int)$comment_count['c'];
+
+    $this->view->comments = array();
+    
+    // Comments available
+    if($comment_count > 0)
+    {
+/*
+      $comicid = $this->getRequest()->getParam('comicid', false);
+    
+      $select = $comics->select();
+      $select->from($comics, array('id'));
+      $select->group(array('id DESC'))
+      $cinfo = $comics->fetchAll($select)->toArray();
+*/
+
+      $select = $comments->select();
+      $select->from($comments, array('id', 'nick', 'comment', 'added', 'rate', 'isstaff', 'comicid'));
+      $select->order(array('id DESC'));
+      $this->view->comments = $comments->fetchAll($select)->toArray();
+
+    } // /if
+
   } // /function
 
 } // /class
