@@ -21,7 +21,9 @@ class comicForm extends Zend_Form
     }
     
     // XHTML 1.1
-    $this->setAttrib('name', 'form');
+    // @FIXME
+    // Dijit editor doesn't like this for some reason??
+    //$this->setAttrib('name', 'zfceform');
 
   } // /function
 
