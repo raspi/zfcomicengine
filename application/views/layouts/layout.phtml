@@ -24,7 +24,7 @@ $this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'ti
 $this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Latest comic comments for latest comic"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), '', true)));
 
 // CSS
-$this->headLink()->appendStylesheet('/css/');
+$this->headLink()->appendStylesheet('/css/default.css');
 
 echo $this->headLink();
 ?>
