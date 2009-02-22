@@ -141,6 +141,9 @@ class ComicController extends Controller
     $stupid_spam_bots->setRequired(false);
     $stupid_spam_bots->setLabel($this->tr->_('Email'));
     $stupid_spam_bots->addFilter('StringTrim');
+    $stupid_spam_bots->addFilter('StringToLower');
+    $stupid_spam_bots->addValidator('StringLength', false, array(7));
+    $stupid_spam_bots->addValidator('EmailAddress');
 
     $name = new Zend_Form_Element_Text('name');
     $name->setRequired(true);

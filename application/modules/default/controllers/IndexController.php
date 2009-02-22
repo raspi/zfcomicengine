@@ -109,7 +109,9 @@ class IndexController extends Controller
     $email->setRequired(true);
     $email->setLabel($this->tr->_('Email address'));
     $email->addFilter('StringTrim');
+    $email->addFilter('StringToLower');
     $email->addValidator('StringLength', false, array(7));
+    $email->addValidator('EmailAddress');
 
     $name = new Zend_Form_Element_Text('name');
     $name->setRequired(true);
