@@ -264,3 +264,9 @@ input, textarea
 {
 	background-image: url('/images/stumbleupon.gif');
 }
+
+/* Debug */
+#sql-query-list
+{
+  text-align: left;
+}

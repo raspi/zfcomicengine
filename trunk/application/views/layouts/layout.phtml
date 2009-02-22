@@ -107,6 +107,20 @@ echo sprintf($tr->_("Rendered in %s seconds"), round(microtime(true) - SCRIPT_ST
 ?>
  |
     Powered by <a href="http://code.google.com/p/zfcomicengine/">raspi's zfComicEngine</a>
+
+    <br />
+
+<div id="sql-query-list">
+<ul>
+<?php
+foreach ($profiler->getQueryProfiles() as $query)
+{
+  echo "<li>" . $query->getQuery() . "</li>\n";
+}
+?>
+</ul>
+</div>
+
   </div><!-- /footer -->
 
 </body>
