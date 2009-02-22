@@ -1,0 +1,8 @@
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 days"
+</IfModule>
+
+RewriteEngine Off
+FileETag All
+Options -All

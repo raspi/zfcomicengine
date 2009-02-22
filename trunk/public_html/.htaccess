@@ -3,13 +3,16 @@ RewriteEngine On
 RewriteBase /   
 
 # Extension is NOT ...
-RewriteCond %{REQUEST_FILENAME} !\.(php|jpg|png|gif|js|txt|htm|html)$
+RewriteCond %{REQUEST_FILENAME} !\.(php|jpg|png|gif|js|txt|htm|html|css)$
 
 # File is NOT index.php
 RewriteCond %{REQUEST_FILENAME} !index\.php
 
+# Is NOT symlink
+RewriteCond %{REQUEST_FILENAME} !-s
+
 # Is NOT file
-RewriteCond %{REQUEST_FILENAME} !-f    
+RewriteCond %{REQUEST_FILENAME} !-f
 
 # Is NOT directory
 RewriteCond %{REQUEST_FILENAME} !-d
