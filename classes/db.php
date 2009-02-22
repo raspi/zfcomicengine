@@ -79,7 +79,8 @@ class Pages extends DBTable
    *
    */
   protected $_name = 'PAGES';
-  
+  protected $_primary = 'name';
+
   public function getPageContents($page = '')
   {
     $select = $this->select();
@@ -105,6 +106,8 @@ class Guestbook extends DBTable
    *   
    */
   protected $_name = 'GUESTBOOK';
+  protected $_primary = 'id';
+
 }
 
 /**
@@ -113,6 +116,7 @@ class Guestbook extends DBTable
 class Authors extends DBTable
 {
   protected $_name = 'AUTHORS';
+  protected $_primary = 'id';
 
   public function emailExists($email)
   {
@@ -140,6 +144,7 @@ class Authors extends DBTable
 class Comics extends DBTable
 {
   protected $_name = 'COMICS';
+  protected $_primary = 'id';
   protected $_dependentTables = array('Authors');
 
   protected $_referenceMap = array(
@@ -175,6 +180,8 @@ class Comics extends DBTable
 class Comments extends DBTable
 {
   protected $_name = 'COMMENTS';
+  protected $_primary = 'id';
+
   protected $_dependentTables = array('Comics');
 
   protected $_referenceMap = array(
@@ -195,6 +202,8 @@ class Comments extends DBTable
 class Posts extends DBTable
 {
   protected $_name = 'POSTS';
+  protected $_primary = 'id';
+
   protected $_dependentTables = array('Authors');
 
   protected $_referenceMap = array(
