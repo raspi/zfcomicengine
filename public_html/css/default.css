@@ -147,6 +147,7 @@ input, textarea
 
 #posts .entry
 {
+  margin-top: 2em;
   display: block;
   border: 1px solid #000;
 }
