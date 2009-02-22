@@ -1,0 +1,62 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'add-author'), '', true); ?>"><?php echo $tr->_("Add new author");?></a>
+
+<?php
+$l = $this->userlist;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center">' . $tr->_("Author ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Name") . '</td>';
+  echo '<td align="center">' . $tr->_("Email address") . '</td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i < count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+
+    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'edit-author', 'id' => $id), '', true);
+
+    $name = $this->escape($l[$i]['name']);
+    $email = $this->escape($l[$i]['email']);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $name . '</a></td>';
+    echo '<td align="left">' . $email . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No posts");
+}
+?>
