@@ -27,6 +27,9 @@ class GuestbookController extends Controller
     $email->setRequired(true);
     $email->setLabel($this->tr->_('Email address'));
     $email->addFilter('StringTrim');
+    $email->addFilter('StringToLower');
+    $email->addValidator('StringLength', false, array(7));
+    $email->addValidator('EmailAddress');
 
     $name = new Zend_Form_Element_Text('name');
     $name->setRequired(true);
@@ -47,6 +50,9 @@ class GuestbookController extends Controller
     $email2->setRequired(false);
     $email2->setLabel($this->tr->_('Email address'));
     $email2->addFilter('StringTrim');
+    $email2->addFilter('StringToLower');
+    $email2->addValidator('StringLength', false, array(7));
+    $email2->addValidator('EmailAddress');
 
     // For spambots
     $form->addElement($email2);
