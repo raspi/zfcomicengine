@@ -541,6 +541,7 @@ class ComicController extends Controller
     $this->_helper->layout->disableLayout();
 
     $comics = new Comics();
+    $comics->cache_result = false;
 
     $select = $comics->select();
     $select->from($comics, array('id', 'name'));

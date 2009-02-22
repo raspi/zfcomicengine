@@ -1,8 +1,79 @@
 <?php
+class DBTable extends Zend_Db_Table_Abstract
+{
+  protected $_cache = null;
+  public $cache_result = true;
+
+  public function init()
+  {
+    $this->_cache = Zend_Registry::get('Cache');
+  } // /function
+
+  public function _purgeCache()
+  {
+    $this->_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+  } // /function
+
+  public function update(array $data, $where)
+  {
+    parent::update($data, $where);
+    $this->_purgeCache();
+  } // /function
+
+  public function insert(array $data)
+  {
+    parent::insert($data);
+    $this->_purgeCache();
+  } // /function
+  
+  public function delete($where)
+  {
+    parent::delete($where);
+    $this->_purgeCache();
+  } // /function
+
+  public function fetchAll($where = null, $order = null, $count = null, $offset = null)
+  {
+    $id = md5($where->__toString());
+
+    if ((!($this->_cache->test($id))) || (!$this->cache_result))
+    {
+      $result = parent::fetchAll($where, $order, $count, $offset);
+      $this->_cache->save($result);
+
+      return $result;
+    }
+    else
+    {
+      return $this->_cache->load($id);
+    }
+
+  } // /function
+
+  public function fetchRow($where = null, $order = null)
+  {
+    $id = md5($where->__toString());
+
+    if ((!($this->_cache->test($id))) || (!$this->cache_result))
+    {
+      $result = parent::fetchRow($where, $order);
+      $this->_cache->save($result);
+
+      return $result;
+    }
+    else
+    {
+      return $this->_cache->load($id);
+    }
+
+  }
+
+} // /class
+
 /**
  * Pages
  */
-class Pages extends Zend_Db_Table_Abstract
+class Pages extends DBTable
 {
   /**
    *
@@ -28,7 +99,7 @@ class Pages extends Zend_Db_Table_Abstract
 /**
  * Guestbook
  */
-class Guestbook extends Zend_Db_Table_Abstract
+class Guestbook extends DBTable
 {
   /**
    *   
@@ -39,7 +110,7 @@ class Guestbook extends Zend_Db_Table_Abstract
 /**
  * Authors
  */
-class Authors extends Zend_Db_Table_Abstract
+class Authors extends DBTable
 {
   protected $_name = 'AUTHORS';
 
@@ -66,7 +137,7 @@ class Authors extends Zend_Db_Table_Abstract
 /**
  * Comics
  */
-class Comics extends Zend_Db_Table_Abstract
+class Comics extends DBTable
 {
   protected $_name = 'COMICS';
   protected $_dependentTables = array('Authors');
@@ -101,7 +172,7 @@ class Comics extends Zend_Db_Table_Abstract
 /**
  * Comic comments
  */
-class Comments extends Zend_Db_Table_Abstract
+class Comments extends DBTable
 {
   protected $_name = 'COMMENTS';
   protected $_dependentTables = array('Comics');
@@ -121,7 +192,7 @@ class Comments extends Zend_Db_Table_Abstract
 /**
  * Blog posts
  */
-class Posts extends Zend_Db_Table_Abstract
+class Posts extends DBTable
 {
   protected $_name = 'POSTS';
   protected $_dependentTables = array('Authors');
