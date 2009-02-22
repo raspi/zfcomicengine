@@ -17,10 +17,18 @@ class Controller extends Zend_Controller_Action
   protected $tr;
 
   /**
+   * Cache
+   */
+  protected $_cache;
+
+
+  /**
    * Initialize
    */
   public function init()
   {
+    $this->_cache = Zend_Registry::get('Cache');
+
     $this->_db = Zend_Registry::get('DB');
 
     $this->_auth = Zend_Auth::getInstance();

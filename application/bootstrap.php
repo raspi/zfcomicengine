@@ -40,6 +40,20 @@ require_once 'forms.php';
 require_once 'function.mb_trim.php';
 require_once 'mbtrim.php';
 
+// Caching
+$frontendOptions = array(
+  'caching' => true,
+  'lifetime' => null,
+  'automatic_serialization' => true
+);
+
+$backendOptions = array(
+  'cache_dir' => '/tmp/'
+);
+
+$cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);
+Zend_Registry::set('Cache', $cache);
+
 $frontController = Zend_Controller_Front::getInstance(); 
 $frontController->throwExceptions(true);
 $frontController->setBaseUrl('/');
@@ -82,11 +96,22 @@ try
   Zend_Db_Table_Abstract::setDefaultAdapter($db);
   Zend_Registry::set('DB', $db);
 
-  // Check MySQL version
-  $select = $db->select();
-  $select->from('', array('v' => 'VERSION()'));
-  $sqlver = $db->fetchRow($select);
-  if (version_compare($sqlver['v'], '5.0') === -1)
+  if (!($cache->test('DBVersion')))
+  {
+    // Check MySQL version
+    $select = $db->select();
+    $select->from('', array('v' => 'VERSION()'));
+    $sqlver = $db->fetchRow($select);
+    $sqlver = $sqlver['v'];
+
+    $cache->save($sqlver);
+  }
+  else
+  {
+    $sqlver = $cache->load('DBVersion');
+  }
+
+  if (version_compare($sqlver, '5.0') === -1)
   {
     echo _("Too old MySQL server. Please update.");
     die;
