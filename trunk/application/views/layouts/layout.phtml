@@ -95,7 +95,7 @@ echo $this->headStyle();
   
   <div id="footer">
     <hr />
-
+<div id="footer-content">
 <?php
 $profiler = $db->getProfiler();
 
@@ -123,7 +123,7 @@ foreach ($profiler->getQueryProfiles() as $query)
 ?>
 </ul>
 </div>
-
+</div>
   </div><!-- /footer -->
 
 </body>
