@@ -29,6 +29,8 @@ class Admin_GuestbookController extends Controller
   
   public function answerAction()
   {
+    require_once 'filter_html.php';
+
     $guestbook = new Guestbook();
     $guestbook->cache_result = false;
     
@@ -51,6 +53,8 @@ class Admin_GuestbookController extends Controller
     $text->setRequired(true);
     $text->setLabel($this->tr->_('Content'));
     $text->addFilter('StringTrim');
+    $text->addFilter(new Zend_Filter_MBStringTrim());
+    $text->addFilter(new Zend_Filter_PurifyHTML());
     $text->addValidator('NotEmpty', false);
     $text->addValidator('StringLength', false, array(5, 65535));
     //$text->addValidator(new validate_XML(), false);
