@@ -105,12 +105,13 @@ $this->headStyle()->appendStyle($css);
 
   <!-- Bookmark this -->
   <div id="bookmark-list">
+    <?php echo $tr->_("Submit to ");?>
     <ul id="bookmarks">
       <li><a id="facebook" title="<?php echo $tr->_("Submit to Facebook");?>" href="http://www.facebook.com/share.php?u=<?php echo $this_link;?>&amp;t=<?php echo $this->info['name'];?>" target="_blank">Facebook</a></li>
       <li><a id="stumbleupon" title="<?php echo $tr->_("Submit to StumbleUpon");?>" href="http://stumbleupon.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">StumbleUpon</a></li>
       <li><a id="digg" title="<?php echo $tr->_("Submit to Digg");?>" href="http://digg.com/submit?phase=2&amp;url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>&amp;bodytext=&amp;" target="_blank">Digg</a></li>
       <li><a id="delicious" title="<?php echo $tr->_("Submit to Delicious");?>" href="http://del.icio.us/post?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">Delicious</a> </li>
-      <li><a id="reddit" title="<?php echo $tr->_("Submit to Reddit");?>" href="http://reddit.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">reddit</a></li>
+      <li><a id="reddit" title="<?php echo $tr->_("Submit to Reddit");?>" href="http://reddit.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">Reddit</a></li>
     </ul>
   </div>
 

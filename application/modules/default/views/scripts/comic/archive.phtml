@@ -3,6 +3,7 @@ $tr = Zend_Registry::get('Zend_Translate');
 ?>
 
 <h2><?php echo $tr->_("Comic archive");?></h2>
+<div id="archive-year-list">
 <ul>
 <?php
 foreach($this->years as $year)
@@ -20,6 +21,7 @@ foreach($this->years as $year)
 }
 ?>
 </ul>
+</div>
 
 <br />
 
