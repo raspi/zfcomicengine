@@ -18,6 +18,22 @@ body
   background-color: #fff;
 }
 
+h1
+{
+  font-size: 3em;
+}
+
+h2
+{
+  font-size: 2.5em;
+}
+
+h3
+{
+  font-size: 2em;
+}
+
+
 h1, h2, h3, h4
 {
   padding-top: 0.5em;
@@ -163,7 +179,7 @@ input, textarea
 
 #posts .entry
 {
-  margin-top: 2em;
+  margin-top: 1em;
   display: block;
 }
 
