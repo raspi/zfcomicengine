@@ -3,6 +3,8 @@ $tr = Zend_Registry::get('Zend_Translate');
 $auth = Zend_Auth::getInstance();
 $db = Zend_Registry::get('DB');
 
+$config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../config.ini', 'site');
+
 echo "\x3c?xml version=\"1.0\" encoding=\"UTF-8\"?\x3e\n";
 echo $this->doctype() . "\n";
 ?>
@@ -11,7 +13,7 @@ echo $this->doctype() . "\n";
 <!--
 zfComicEngine (c) Pekka Järvinen 2009
 -->
-  <title>My Comic</title>
+  <title><?php echo $config->name;?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
 // Favicon
@@ -57,7 +59,7 @@ echo $this->headStyle();
 <body class="tundra">
   <div id="header">
 
-    <h1>My Comic</h1>
+    <h1><?php echo $config->name;?></h1><div id="slogan"><?php echo $config->slogan;?></div>
 
     <?php if ($auth->hasIdentity()): ?>
     <div id="admin-menu">
@@ -70,7 +72,6 @@ echo $this->headStyle();
         <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'pages'), '', true); ?>"><?php echo $tr->_("Pages");?></a></li>
         <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'authors'), '', true); ?>"><?php echo $tr->_("Authors");?></a></li>
         <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'bans'), '', true); ?>"><?php echo $tr->_("Bans");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'settings'), '', true); ?>"><?php echo $tr->_("Settings");?></a></li>
         <li id="logout"><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), '', true); ?>"><?php echo $tr->_("Logout");?></a></li>
       </ul>
     </div>
