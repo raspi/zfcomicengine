@@ -1,0 +1,7 @@
+#labels Featured
+= Translations =
+  * English (default)
+  * Finnish by me
+  * ? by you
+
+See [Translating translating] page for how to translate.
