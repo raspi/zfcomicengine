@@ -269,6 +269,8 @@ class Admin_IndexController extends Controller
    */
   public function addAction()
   {
+    require_once 'filter_html.php';
+  
     $posts = new Posts();
     $posts->cache_result = false;
 
@@ -289,6 +291,8 @@ class Admin_IndexController extends Controller
     $text->setRequired(true);
     $text->setLabel($this->tr->_('Content'));
     $text->addFilter('StringTrim');
+    $text->addFilter(new Zend_Filter_MBStringTrim());
+    $text->addFilter(new Zend_Filter_PurifyHTML());
     $text->addValidator('NotEmpty', false);
     $text->addValidator('StringLength', false, array(5, 65535));
     //$text->addValidator(new validate_XML(), false);
@@ -352,6 +356,8 @@ class Admin_IndexController extends Controller
    */
   public function editAction()
   {
+    require_once 'filter_html.php';
+
     $ID = $this->getRequest()->getParam('id', false);
 
     $posts = new Posts();
@@ -379,6 +385,8 @@ class Admin_IndexController extends Controller
     $text->setRequired(true);
     $text->setLabel($this->tr->_('Content'));
     $text->addFilter('StringTrim');
+    $text->addFilter(new Zend_Filter_MBStringTrim());
+    $text->addFilter(new Zend_Filter_PurifyHTML());
     $text->addValidator('NotEmpty', true);
     $text->addValidator('StringLength', false, array(5, 65535));
     //$text->addValidator(new validate_XML(), false);
@@ -445,6 +453,7 @@ class Admin_IndexController extends Controller
   
   public function pagesAction()
   {
+    require_once 'filter_html.php';
 
     $p = array('about', 'links', 'frontpage');
     $this->view->pages = $p;
@@ -481,6 +490,8 @@ class Admin_IndexController extends Controller
       $text->setRequired(true);
       $text->setLabel($this->tr->_('Content'));
       $text->addFilter('StringTrim');
+      $text->addFilter(new Zend_Filter_MBStringTrim());
+      $text->addFilter(new Zend_Filter_PurifyHTML());
       $text->addValidator('NotEmpty', true);
       $text->addValidator('StringLength', false, array(5, 65535));
       //$text->addValidator(new validate_XML(), false);
