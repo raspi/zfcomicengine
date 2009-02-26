@@ -1,17 +1,56 @@
+; zfComicEngine configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Site settings
 [site]
+; REQUIRED E-mail sender name, h1 header and page title
+;name = My Awesome Comic
 name = Example
+
+; OPTIONAL Slogan
+; Placed after h1 header
+;slogan = Because there's never enough webcomics!
 slogan =
+
+; OPTIONAL Custom CSS files separated with spaces
+;css = /custom1.css http://example.com/custom2.css
 css =
 
+; OPTIONAL Akismet API Key for fighting spam
+; See http://akismet.com/ for how to acquire API Key
+plugin.akismet.key =
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Database settings
 [database]
+; REQUIRED Salt
+; Use a-zA-Z0-9, lenght should be atleast 64 characters
+; Use for example for generating salt:
+; - https://www.grc.com/passwords.htm
+; - http://clsc.net/tools/random-string-generator.php
 salt     = insert-salt-here
+
+; REQUIRED Database host or ip
+;host = localhost
 host     = database host/ip
+
+; REQUIRED Database username
+;username = zfce
 username = database user
+
+; REQUIRED Database password
 password = database password
+
+; REQUIRED Database name
+;dbname = zfce_db
 dbname   = database name
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Language settings
+; See locales directory for available
 [language]
+; REQUIRED
 language = en_US
 
 [contact]
+; What is used to send emails for password reset etc
 sender = me@example.com

@@ -130,10 +130,12 @@ if (is_array($comments) && !empty($comments))
   
   echo '<col width="1" />' . "\n";
   echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
   echo '<col width="100%" />' . "\n";
   echo '<col width="1" />' . "\n";
 
   echo '<tr>';
+  echo '<td align="center"><b>' . $tr->_("Country") . '</b></td>';
   echo '<td align="center"><b>' . $tr->_("Date") . '</b></td>';
   echo '<td align="center"><b>' . $tr->_("Nick") . '</b></td>';
   echo '<td align="center"><b>' . $tr->_("Comment") . '</b></td>';
@@ -162,7 +164,8 @@ if (is_array($comments) && !empty($comments))
       $class = 'staff-comment ';
     }
     
-    
+    $country = $comments[$i]['country'];
+
     $nick = $this->escape($comments[$i]['nick']);
     $comment = $this->escape($comments[$i]['comment']);
     $rate = $comments[$i]['rate'];
@@ -175,6 +178,7 @@ if (is_array($comments) && !empty($comments))
 
 
     echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center" class="comment-country"><img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" /></td>';
     echo '<td align="right" class="comment-added">' . $added . '</td>';
     echo '<td align="right" class="comment-nick"><b>' . $nick . '</b>:&nbsp;</td>';
     echo '<td align="left" class="comment-text">&nbsp;' . $comment . '</td>';
