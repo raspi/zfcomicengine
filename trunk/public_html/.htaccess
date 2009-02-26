@@ -2,6 +2,10 @@ AcceptPathInfo On
 RewriteEngine On          
 RewriteBase /   
 
+# No-WWW redirect
+RewriteCond %{HTTP_HOST} ^www.(.+)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
 # Extension is NOT ...
 RewriteCond %{REQUEST_FILENAME} !\.(php|jpg|png|gif|js|txt|htm|html|css)$
 
