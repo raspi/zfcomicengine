@@ -114,6 +114,7 @@ echo sprintf($tr->_("Rendered in %s seconds"), round(microtime(true) - SCRIPT_ST
 
     <br />
 
+<?php if ($config->debug == 'on'):?>
 <div id="sql-query-list">
 <ul>
 <?php
@@ -124,8 +125,19 @@ foreach ($profiler->getQueryProfiles() as $query)
 ?>
 </ul>
 </div>
+<?php endif;?>
+
 </div>
   </div><!-- /footer -->
-
+<?php if(!empty($config->plugin->googleanalytics->key)):?>
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  var pageTracker = _gat._getTracker("UA-<?php echo $config->googleanalytics;?>");
+  pageTracker._trackPageview();
+</script>
+<?php endif;?>
 </body>
 </html>
