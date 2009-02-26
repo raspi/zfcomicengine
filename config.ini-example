@@ -1,7 +1,13 @@
 ; zfComicEngine configuration
+;
+; Rename this file to config.ini
+; *nix systems: mv config.ini-example config.ini
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Site settings
 [site]
+; REQUIRED Debug mode on/off
+debug = off
+
 ; REQUIRED E-mail sender name, h1 header and page title
 ;name = My Awesome Comic
 name = Example
@@ -17,7 +23,14 @@ css =
 
 ; OPTIONAL Akismet API Key for fighting spam
 ; See http://akismet.com/ for how to acquire API Key
+;plugin.akismet.key = 0123456789ab
 plugin.akismet.key =
+
+; OPTIONAL Google analytics key for site statistics
+; See http://www.google.com/analytics/ for how to acquire key
+; UA-(this part)
+;plugin.googleanalytics.key = 1234567-1
+plugin.googleanalytics.key =
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Database settings
@@ -27,7 +40,7 @@ plugin.akismet.key =
 ; Use for example for generating salt:
 ; - https://www.grc.com/passwords.htm
 ; - http://clsc.net/tools/random-string-generator.php
-salt     = insert-salt-here
+salt     = 
 
 ; REQUIRED Database host or ip
 ;host = localhost

@@ -79,6 +79,12 @@ $view->dojo()->enable();
 
 $config = new Zend_Config_Ini(dirname(__FILE__) . '/../config.ini', 'database');
 
+if (empty($config->salt))
+{
+  echo _('Database salt is not configured!');
+  die;
+}
+
 $db_params = array(
   'host'             => $config->host,
   'username'         => $config->username,
