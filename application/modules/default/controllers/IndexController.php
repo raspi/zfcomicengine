@@ -138,14 +138,70 @@ class IndexController extends Controller
       if ($form->isValid($_POST))
       {
         $values = $form->getValues();
-        
-        $body = $values['comment'];
+
+        $useragent = $this->getRequest()->getHeader('User-Agent');
+        $ip = $this->getRequest()->getServer('REMOTE_ADDR');
+
+        try
+        {
+          $tc = new Zend_Service_Team_Cymru();
+          $tcinfo = $tc->getIpInfo($ip);
+
+          $country = $tcinfo['country'];
+        }
+        catch(Exception $e)
+        {
+          $country = 'unknown';
+        }
+
+        $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+
+        $is_spam = 0;
+
+        if (!empty($config->plugin->akismet->key))
+        {
+          $data = array(
+            'user_ip'              => $ip,
+            'user_agent'           => $useragent,
+            'comment_type'         => 'comment',
+            'comment_author'       => $values['name'],
+            'comment_author_email' => $values['email'],
+            'comment_content'      => $values['comment']
+          );
+
+          $akismet = new Zend_Service_Akismet($config->plugin->akismet->key, $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost());
+
+          if ($akismet->isSpam($data))
+          {
+            $is_spam = 1;
+          }
+        }
+
+        $body = '';
+        $body .= sprintf($this->tr->_('IP Address: %s [%s]'), $ip, $country) . "\n";
+        $body .= sprintf($this->tr->_('User-Agent: %s'), $useragent) . "\n";
+
+        if ($is_spam)
+        {
+          $body .= $this->tr->_('Note: Akismet plugin has flagged this message as spam') . "\n";
+        }
+
+        $body .= "\n";
+        $body .= $values['comment'];
 
         $mail = new Zend_Mail('UTF-8');
         $mail->setBodyText($body);
         $mail->setFrom($values['email'], $values['name']);
         $mail->addTo($config->sender);
-        $mail->setSubject($this->tr->_('Feedback'));
+        $mail->setSubject($this->tr->_('Feedback') . ($is_spam ? ' (SPAM)' : ''));
+        $mail->addHeader('X-Unixtimestamp', time());
+        $mail->addHeader('X-Send-By', 'zfComicEngine');
+
+        if ($is_spam)
+        {
+          $mail->addHeader('X-Spam-Status', 'Yes');
+        }
+        
         $mail->send();
 
       } // /if VALID
