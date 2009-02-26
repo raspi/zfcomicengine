@@ -39,6 +39,7 @@ require_once 'controller.php';
 require_once 'forms.php';
 require_once 'function.mb_trim.php';
 require_once 'mbtrim.php';
+require_once 'zftc.php';
 
 // Caching
 $frontendOptions = array(
@@ -73,6 +74,8 @@ $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
 Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
 
 Zend_Dojo::enableView($view);
+$view->dojo()->setDjConfigOption('parseOnLoad', true);
+$view->dojo()->enable();
 
 $config = new Zend_Config_Ini(dirname(__FILE__) . '/../config.ini', 'database');
 

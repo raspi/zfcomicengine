@@ -198,6 +198,49 @@ class ComicController extends Controller
         
         if ($comicExists)
         {
+          $useragent = $this->getRequest()->getHeader('User-Agent');
+          $ip = $this->getRequest()->getServer('REMOTE_ADDR');
+
+          try
+          {
+            $tc = new Zend_Service_Team_Cymru();
+            $tcinfo = $tc->getIpInfo($ip);
+
+            $country = $tcinfo['country'];
+          }
+          catch(Exception $e)
+          {
+            $country = 'unknown';
+          }
+
+          $is_spam = 0;
+
+          if(!$this->_auth->hasIdentity())
+          {
+            $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+            
+            if (!empty($config->plugin->akismet->key))
+            {
+              $data = array(
+                'user_ip'              => $ip,
+                'user_agent'           => $useragent,
+                'comment_type'         => 'comment',
+                'comment_author'       => $values['name'],
+                'comment_author_email' => '',
+                'comment_content'      => $values['comment']
+              );
+
+              $akismet = new Zend_Service_Akismet($config->plugin->akismet->key, $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost());
+
+              if ($akismet->isSpam($data))
+              {
+                $is_spam = 1;
+              }
+
+            }
+            
+          }
+
           $rate = $values['rate'];
 
           if ($rate == '-')
@@ -210,8 +253,12 @@ class ComicController extends Controller
             'comment' => $values['comment'],
             'comicid' => $iComicID,
             'added' => new Zend_Db_Expr('NOW()'),
-            'isstaff' => 0,
-            'rate' => $rate
+            'isstaff' => $this->_auth->hasIdentity() ? '1' : '0',
+            'rate' => $rate,
+            'country' => $country,
+            'useragent' => $useragent,
+            'ipaddr' => $ip,
+            'isspam' => $is_spam
           );
 
           $this->_db->beginTransaction();
@@ -233,6 +280,10 @@ class ComicController extends Controller
           }
 
         }
+        else
+        {
+          return $this->_helper->redirector->gotoUrl("/comic");
+        }
       }
     }
 
@@ -240,7 +291,7 @@ class ComicController extends Controller
 
     // Get comic comments
     $select = $comments->select();
-    $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff'));
+    $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff', 'country'));
     $select->where('comicid = ?', $iComicID);
     $select->order(array('added ASC', 'id ASC'));
     $result = $comments->fetchAll($select);
