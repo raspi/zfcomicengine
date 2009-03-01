@@ -330,5 +330,113 @@ class Admin_ComicController extends Controller
     } // /if
 
   } // /function
+  
+  public function editCommentAction()
+  {
+    $id = $this->getRequest()->getParam('id', false);
+
+    $comments = new Comments();
+    $comments->cache_result = false;
+
+    $select = $comments->select();
+    $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff'));
+    $select->where('id=?', $id);
+    $info = $comments->fetchRow($select)->toArray();
+
+    // Comment form
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . '/admin/comic/edit-comment/id/' . $id);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Edit comment'));
+
+    $name = new Zend_Form_Element_Text('name');
+    $name->setRequired(true);
+    $name->setLabel($this->tr->_('Nick'));
+    $name->addFilter('StringTrim');
+    $name->addValidator('NotEmpty', true);
+    $name->addValidator('StringLength', false, array(3, 20));
+
+    $comment = new Zend_Form_Element_Text('comment');
+    $comment->setRequired(true);
+    $comment->setLabel($this->tr->_('Comment'));
+    $comment->addFilter('StringTrim');
+    $comment->addValidator('NotEmpty', true);
+    $comment->addValidator('StringLength', false, array(3, 300));
+
+    $rates = array();
+    $rates['-'] = '-';
+    for($i=1; $i<6; $i++)
+    {
+      $rates[$i] = $i;
+    }
+
+    $rate = new Zend_Form_Element_Select('rate');
+    $rate->setRequired(true);
+    $rate->setLabel($this->tr->_('Rate comic'));
+    $rate->addMultiOptions($rates);
+
+    $cbstaff = new Zend_Form_Element_Checkbox('isstaff');
+    $cbstaff->setLabel($this->tr->_('Is staff comment'));
+
+    $form->addElement($name);
+    $form->addElement($comment);
+    $form->addElement($rate);
+    $form->addElement($cbstaff);
+    $form->addElement($submit);
+
+    $form->populate(array(
+      'name' => $info['nick'],
+      'comment' => $info['comment'],
+      'rate' => $info['rate'],
+      'isstaff' => $info['isstaff']
+    ));
+
+    // Form POSTed
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+        
+        $rate = $values['rate'];
+
+        if ($rate == '-' || $values['isstaff'] == '1')
+        {
+          $rate = new Zend_Db_Expr('NULL');
+        }
+
+        $update = array(
+          'nick' => $values['name'],
+          'comment' => $values['comment'],
+          'isstaff' => $isstaff,
+          'rate' => $rate
+        );
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $comments->update($update, $comments->getAdapter()->quoteInto('id = ?', $id));
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/comic/comments");
+
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          var_dump($e);
+          die;
+        }
+
+      }
+    }
+
+    $this->view->form = $form;
+
+  }
 
 } // /class
