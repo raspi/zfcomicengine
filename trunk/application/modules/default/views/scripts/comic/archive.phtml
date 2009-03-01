@@ -9,6 +9,7 @@ $tr = Zend_Registry::get('Zend_Translate');
 foreach($this->years as $year)
 {
   $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'year' => $year), '', false);
+
   if($year == 'all')
   {
     $txt = $tr->_("All years");
@@ -17,7 +18,7 @@ foreach($this->years as $year)
   {
     $txt = $year;
   }
-  echo '<li><a href="' . $link . '">' . $txt . '</a></li>';
+  echo '<li><a href="' . $link . '" rel="nofollow">' . $txt . '</a></li>';
 }
 ?>
 </ul>
@@ -41,13 +42,13 @@ if(is_array($l) && !empty($l))
 
   echo '<tr>';
   $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'id', 'order' => $order), '', false);
-  echo '<td align="center"><a href="' . $link . '">' . $tr->_("Comic ID") . '</a></td>';
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Comic ID") . '</a></td>';
   $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'name', 'order' => $order), '', false);
-  echo '<td align="center"><a href="' . $link . '">' . $tr->_("Name") . '</a></td>';
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Name") . '</a></td>';
   $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'idea', 'order' => $order), '', false);
-  echo '<td align="center"><a href="' . $link . '">' . $tr->_("Idea") . '</a></td>';
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Idea") . '</a></td>';
   $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'published', 'order' => $order), '', false);
-  echo '<td align="center"><a href="' . $link. '">' . $tr->_("Published") . '</a></td>';
+  echo '<td align="center"><a href="' . $link. '" rel="nofollow">' . $tr->_("Published") . '</a></td>';
   echo "</tr>\n";
 
   $even = true;
