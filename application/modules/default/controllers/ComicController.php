@@ -7,7 +7,7 @@ class ComicController extends Controller
     $comics = new Comics();
     $comments = new Comments();
 
-    
+
     $comic_view_session = new Zend_Session_Namespace('comic_view');
 
     if (!isset($comic_view_session->ok) || $comic_view_session->ok === false)
@@ -126,6 +126,10 @@ class ComicController extends Controller
 
     $this->view->next = $iNextID;
 
+    $showcomments = $this->getRequest()->getParam('comments', 'show');
+    $showcomments = $showcomments == 'hide' ? false : true;
+    $this->view->showcomments = $showcomments;
+
     // Comment form
     $form = new comicForm();
     $form->add_asterisk = false;
@@ -178,9 +182,9 @@ class ComicController extends Controller
     $form->addElement($comment);
     $form->addElement($rate);
     $form->addElement($submit);
-    
+
     $form->populate(array('rate' => '-'));
-    
+
     $form->addDisplayGroup(array('email'), 'mail', array('legend' => $this->tr->_('Do not fill fields in this fieldset'), 'class' => 'not-visible'));
     $form->addDisplayGroup(array('name', 'comment', 'rate', 'submit'), 'add');
 
@@ -190,12 +194,12 @@ class ComicController extends Controller
       if ($form->isValid($_POST))
       {
         $values = $form->getValues();
-        
+
         if(!empty($values['email']) || !$comic_view_session->ok)
         {
           return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID");
         }
-        
+
         if ($comicExists)
         {
           $useragent = $this->getRequest()->getHeader('User-Agent');
@@ -218,7 +222,7 @@ class ComicController extends Controller
           if(!$this->_auth->hasIdentity())
           {
             $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
-            
+
             if (!empty($config->plugin->akismet->key))
             {
               $data = array(
@@ -238,7 +242,7 @@ class ComicController extends Controller
               }
 
             }
-            
+
           }
 
           $rate = $values['rate'];
@@ -289,17 +293,21 @@ class ComicController extends Controller
 
     $this->view->commentform = $form;
 
-    // Get comic comments
-    $select = $comments->select();
-    $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff', 'country'));
-    $select->where('comicid = ?', $iComicID);
-    $select->order(array('added ASC', 'id ASC'));
-    $result = $comments->fetchAll($select);
-    
-    $this->view->comments = array();
-    if(!is_null($result))
+    if ($showcomments)
     {
-      $this->view->comments = $result->toArray();
+      // Get comic comments
+      $select = $comments->select();
+      $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff', 'country'));
+      $select->where('comicid = ?', $iComicID);
+      $select->order(array('added ASC', 'id ASC'));
+      $result = $comments->fetchAll($select);
+
+      $this->view->comments = array();
+      if(!is_null($result))
+      {
+        $this->view->comments = $result->toArray();
+      }
+
     }
 
   } // /function
