@@ -201,3 +201,45 @@ else
 }
 ?>
 </div>
+
+<script type="text/javascript">
+function changepage (event)
+{
+  var key = event.keyCode;
+
+  if (key == dojo.keys.LEFT_ARROW || key == dojo.keys.RIGHT_ARROW)
+  {
+
+    if (false == (event.target.tagName.toLowerCase() == 'input') && false == (event.target.tagName.toLowerCase() == 'textarea'))
+    {
+
+      if (key == dojo.keys.RIGHT_ARROW)
+      {
+        var redirect = dojo.query("li.comic-button-next a");
+
+      }
+
+      if (key == dojo.keys.LEFT_ARROW)
+      {
+        var redirect = dojo.query("li.comic-button-previous a");
+
+      }
+
+      if (redirect.length && dojo.hasAttr(redirect[0], "href"))
+      {
+        window.location = dojo.attr(redirect[0], "href");
+      }
+
+    }
+
+  }
+
+}
+
+dojo.addOnLoad(
+function()
+{
+  dojo.connect(null, 'onkeypress', changepage);
+}
+);
+</script>
