@@ -118,10 +118,23 @@ $this->headStyle()->appendStyle($css);
 </div><!-- /comic-image -->
 
 <h2><?php echo $tr->_("Comments");?><a id="comments" /></h2>
+<?php
+if ($this->showcomments)
+{
+  $link = $this->url(array('comments' => 'hide'), '', false);
+  echo '<a href="' . $link . '">' . $tr->_("Hide comments") . '</a>';
+}
+else
+{
+  $link = $this->url(array('comments' => null), '', false);
+  echo '<a href="' . $link . '">' . $tr->_("Show comments") . '</a>';
+}
+?>
 <div id="comment-form">
   <?php echo $this->commentform;?>
 </div>
 
+<?php if ($this->showcomments): ?>
 <div id="comment-list">
 <?php
 if (is_array($comments) && !empty($comments))
@@ -201,6 +214,7 @@ else
 }
 ?>
 </div>
+<?php endif;?>
 
 <script type="text/javascript">
 function changepage (event)
