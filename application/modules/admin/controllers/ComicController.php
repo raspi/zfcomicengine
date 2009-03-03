@@ -203,6 +203,7 @@ class Admin_ComicController extends Controller
   public function editAction()
   {
     $ID = $this->getRequest()->getParam('id', false);
+    $this->view->id = $ID;
 
     $comics = new Comics();
     $comics->cache_result = false;
