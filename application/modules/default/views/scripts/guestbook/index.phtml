@@ -22,13 +22,12 @@ $this->headStyle()->appendStyle($css);
 </div>
 
 <h2><?php echo $tr->_("Guestbook");?></h2>
+<div id="guestbook">
 <?php
 $l = $this->entries;
 
 if(is_array($l) && !empty($l))
 {
-  echo '<table width="100%">' . "\n";
-
   $even = true;
 
   for($i=0; $i<count($l); $i++)
@@ -63,11 +62,10 @@ if(is_array($l) && !empty($l))
     $even = !$even;
   }
 
-  echo "</table>\n";
-
 }
 else
 {
-  echo $tr->_("No comics");
+  echo $tr->_("No guestbook entries");
 }
 ?>
+</div>

@@ -382,3 +382,16 @@ input, textarea
 {
   text-align: left;
 }
+
+/* Guestbook */
+#guestbook div
+{
+  margin-bottom: 1em;
+}
+
+#guestbook .answer
+{
+  border-top: 1px dashed #000;
+  margin-top: 1em;
+  color: #f00;
+}
