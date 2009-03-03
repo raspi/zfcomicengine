@@ -559,7 +559,159 @@ class Admin_IndexController extends Controller
    */
   public function bansAction()
   {
+    $bans = new Bans();
+    $bans->cache_result = false;
+
+    $select = $bans->select();
+    $select->from($bans, array('id', 'typeid', 'host', 'startip', 'endip'));
+    $list = $bans->fetchAll($select);
+
+    if(!is_null($list))
+    {
+      $this->view->bans = $list->toArray();
+    }
+    else
+    {
+      $this->view->bans = array();
+    }
+
   } // /function
+
+  /**
+   * Add new ban
+   */
+  public function addBanAction()
+  {
+    $bans = new Bans();
+    $bans->cache_result = false;
+    
+    $type = $this->getRequest()->getParam('type', 'ip');
+    $this->view->type = $type;
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . "/admin/index/add-ban/type/" . $type);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Add new ban'));
+
+    $ip = new Zend_Form_Element_Text('ip');
+    $ip->setRequired(true);
+    $ip->setLabel($this->tr->_('IP Address'));
+    $ip->addFilter('StringTrim');
+    $ip->addValidator('Ip', false);
+
+    $cidr = new Zend_Form_Element_Text('cidr');
+    $cidr->setRequired(true);
+    $cidr->setLabel($this->tr->_('CIDR'));
+    $cidr->addFilter('StringTrim');
+    $cidr->addValidator('Digits', false, array('min' => 0, 'max' => 128));
+
+    $host = new Zend_Form_Element_Text('host');
+    $host->setRequired(true);
+    $host->setLabel($this->tr->_('Hostname'));
+    $host->addFilter('StringTrim');
+    $host->addValidator('Hostname', false);
+
+    switch($type)
+    {
+      case 'ip':
+        $form->addElement($ip);
+        $form->addElement($cidr);
+      break;
+
+      case 'host':
+        $form->addElement($host);
+      break;
+    }
+
+    $form->addElement($submit);
+
+    // POST
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+        $ip = $values['ip'];
+        $cidr = (int)$values['cidr'];
+
+        switch($type)
+        {
+          case 'ip':
+            // IPv6 address
+            if (strpos($ip, ':') !== false && strpos($ip, '.') !== true)
+            {
+              $ipaddrtype = 6;
+              $ip = bin2hex(inet_pton($ip));
+              
+              $mask = "(-1 << (128 - {$cidr}))";
+
+              $start = new Zend_Db_Expr("HEX('$ip') & $mask");
+              $end = new Zend_Db_Expr("HEX('$ip') | (~$mask & HEX('ffffffffffffffffffffffffffffffff'))");
+            }
+            else
+            {
+              // IPv4 address
+              // May be "::1.2.3.4" style
+              $ip = str_replace(':', '', $ip);
+              $ipaddrtype = 4;
+              
+              $mask = "(-1 << (32 - {$cidr}))";
+              
+              if ($cidr >= 0 && $cidr <= 32)
+              {
+                $start = new Zend_Db_Expr("INET_ATON('$ip') & $mask");
+                $end = new Zend_Db_Expr("INET_ATON('$ip') | (~$mask & INET_ATON('255.255.255.255'))");
+              }
+              else
+              {
+                echo 'invalid IPv4 CIDR';
+                die;
+              }
+
+            }
+
+            $insert = array(
+              'typeid' => $ipaddrtype,
+              'startip' => $start,
+              'endip' => $end
+            );
+          break;
+
+          case 'host':
+            $insert = array(
+              'typeid' => 1,
+              'host' => $values['host']
+            );
+          break;
+        }
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $bans->insert($insert);
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/index/bans");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      }
+    }
+
+    $this->view->form = $form;
+
+  } // /function
+
   
   public function authorsAction()
   {

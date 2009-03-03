@@ -204,6 +204,36 @@ class ComicController extends Controller
         {
           $useragent = $this->getRequest()->getHeader('User-Agent');
           $ip = $this->getRequest()->getServer('REMOTE_ADDR');
+          
+          $bans = new Bans();
+          $bans->cache_result = false;
+
+          $select = $bans->select();
+          $select->from($bans, array('c' => 'COUNT(id)'));
+          $select->limit(1);
+
+          // IPv6 address
+          if (strpos($ip, ':') !== false)
+          {
+            $select->where('typeid = 6');
+            $qip = "HEX('" . bin2hex(inet_pton($ip)) . "')";
+          }
+          else
+          {
+            $select->where('typeid = 4');
+            $qip = "INET_ATON('" . $ip . "')";
+          }
+
+          $select->where("startip >= $qip");
+          $select->where("endip <= $qip");
+          
+          $is_banned = $bans->fetchRow($select)->toArray();
+          $is_banned = (bool)((int)$is_banned['c'] > 0 ? true : false);
+          
+          if ($is_banned)
+          {
+            return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID");
+          }
 
           try
           {

@@ -216,3 +216,12 @@ class Posts extends DBTable
 
   );
 }
+
+/**
+ * Blog posts
+ */
+class Bans extends DBTable
+{
+  protected $_name = 'BANS';
+  protected $_primary = 'id';
+}

@@ -1,0 +1,87 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'add-ban', 'type' => 'ip'), '', true); ?>"><?php echo $tr->_("Add new IP address ban");?></a>
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'add-ban', 'type' => 'host'), '', true); ?>"><?php echo $tr->_("Add new host ban");?></a>
+
+<h2><?php echo $tr->_("List of bans");?></h2>
+
+<?php
+$l = $this->bans;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center">' . $tr->_("ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Ban") . '</td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    
+    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'edit-ban', 'id' => $id), '', true);
+    $typeid = (int)$l[$i]['typeid'];
+
+    $host = $this->escape($l[$i]['host']);
+    $start = $l[$i]['startip'];
+    $end = $l[$i]['endip'];
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
+
+    echo '<td align="left">';
+
+    switch ($typeid)
+    {
+      case 4:
+        echo long2ip($start);
+        echo ' - ';
+        echo long2ip($end);
+      break;
+
+      case 6:
+        echo wordwrap(dechex($start), 4, ':');
+        echo ' - ';
+        echo wordwrap(dechex($end), 4, ':');
+      break;
+
+      case 1:
+        echo $host;
+      break;
+    } // /switch
+
+    echo '</td>';
+
+    echo "</tr>\n";
+
+    $even = !$even;
+  } // /for
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No posts");
+}
+?>
