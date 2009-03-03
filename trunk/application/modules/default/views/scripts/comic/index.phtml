@@ -174,9 +174,9 @@ if (is_array($comments) && !empty($comments))
     
     $isstaff = $comments[$i]['isstaff'] == '1' ? true : false;
     
-    if($isstaff)
+    if ($isstaff)
     {
-      $class = 'staff-comment ';
+      $class .= 'staff-comment ';
     }
     
     $country = $comments[$i]['country'];
