@@ -1,0 +1,24 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<h2><?php echo $tr->_("Add new ban");?></h2>
+<?php if($this->type == 'ip'):?>
+<?php echo $tr->_("CIDR info:");?><br />
+<?php echo $tr->_("IPv4");?><br />
+<?php echo $tr->_("/32 is one IP address");?><br />
+<?php echo $tr->_("/24 is 255 IP addresses");?><br />
+<?php echo $tr->_("/0 is whole internet");?><br />
+
+<br />
+
+<?php echo $tr->_("IPv6");?><br />
+<?php echo $tr->_("/128 is one IP address");?><br />
+
+<br />
+
+<?php
+endif;
+
+echo $this->form;
+?>
