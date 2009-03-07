@@ -37,6 +37,22 @@ $nav .= '<li class="button comic-button-latest">';   if ($add_link_last)  {$nav 
 $nav .= '<li class="button comic-button-random"><a href="' . $random_link . '">' . $tr->_("Random") . '</a></li>';
 $nav .= "\n";
 
+
+// Opera's navigation helper
+$this->headLink(array('rel' => 'first', 'title' => $tr->_("First comic"), 'href' => $first_link));
+$this->headLink(array('rel' => 'last', 'title' => $tr->_("Latest comic"), 'href' => $last_link));
+
+if ($add_link_last)
+{
+  $this->headLink(array('rel' => 'next', 'title' => $tr->_("Next comic"), 'href' => $next_link));
+}
+
+if ($add_link_first)
+{
+  $this->headLink(array('rel' => 'prev', 'title' => $tr->_("Previous comic"), 'href' => $prev_link));
+}
+
+
 // Custom CSS
 $css = <<<CSS
 #comment-form #fieldset-mail
