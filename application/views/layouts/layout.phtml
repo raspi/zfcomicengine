@@ -47,9 +47,13 @@ if ($this->dojo()->isEnabled())
 {
   $this->dojo()->setLocalPath('/javascript/dojo/dojo.js');
   $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
-  $this->dojo()->requireModule('dijit._editor.plugins.LinkDialog');
-  $this->dojo()->requireModule('dijit._editor.plugins.FontChoice');
-  $this->dojo()->requireModule('dijit._editor.plugins.EnterKeyHandling');
+
+  if ($auth->hasIdentity())
+  {
+    $this->dojo()->requireModule('dijit._editor.plugins.LinkDialog');
+    $this->dojo()->requireModule('dijit._editor.plugins.FontChoice');
+    $this->dojo()->requireModule('dijit._editor.plugins.EnterKeyHandling');
+  }
 
   echo $this->dojo();
 }
