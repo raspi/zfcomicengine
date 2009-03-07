@@ -45,6 +45,11 @@ a, a:visited
   color: #000;
 }
 
+p
+{
+  padding-bottom: 1em;
+}
+
 .even
 {
   background-color: #efe;
