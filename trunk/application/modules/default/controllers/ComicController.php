@@ -4,9 +4,11 @@ class ComicController extends Controller
 
   public function indexAction()
   {
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+    $this->view->dateformat = $config->dateformat;
+
     $comics = new Comics();
     $comments = new Comments();
-
 
     $comic_view_session = new Zend_Session_Namespace('comic_view');
 
@@ -327,7 +329,7 @@ class ComicController extends Controller
     {
       // Get comic comments
       $select = $comments->select();
-      $select->from($comments, array('nick', 'comment', 'added', 'rate', 'isstaff', 'country'));
+      $select->from($comments, array('nick', 'comment', 'uadded' => 'UNIX_TIMESTAMP(added)', 'rate', 'isstaff', 'country'));
       $select->where('comicid = ?', $iComicID);
       $select->order(array('added ASC', 'id ASC'));
       $result = $comments->fetchAll($select);
@@ -417,6 +419,9 @@ class ComicController extends Controller
   
   public function archiveAction()
   {
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+    $this->view->dateformat = $config->dateformat;
+
     $comics = new Comics();
 
     $year = $this->getRequest()->getParam('year', 'all');

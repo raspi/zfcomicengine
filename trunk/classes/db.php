@@ -225,3 +225,16 @@ class Bans extends DBTable
   protected $_name = 'BANS';
   protected $_primary = 'id';
 }
+
+/*
+VIEWs
+*/
+
+/**
+ * Blog posts, with author informatien etc
+ */
+class VIEW_Posts extends DBTable
+{
+  protected $_name = 'VIEW_POSTS';
+  protected $_primary = 'id';
+}

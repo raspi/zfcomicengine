@@ -3,10 +3,13 @@ class GuestbookController extends Controller
 {
   public function indexAction()
   {
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+    $this->view->dateformat = $config->dateformat;
+
     $guestbook = new Guestbook();
 
     $select = $guestbook->select();
-    $select->from($guestbook, array('name', 'email', 'question', 'answer', 'added'));
+    $select->from($guestbook, array('name', 'email', 'question', 'answer', 'uadded' => 'UNIX_TIMESTAMP(added)', 'country'));
     $select->order(array('id DESC'));
     $result = $guestbook->fetchAll($select);
     $this->view->entries = array();
@@ -21,7 +24,7 @@ class GuestbookController extends Controller
     $form->setAction($this->_request->getBaseUrl() . '/guestbook');
 
     $submit = new Zend_Form_Element_Submit('submit');
-    $submit->setLabel($this->tr->_('Add comment'));
+    $submit->setLabel($this->tr->_('Add new guestbook entry'));
 
     $email = new Zend_Form_Element_Text('email');
     $email->setRequired(true);
