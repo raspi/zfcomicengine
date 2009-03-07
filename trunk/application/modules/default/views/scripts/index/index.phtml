@@ -44,3 +44,111 @@ else
 }
 ?>
 </div>
+
+<div id="statistics">
+
+<div id="comics-top" class="statistics">
+<?php
+$l = $this->topcomics;
+
+if(is_array($l) && !empty($l))
+{
+  echo $tr->_('Top ten comics');
+
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+
+  echo '<tr>';
+  echo '<td></td>';
+  echo '<td></td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    $name = $this->escape($l[$i]['name']);
+    $rating = $l[$i]['avgrate'];
+
+    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name), '', true);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center">' . $rating . '</td>';
+    echo '<td align="left"><a href="' . $link . '">' . $name . '</a></td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+}
+?>
+</div>
+
+<div id="comics-bottom" class="statistics">
+<?php
+$l = $this->bottomcomics;
+
+if(is_array($l) && !empty($l))
+{
+  echo $tr->_('Worst ten comics');
+
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+
+  echo '<tr>';
+  echo '<td></td>';
+  echo '<td></td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    $name = $this->escape($l[$i]['name']);
+    $rating = $l[$i]['avgrate'];
+
+    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name), '', true);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center">' . $rating . '</td>';
+    echo '<td align="left"><a href="' . $link . '">' . $name . '</a></td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+}
+?>
+</div>
+
+</div> <!-- statistics -->

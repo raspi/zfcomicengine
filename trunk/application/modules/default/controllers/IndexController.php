@@ -22,6 +22,42 @@ class IndexController extends Controller
       $this->view->posts = $result->toArray();
     }
 
+    $view_comics = new VIEW_Comics();
+    
+    // Top 10 comics
+    $select = $view_comics->select();
+    $select->from($view_comics, array('id', 'name', 'avgrate'));
+    $select->where('avgrate IS NOT NULL');
+    $select->limit(10);
+    $select->order(array('ratescount ASC', 'avgrate DESC'));
+
+    $this->view->topcomics = $view_comics->fetchAll($select);
+    if(!is_null($this->view->topcomics))
+    {
+      $this->view->topcomics = $this->view->topcomics->toArray();
+    }
+    else
+    {
+      $this->view->topcomics = array();
+    }
+
+    // Bottom 10 comics
+    $select = $view_comics->select();
+    $select->from($view_comics, array('id', 'name', 'avgrate'));
+    $select->where('avgrate IS NOT NULL');
+    $select->limit(10);
+    $select->order(array('ratescount ASC', 'avgrate ASC'));
+
+    $this->view->bottomcomics = $view_comics->fetchAll($select);
+    if(!is_null($this->view->bottomcomics))
+    {
+      $this->view->bottomcomics = $this->view->bottomcomics->toArray();
+    }
+    else
+    {
+      $this->view->bottomcomics = array();
+    }
+
   } // /function
 
   public function feedAction()

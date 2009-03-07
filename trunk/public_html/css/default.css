@@ -71,6 +71,7 @@ p
 
 #header
 {
+  position: static;
   display: block;
   clear: both;
   background-image: url('/images/headerbg.png');
@@ -182,6 +183,11 @@ input, textarea
 
 /* Posts */
 
+#posts
+{
+  width: 48em;;
+}
+
 #posts .entry
 {
   margin-top: 1em;
@@ -229,6 +235,7 @@ input, textarea
   padding-right: 1em;
   border-left: 1px solid #000;
   border-right: 1px solid #000;
+  position: relative;
 }
 
 /* Menu */
@@ -406,4 +413,29 @@ input, textarea
   border-top: 1px dashed #000;
   margin-top: 1em;
   color: #f00;
+}
+
+/* Frontpage Comic statistics */
+#statistics
+{
+  position: absolute;
+  right: 0;
+  top: 1em;
+  width: 20em;
+}
+
+#comics-top table
+{
+  margin-bottom: 1em;
+}
+
+.statistics table
+{
+  border: 1px dashed #000;
+  border-right: none;
+}
+
+.statistics table tr td
+{
+  overflow: hidden;
 }
