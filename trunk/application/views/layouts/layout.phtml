@@ -28,8 +28,8 @@ $this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'ti
 // CSS
 $this->headLink()->appendStylesheet('/css/default.css');
 
-$css  = 'a[href^="http:"]{background:url(' . "'/images/external-url.png'" . ') right center no-repeat;padding-right:12px;}';
-$css .= 'a[href^="http://' . $_SERVER["HTTP_HOST"] . '"]{background:transparent;padding-right:0px;}';
+$css  = '.external-urls a[href^="http:"]{background:url(' . "'/images/external-url.png'" . ') right center no-repeat;padding-right:12px;}' . "\n";
+$css .= '.external-urls a[href^="http://' . $_SERVER["HTTP_HOST"] . '"]{background:transparent;padding-right:0px;}';
 $this->headStyle()->appendStyle($css);
 
 echo $this->headLink();
