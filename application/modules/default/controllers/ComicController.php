@@ -237,7 +237,7 @@ class ComicController extends Controller
 
           try
           {
-            $tc = new Zend_Service_Team_Cymru();
+            $tc = new Zend_Service_TeamCymru();
             $tcinfo = $tc->getIpInfo($ip);
 
             $country = $tcinfo['country'];

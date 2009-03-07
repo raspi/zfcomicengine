@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zend_Service_Team_Cymru
+ * Zend_Service_TeamCymru
  * Get IP address, Autonymous System and RIR + LIR info
  *
  * Uses DNS
@@ -20,17 +20,17 @@
  * <code>
  *   $ip = $this->getRequest()->getServer('REMOTE_ADDR');
  *
- *   $tc = new Zend_Service_Team_Cymru();
+ *   $tc = new Zend_Service_TeamCymru();
  *   $tcinfo = $tc->getIpInfo($ip);
  *   print_r($tcinfo);
  * </code>
  * </example>
  *
  * @author Pekka Järvinen 2009
- * @package Zend_Service_Team_Cymru
+ * @package Zend_Service_TeamCymru
  * @version $Id$
  */
-class Zend_Service_Team_Cymru extends Zend_Service_Abstract
+class Zend_Service_TeamCymru extends Zend_Service_Abstract
 {
   /**
    * address suffix for IPv4 queries
@@ -227,7 +227,15 @@ class Zend_Service_Team_Cymru extends Zend_Service_Abstract
         $country = !empty($whois_country) ? $whois_country : $country;
       }
 
-      return array('as' => (int)$asnumber, 'country' => $country, 'ipblock' => $ipblock, 'rir' => $rir, 'year' => (int)$year, 'month' => (int)$month, 'day' => (int)$day);
+      return array(
+        'as' => (int)$asnumber,
+        'country' => $country,
+        'ipblock' => $ipblock,
+        'rir' => $rir,
+        'year' => (int)$year,
+        'month' => (int)$month,
+        'day' => (int)$day
+      );
     }
     else
     {
@@ -253,7 +261,15 @@ class Zend_Service_Team_Cymru extends Zend_Service_Abstract
       $country = strtolower($country);
       $rir = strtolower($rir);
       
-      return array('as' => (int)$asnumber, 'country' => $country, 'rir' => $rir, 'year' => (int)$year, 'month' => (int)$month, 'day' => (int)$day, 'name' => $name);
+      return array(
+        'as' => (int)$asnumber,
+        'country' => $country,
+        'rir' => $rir,
+        'year' => (int)$year,
+        'month' => (int)$month,
+        'day' => (int)$day,
+        'name' => $name
+      );
     }
     else
     {
@@ -306,7 +322,15 @@ class Zend_Service_Team_Cymru extends Zend_Service_Abstract
         $country = !empty($whois_country) ? $whois_country : $country;
       }
 
-      return array('as' => $asnumbers, 'country' => $country, 'rir' => $rir, 'year' => (int)$year, 'month' => (int)$month, 'day' => (int)$day);
+      return array(
+        'as' => $asnumbers,
+        'country' => $country,
+        'ipblock' => $ipblock,
+        'rir' => $rir,
+        'year' => (int)$year,
+        'month' => (int)$month,
+        'day' => (int)$day
+      );
     }
     else
     {
