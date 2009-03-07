@@ -71,7 +71,6 @@ p
 
 #header
 {
-  position: static;
   display: block;
   clear: both;
   background-image: url('/images/headerbg.png');
