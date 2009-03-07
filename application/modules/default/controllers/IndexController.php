@@ -3,14 +3,16 @@ class IndexController extends Controller
 { 
   public function indexAction() 
   {
-    $posts = new Posts();
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+    $this->view->dateformat = $config->dateformat;
+
+    $posts = new VIEW_Posts();
 
     $pages = new Pages();
     $this->view->introtext = $pages->getPageContents('frontpage');
 
     $select = $posts->select();
-    $select->from($posts, array('id', 'subject', 'content', 'added'));
-    $select->order(array('id DESC'));
+    $select->from($posts, array('id', 'name', 'subject', 'content', 'uadded'));
     $result = $posts->fetchAll($select);
 
     $this->view->posts = array();

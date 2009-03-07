@@ -14,12 +14,14 @@ $posts = $this->posts;
 <?php
 if(is_array($posts) && !empty($posts))
 {
+  $d = new Zend_Date();
+
   for($i=0; $i<count($posts); $i++)
   {
     $subject = $this->escape($posts[$i]['subject']);
     $txt = $posts[$i]['content'];
-    $author = 'foo';
-    $day = 'bar';
+    $author = $this->escape($posts[$i]['name']);
+    $d->setTimestamp($posts[$i]['uadded']);
     
     echo '<div class="entry">';
     echo '<div class="entry-subject"><h3>';
@@ -30,7 +32,7 @@ if(is_array($posts) && !empty($posts))
     echo '</div>';
 
     echo '<div class="entry-author">';
-    echo "$author $day";
+    echo "$author " . $d->toString($this->dateformat);
     echo '</div>';
 
     echo "</div>\n";
