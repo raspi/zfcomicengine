@@ -43,3 +43,32 @@ GROUP BY
 ORDER BY
   p.added DESC,p.id
 ;
+
+CREATE OR REPLACE VIEW VIEW_COMICS
+AS
+SELECT
+  c.id,
+  a.name AS author,
+  a.id AS aid,
+  c.name,
+  c.filemime,
+  c.filesize,
+  c.md5sum,
+  c.idea,
+  UNIX_TIMESTAMP(c.published) AS upublished,
+  c.filename,
+  c.imgwidth,
+  c.imgheight,
+  r.avgrate,
+  r.ratescount
+FROM
+(
+  (COMICS AS c),
+  (AUTHORS AS a)
+)
+LEFT JOIN
+  VIEW_AVG_RATES AS r ON r.comicid=c.id
+WHERE
+  c.authorid=a.id
+;
+

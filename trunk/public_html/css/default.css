@@ -243,6 +243,13 @@ input, textarea
 
 /* Comic */
 
+#comic-info
+{
+  display: block;
+  border-bottom: 1px dashed #000;
+  margin-bottom: 1em;
+}
+
 .comic-navigation
 {
   display: block;

@@ -79,11 +79,14 @@ $css = <<<CSS
 CSS;
 
 $this->headStyle()->appendStyle($css);
+
+$d = new Zend_Date();
+$d->setTimestamp($this->info['upublished']);
 ?>
 <h2><?php echo $tr->_("Comic");?><a id="comic" /></h2>
 <div id="comic-image">
   <div id="comic-info">
-    <?php echo $this->info['published'];?> <b>::</b> <?php echo $this->escape($this->info['name']);?> <?php if(!empty($this->info['idea'])) {echo '('; echo sprintf($tr->_("Idea: %s"), $this->escape($this->info['idea'])); echo ')';}?>
+    <?php echo $this->escape($this->info['author']);?> <?php echo $d->toString($this->dateformat);?> <b>::</b> <?php echo $this->escape($this->info['name']);?> <?php if(!empty($this->info['idea'])) {echo '('; echo sprintf($tr->_("Idea: %s"), $this->escape($this->info['idea'])); echo ')';}?>
   </div>
 
   <!-- Top navigation -->
@@ -141,8 +144,6 @@ else
 <?php
 if (is_array($comments) && !empty($comments))
 {
-  $d = new Zend_Date();
-
   echo '<table width="100%" cellspacing="0" cellpadding="0" id="comic-comments">' . "\n";
   
   echo '<col width="1" />' . "\n";
@@ -209,6 +210,13 @@ if (is_array($comments) && !empty($comments))
   echo "<br />\n";
   
   echo sprintf($tr->_("%d comment(s)"), count($comments));
+  
+  if(!empty($this->info['avgrate']))
+  {
+    echo '<div id="comic-rating">';
+    echo sprintf($tr->_("Comic rating: %s"), round($this->info['avgrate'], 3));
+    echo "</div>\n";
+  }
 
 }
 else

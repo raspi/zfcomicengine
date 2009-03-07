@@ -8,6 +8,7 @@ class ComicController extends Controller
     $this->view->dateformat = $config->dateformat;
 
     $comics = new Comics();
+    $view_comics = new VIEW_Comics();
     $comments = new Comments();
 
     $comic_view_session = new Zend_Session_Namespace('comic_view');
@@ -74,10 +75,10 @@ class ComicController extends Controller
     }
     
     // Get comic information
-    $select = $comics->select();
-    $select->from($comics, array('name', 'md5sum', 'published', 'added', 'idea', 'imgwidth', 'imgheight'));
+    $select = $view_comics->select();
+    $select->from($view_comics, array('author', 'name', 'md5sum', 'upublished', 'idea', 'imgwidth', 'imgheight', 'avgrate'));
     $select->where('id = ?', $iComicID);
-    $this->view->info = $comics->fetchRow($select)->toArray();
+    $this->view->info = $view_comics->fetchRow($select)->toArray();
 
     $idtest = $this->getRequest()->getParam('id', false);
     $nametest = $this->getRequest()->getParam('name', false);
