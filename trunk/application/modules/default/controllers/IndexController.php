@@ -1,6 +1,10 @@
 <?php
 class IndexController extends Controller
 { 
+
+  /**
+   * Front page
+   */
   public function indexAction() 
   {
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
@@ -78,6 +82,9 @@ class IndexController extends Controller
 
   } // /function
 
+  /**
+   * RSS feed of latest posts
+   */
   public function feedAction()
   {
     // Disable main layout
