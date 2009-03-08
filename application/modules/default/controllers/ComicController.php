@@ -2,6 +2,9 @@
 class ComicController extends Controller
 {
 
+  /**
+   * Comic page
+   */
   public function indexAction()
   {
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
@@ -490,6 +493,9 @@ class ComicController extends Controller
 
   } // /function
 
+  /**
+   * Comic related RSS feeds
+   */
   public function feedAction()
   {
     // Disable main layout
@@ -638,6 +644,9 @@ class ComicController extends Controller
 
   } // /function
   
+  /**
+   * Get random comic
+   */
   public function randomAction()
   {
     // Disable main layout
