@@ -68,34 +68,9 @@ echo $this->headStyle();
   <div id="header">
 
     <h1><?php echo $config->name;?></h1><div id="slogan"><?php echo $config->slogan;?></div>
+    
+    <?php echo $this->menu();?>
 
-    <?php if ($auth->hasIdentity()): ?>
-    <div id="admin-menu">
-      <?php printf($tr->_("Logged in as %s"), $auth->getIdentity()->name);?>
-      <ul>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Posts");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Comic");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments'), '', true); ?>"><?php echo $tr->_("Comic comments");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Guestbook");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'pages'), '', true); ?>"><?php echo $tr->_("Pages");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'authors'), '', true); ?>"><?php echo $tr->_("Authors");?></a></li>
-        <li><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'bans'), '', true); ?>"><?php echo $tr->_("Bans");?></a></li>
-        <li id="logout"><a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), '', true); ?>"><?php echo $tr->_("Logout");?></a></li>
-      </ul>
-    </div>
-    <?php endif; ?>
-
-    <div id="menu">
-      <ul>
-        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Front page");?></a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Comic");?></a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'archive'), '', true); ?>"><?php echo $tr->_("Comic archive");?></a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'about'), '', true); ?>"><?php echo $tr->_("About");?></a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'feedback'), '', true); ?>"><?php echo $tr->_("Feedback");?></a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'guestbook', 'action' => 'index'), '', true); ?>"><?php echo $tr->_("Guest book");?></a></li>
-        <li><a href="<?php echo $this->url(array('controller' => 'index', 'action' => 'links'), '', true); ?>"><?php echo $tr->_("Links");?></a></li>
-      </ul>
-    </div>
   </div><!-- /header -->
 
   <div id="content">

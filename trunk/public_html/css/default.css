@@ -245,6 +245,11 @@ input, textarea
   background-color: #fff;
 }
 
+#menu li.selected, #admin-menu li.selected
+{
+  background-color: #8ef;
+}
+
 /******************************************************************************/
 
 /* Comic */
