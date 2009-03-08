@@ -58,6 +58,24 @@ class IndexController extends Controller
       $this->view->bottomcomics = array();
     }
 
+    // Latest comic comments
+    $view_comments = new VIEW_Comments();
+
+    $select = $view_comments->select();
+    $select->from($view_comments, array('country', 'title', 'comicid', 'comment'));
+    $select->limit(10);
+
+    $this->view->comments = $view_comments->fetchAll($select);
+    if(!is_null($this->view->bottomcomics))
+    {
+      $this->view->comments = $this->view->comments->toArray();
+    }
+    else
+    {
+      $this->view->comments = array();
+    }
+
+
   } // /function
 
   public function feedAction()

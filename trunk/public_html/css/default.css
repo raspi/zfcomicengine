@@ -423,6 +423,11 @@ input, textarea
   width: 20em;
 }
 
+#comics-latest-comments table
+{
+  margin-bottom: 1em;
+}
+
 #comics-top table
 {
   margin-bottom: 1em;

@@ -247,3 +247,12 @@ class VIEW_Comics extends DBTable
   protected $_name = 'VIEW_COMICS';
   protected $_primary = 'id';
 }
+
+/**
+ * Comics with author and avg rating information
+ */
+class VIEW_Comments extends DBTable
+{
+  protected $_name = 'VIEW_COMMENTS';
+  protected $_primary = 'id';
+}
