@@ -69,6 +69,7 @@ $frontController->setControllerDirectory(
 Zend_Layout::startMvc(array('layoutPath' => dirname(__FILE__) . '/views/layouts'));
 
 $view = new Zend_View;
+$view->addHelperPath(realpath(dirname(__FILE__) . '/views/helpers'));
 $view->setEncoding('UTF-8');
 $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
 Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
