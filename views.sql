@@ -72,3 +72,26 @@ WHERE
   c.authorid=a.id
 ;
 
+CREATE OR REPLACE VIEW VIEW_COMMENTS
+AS
+SELECT
+  c.id,
+  c.nick,
+  c.comment,
+  c.country,
+  c.rate,
+  UNIX_TIMESTAMP(c.added) AS uadded,
+  a.name AS author,
+  o.id AS comicid,
+  o.name AS title
+FROM
+  COMMENTS AS c,
+  COMICS AS o,
+  AUTHORS AS a
+WHERE
+  c.comicid=o.id AND
+  o.authorid=a.id
+ORDER BY
+  c.added DESC
+;
+

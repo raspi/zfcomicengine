@@ -47,6 +47,60 @@ else
 
 <div id="statistics">
 
+<div id="comics-latest-comments" class="statistics">
+<?php
+$l = $this->comments;
+
+if(is_array($l) && !empty($l))
+{
+  echo $tr->_('Latest comic comments');
+
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+
+  echo '<tr>';
+  echo '<td></td>';
+  echo '<td></td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['comicid'];
+    $title = $this->escape($l[$i]['title']);
+    $comment = $this->escape($l[$i]['comment']);
+    $country = $l[$i]['country'];
+
+    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $title), '', true);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center"><a href="' . $link . '">' . str_replace(' ', '&nbsp;', $title) . '</a></td>';
+    echo '<td align="left"><img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" /> ' . $comment . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+}
+?>
+</div>
+
+
 <div id="comics-top" class="statistics">
 <?php
 $l = $this->topcomics;
