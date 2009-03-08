@@ -1,11 +1,15 @@
 <?php
-class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
+class navigation
 {
-  protected function _getAdminMenu()
+  public $selected = null;
+  
+  public function getMenu()
   {
     $tr = Zend_Registry::get('Zend_Translate');
+    
+    $m = array();
 
-    $m = array
+    $m['admin'] = array
     (
       array ('title' => $tr->_("Posts"),          'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'index')),
       array ('title' => $tr->_("Comic"),          'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'index')),
@@ -17,14 +21,7 @@ class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
       array ('title' => $tr->_("Logout"),         'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), 'id' => 'logout')
     );
 
-    return $m;
-  } // /function
-
-  protected function _getMenu()
-  {
-    $tr = Zend_Registry::get('Zend_Translate');
-
-    $m = array
+    $m['public'] = array
     (
       array ('title' => $tr->_("Front page"),    'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'index')),
       array ('title' => $tr->_("Comic"),         'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'index')),
@@ -38,7 +35,7 @@ class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
     return $m;
   } // /function
 
-  protected function _createMenu($arr)
+  public function _createMenu($arr)
   {
     $o = null;
 
@@ -46,9 +43,9 @@ class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
     $module = $ctrl->getRequest()->getModuleName();
     $controller = $ctrl->getRequest()->getControllerName();
     $action = $ctrl->getRequest()->getActionName();
-    
+
     $l = new Zend_View_Helper_Url();
-    
+
     for($i=0; $i<count($arr); $i++)
     {
       $class = null;
@@ -56,15 +53,16 @@ class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
 
       $title = $arr[$i]['title'];
       $url = $arr[$i]['url'];
-      
+
       if ($url['module'] == $module && $url['controller'] == $controller && $url['action'] == $action)
       {
         $class = 'selected';
+        $this->selected = $title;
       }
-      
+
       $o .= '<li ' . (!is_null($id) ? 'id="' . $id . '" ' : '') . 'class="' . $class . '"><a href="' . $l->url($url, '', true) . '">' . $title . '</a></li>';
     }
-    
+
     return $o;
   }
 
@@ -73,6 +71,7 @@ class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
     $tr = Zend_Registry::get('Zend_Translate');
     $auth = Zend_Auth::getInstance();
 
+    $menu = $this->getMenu();
     $o = null;
 
     if ($auth->hasIdentity())
@@ -80,14 +79,16 @@ class Zend_View_Helper_Menu extends Zend_View_Helper_Abstract
       $o .= '<div id="admin-menu">';
       $o .= sprintf($tr->_("Logged in as %s"), $auth->getIdentity()->name);
       $o .= '<ul>';
-      $o .= $this->_createMenu($this->_getAdminMenu());
+      $o .= $this->_createMenu($menu['admin']);
       $o .= '</ul></div>';
     }
-    
+
     $o .= '<div id="menu"><ul>';
-    $o .= $this->_createMenu($this->_getMenu());
+    $o .= $this->_createMenu($menu['public']);
     $o .= '</ul></div>';
-    
+
     return $o;
   } // /function
-} // /class
+
+
+}
