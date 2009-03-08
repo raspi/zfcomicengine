@@ -1,9 +1,16 @@
 <?php
+require_once 'navigation.php';
+
+$navigation = new navigation();
+
 $tr = Zend_Registry::get('Zend_Translate');
 $auth = Zend_Auth::getInstance();
 $db = Zend_Registry::get('DB');
 
 $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../config.ini', 'site');
+
+$menu = $navigation->menu();
+$title = $navigation->selected;
 
 echo "\x3c?xml version=\"1.0\" encoding=\"UTF-8\"?\x3e\n";
 echo $this->doctype() . "\n";
@@ -13,7 +20,7 @@ echo $this->doctype() . "\n";
 <!--
 zfComicEngine (c) Pekka Järvinen 2009
 -->
-  <title><?php echo $config->name;?></title>
+  <?php echo $this->headTitle($config->name . ' - ' . $title); ?>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
 // Favicon
@@ -69,7 +76,7 @@ echo $this->headStyle();
 
     <h1><?php echo $config->name;?></h1><div id="slogan"><?php echo $config->slogan;?></div>
     
-    <?php echo $this->menu();?>
+    <?php echo $menu;?>
 
   </div><!-- /header -->
 
