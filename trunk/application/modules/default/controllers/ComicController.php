@@ -494,7 +494,9 @@ class ComicController extends Controller
   {
     // Disable main layout
     $this->_helper->layout->disableLayout();
-    
+
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+
     $category = $this->getRequest()->getParam('cat', 'comic');
 
     $entries = array();
@@ -535,11 +537,10 @@ class ComicController extends Controller
       break;
 
       case 'comments':
-        $comments = new Comments();
+        $comments = new VIEW_Comments();
 
         $select = $comments->select();
-        $select->from($comments, array('nick', 'comment', 'added', 'comicid', 'rate'));
-        $select->order(array('id DESC'));
+        $select->from($comments, array('nick', 'comment', 'uadded', 'comicid', 'rate', 'title', 'country'));
         $select->limit(10);
         $result = $comments->fetchAll($select);
 
@@ -551,17 +552,19 @@ class ComicController extends Controller
           for($i=0; $i<count($result); $i++)
           {
             $nick = $result[$i]['nick'];
+            $title = $result[$i]['title'];
             $comment = $result[$i]['comment'];
             $comicid = $result[$i]['comicid'];
             $rate = $result[$i]['rate'];
+            $country = $result[$i]['country'];
 
-            $link = $this->view->url(array('controller' => 'comic', 'action' => 'index', 'id' => $comicid, 'name' => '', 'via' => 'feed'), '', true);
+            $link = $this->view->url(array('controller' => 'comic', 'action' => 'index', 'id' => $comicid, 'name' => $title, 'via' => 'feed'), '', true);
 
             $entries[] = array(
-              'title' => "$comicid: $nick",
-              'link' => 'http://' . $_SERVER['HTTP_HOST'] . $link . '#comments',
+              'title' => "$title: [$country] $nick",
+              'link' => 'http://' . $this->getRequest()->getServer('HTTP_HOST') . $link . '#comments',
               'description' => $comment,
-              'content' => sprintf("%s %s (%s): %s", $comicid, $nick, $rate, $comment)
+              'content' => sprintf("%s [%s] %s (%s): %s", $title, $country, $nick, $rate, $comment)
             );
           } // /for
 
@@ -570,7 +573,7 @@ class ComicController extends Controller
       break;
 
       case 'last-comic-comments':
-        $comments = new Comments();
+        $comments = new VIEW_Comments();
         $comics = new Comics();
 
         // Get latest comic ID
@@ -587,9 +590,8 @@ class ComicController extends Controller
           unset($select);
 
           $select = $comments->select();
-          $select->from($comments, array('nick', 'comment', 'added', 'rate'));
+          $select->from($comments, array('nick', 'comment', 'uadded', 'comicid', 'rate', 'title', 'country'));
           $select->where('comicid = ?', $cinfo['id']);
-          $select->order(array('id DESC'));
           $select->limit(10);
           $result = $comments->fetchAll($select);
 
@@ -601,16 +603,19 @@ class ComicController extends Controller
             for($i=0; $i<count($result); $i++)
             {
               $nick = $result[$i]['nick'];
+              $title = $result[$i]['title'];
               $comment = $result[$i]['comment'];
+              $comicid = $result[$i]['comicid'];
               $rate = $result[$i]['rate'];
+              $country = $result[$i]['country'];
 
               $link = $this->view->url(array('controller' => 'comic', 'action' => 'index', 'id' => $cinfo['id'], 'name' => $cinfo['name'], 'via' => 'feed'), '', true);
 
               $entries[] = array(
-                'title' => $cinfo['name'],
-                'link' => 'http://' . $_SERVER['HTTP_HOST'] . $link . '#comments',
-                'description' => "$nick: $comment",
-                'content' => sprintf("%s (%s): %s", $nick, $rate, $comment)
+                'title' => "$title: [$country] $nick",
+                'link' => 'http://' . $this->getRequest()->getServer('HTTP_HOST') . $link . '#comments',
+                'description' => $comment,
+                'content' => sprintf("%s [%s] %s (%s): %s", $title, $country, $nick, $rate, $comment)
               );
             } // /for
 
@@ -623,8 +628,8 @@ class ComicController extends Controller
 
     $feed = array(
       'charset' => 'UTF-8',
-      'title' => 'My Comic',
-      'link' => 'http://' . $_SERVER['HTTP_HOST'],
+      'title' => $config->name,
+      'link' => 'http://' . $this->getRequest()->getServer('HTTP_HOST'),
       'entries' => $entries
     );
 
