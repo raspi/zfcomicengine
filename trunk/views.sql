@@ -56,6 +56,7 @@ SELECT
   c.md5sum,
   c.idea,
   UNIX_TIMESTAMP(c.published) AS upublished,
+  c.published,
   c.filename,
   c.imgwidth,
   c.imgheight,

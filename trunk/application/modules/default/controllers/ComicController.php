@@ -426,70 +426,98 @@ class ComicController extends Controller
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
     $this->view->dateformat = $config->dateformat;
 
-    $comics = new Comics();
+    $comics = new VIEW_Comics();
 
-    $year = $this->getRequest()->getParam('year', 'all');
-    
-    $by = $this->getRequest()->getParam('by', 'id');
-    $by = strtolower($by);
-
-    switch($by)
-    {
-      default:
-      case 'id':
-        $by = 'id';
-      break;
-      
-      case 'name':
-        $by = 'name';
-      break;
-
-      case 'idea':
-        $by = 'idea';
-      break;
-
-      case 'published':
-        $by = 'published';
-      break;
-    } // /switch
-
-    $ord = $this->getRequest()->getParam('order', 'desc');
-    $ord = $ord == 'asc' ? 'ASC' : 'DESC';
-    $this->view->order = $ord;
-
+    // Year list
     $select = $comics->select();
-    $select->from($comics, array('id', 'name', 'published', 'idea'));
-    $select->order(array("$by $ord", 'id DESC'));
-
-    if (is_int($year))
-    {
-      $select->where('YEAR(published) = ?', $year);
-    }
-
+    $select->from($comics, array('years' => 'YEAR(published)'));
+    $select->order(array('years DESC'));
+    $select->group(array('years'));
     $result = $comics->fetchAll($select);
 
-    $this->view->clist = array();
     if(!is_null($result))
     {
-      $this->view->clist = $result->toArray();
+      $result = $result->toArray();
+      unset($select);
 
-      // Year list
-      $select = $comics->select();
-      $select->from($comics, array('years' => 'YEAR(published)'));
-      $select->order(array('years DESC'));
-      $select->group(array('years'));
-      $result = $comics->fetchAll($select)->toArray();
-      
       $ylist = array();
       $ylist[] = 'all';
+      $maxYear = 0;
       for($i=0; $i<count($result); $i++)
       {
-        $ylist[] = $result[$i]['years'];
-      }
-      
+        $y = (int)$result[$i]['years'];
+        $maxYear = max($maxYear, $y);
+        $ylist[] = $y;
+      } // /for
+
       $this->view->years = $ylist;
 
-    } // /if
+
+      $by = $this->getRequest()->getParam('by', 'id');
+      $by = strtolower($by);
+
+      switch($by)
+      {
+        default:
+          $by = 'id';
+        break;
+
+        case 'id':
+        case 'published':
+        case 'idea':
+        case 'name':
+        case 'author':
+        break;
+
+        case 'rating':
+          $by = 'avgrate';
+        break;
+      } // /switch
+
+      $ord = $this->getRequest()->getParam('order', 'desc');
+      $ord = $ord == 'asc' ? 'ASC' : 'DESC';
+      $this->view->order = $ord;
+
+      $year = $this->getRequest()->getParam('year', $maxYear);
+
+      $author = $this->getRequest()->getParam('author', null);
+      $idea = $this->getRequest()->getParam('idea', null);
+
+      // Get archive list
+      $select = $comics->select();
+      $select->from($comics, array('id', 'aid', 'name', 'upublished', 'idea', 'author', 'avgrate'));
+      $select->order(array("$by $ord", 'id DESC'));
+
+      if (is_int($year))
+      {
+        $select->where('YEAR(published) = ?', $year);
+      }
+
+      if (is_int($author))
+      {
+        $select->where('aid = ?', $author);
+      }
+      
+      if(!empty($idea))
+      {
+        $select->where('idea = ?', $idea);
+      }
+
+      $result = $comics->fetchAll($select);
+
+      if(!is_null($result))
+      {
+        $this->view->clist = $result->toArray();
+      }
+      else
+      {
+        $this->view->clist = array();
+      }
+    }
+    else
+    {
+      $this->view->clist = array();
+    }
 
   } // /function
 
