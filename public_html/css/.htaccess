@@ -9,4 +9,4 @@
 
 RewriteEngine Off
 FileETag All
-Options -All
+IndexIgnore *
