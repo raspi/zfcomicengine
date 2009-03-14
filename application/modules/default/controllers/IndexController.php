@@ -14,9 +14,33 @@ class IndexController extends Controller
 
     $pages = new Pages();
     $this->view->introtext = $pages->getPageContents('frontpage');
+    
+    
+    $per_page = 5;
 
     $select = $posts->select();
+    $select->from($posts, array('c' => 'COUNT(id)'));
+    $result = $posts->fetchRow($select)->toArray();
+    $posts_count = (int)$result['c'];
+    
+    try
+    {
+      $pages_count = 1 + ceil($posts_count / $per_page);
+    }
+    catch(Exception $e)
+    {
+      $pages_count = 1;
+    }
+
+    $this->view->page_count = $pages_count;
+
+    $page_number = (int)$this->getRequest()->getParam('page', $pages_count);
+    $this->view->page_number = $page_number;
+    
+    $select = $posts->select();
     $select->from($posts, array('id', 'name', 'subject', 'content', 'uadded'));
+    $select->order(array('uadded DESC', 'id DESC'));
+    $select->limitPage($pages_count - $page_number, $per_page);
     $result = $posts->fetchAll($select);
 
     $this->view->posts = array();
@@ -25,6 +49,7 @@ class IndexController extends Controller
     {
       $this->view->posts = $result->toArray();
     }
+
 
     $view_comics = new VIEW_Comics();
     
