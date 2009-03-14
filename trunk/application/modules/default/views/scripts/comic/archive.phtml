@@ -8,7 +8,7 @@ $l = $this->clist;
 <div id="archive-year-list">
 <ul>
 <?php
-if(is_array($l) && !empty($l))
+if(is_array($this->years) && count($this->years) > 0)
 {
   foreach($this->years as $year)
   {
@@ -22,7 +22,10 @@ if(is_array($l) && !empty($l))
     {
       $txt = $year;
     }
-    echo '<li><a href="' . $link . '" rel="nofollow">' . $txt . '</a></li>';
+    
+    $class = $this->selected_year == $year ? 'selected' : '';
+    
+    echo '<li class="' . $class . '"><a href="' . $link . '" rel="nofollow">' . $txt . '</a></li>';
   } // /foreach
 } // /if
 ?>
@@ -115,7 +118,8 @@ if(is_array($l) && !empty($l))
   }
 
   echo "</table>\n";
-
+  
+  echo sprintf($tr->_("%s comics found"), count($l));
 }
 else
 {
