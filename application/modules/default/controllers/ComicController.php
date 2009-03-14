@@ -481,6 +481,7 @@ class ComicController extends Controller
       $this->view->order = $ord;
 
       $year = $this->getRequest()->getParam('year', $maxYear);
+      $this->view->selected_year = $year;
 
       $author = $this->getRequest()->getParam('author', null);
       $idea = $this->getRequest()->getParam('idea', null);
