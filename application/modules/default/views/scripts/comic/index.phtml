@@ -10,7 +10,7 @@ $prev = $this->previous;
 $selected = $this->selected;
 
 // Link to this page
-$this_link = 'http://' . $_SERVER['HTTP_HOST'] . $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $selected, 'name' => $this->escape($this->fname)), '', true);
+$this_link = 'http://' . $_SERVER['HTTP_HOST'] . $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $selected, 'name' => $this->escape($this->info['name'])), '', true);
 
 // Next, previous first and last comic links
 $first_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $first, 'name' => $this->escape($this->fname)), '', false);
