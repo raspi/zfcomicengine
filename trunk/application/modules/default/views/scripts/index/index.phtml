@@ -60,6 +60,7 @@ if(is_array($posts) && !empty($posts))
 
     echo '<div class="entry-author">';
     echo "$author " . $d->toString($this->dateformat);
+    echo " (" . $this->relativetime($posts[$i]['uadded']) . ")";
     echo '</div>';
 
     echo "</div>\n";
