@@ -325,10 +325,15 @@ class Admin_ComicController extends Controller
       $select->group(array('id DESC'))
       $cinfo = $comics->fetchAll($select)->toArray();
 */
+      $per_page = 100;
+
+      $page_number = (int)$this->getRequest()->getParam('page', 0);
+      $this->view->page_number = $page_number;
 
       $select = $comments->select();
       $select->from($comments, array('id', 'nick', 'comment', 'added', 'rate', 'isstaff', 'comicid'));
       $select->order(array('id DESC'));
+      $select->limitPage(1+$page_number, $per_page);
       $this->view->comments = $comments->fetchAll($select)->toArray();
 
     } // /if
