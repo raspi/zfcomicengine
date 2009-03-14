@@ -42,6 +42,8 @@ require_once 'mbtrim.php';
 require_once 'zftc.php';
 
 // Caching
+$cache_config = new Zend_Config_Ini(dirname(__FILE__) . '/../config.ini', 'cache');
+
 $frontendOptions = array(
   'caching' => true,
   'lifetime' => null,
@@ -49,7 +51,8 @@ $frontendOptions = array(
 );
 
 $backendOptions = array(
-  'cache_dir' => '/tmp/'
+  'cache_dir' => $cache_config->directory,
+  'cache_file_umask' => 0607
 );
 
 $cache = Zend_Cache::factory('Core', 'File', $frontendOptions, $backendOptions);

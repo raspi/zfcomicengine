@@ -73,3 +73,7 @@ language = en_US
 [contact]
 ; What is used to send emails for password reset etc
 sender = me@example.com
+
+[cache]
+;directory = /my/temp/dir/
+directory = /tmp/
