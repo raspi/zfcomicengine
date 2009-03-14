@@ -493,7 +493,7 @@ class ComicController extends Controller
         $select->where('YEAR(published) = ?', $year);
       }
 
-      if (is_int($author))
+      if (ctype_digit($author))
       {
         $select->where('aid = ?', $author);
       }
