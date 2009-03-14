@@ -456,3 +456,8 @@ input, textarea
 {
   overflow: hidden;
 }
+
+.staff-comment
+{
+  color: #f00;
+}
