@@ -484,7 +484,10 @@ class ComicController extends Controller
       $this->view->selected_year = $year;
 
       $author = $this->getRequest()->getParam('author', null);
+      $this->view->selected_author = $author;
+
       $idea = $this->getRequest()->getParam('idea', null);
+      $this->view->selected_idea = $idea;
 
       // Get archive list
       $select = $comics->select();

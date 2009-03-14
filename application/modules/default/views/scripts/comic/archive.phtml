@@ -5,6 +5,8 @@ $l = $this->clist;
 ?>
 
 <h2><?php echo $tr->_("Comic archive");?></h2>
+<div id="archive-filters">
+
 <div id="archive-year-list">
 <ul>
 <?php
@@ -30,6 +32,28 @@ if(is_array($this->years) && count($this->years) > 0)
 } // /if
 ?>
 </ul>
+</div>
+
+<?php
+if(!empty($this->selected_idea))
+{
+  echo '<div id="archive-idea-filter">';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'idea' => null), '', false);
+  echo '<a href="' . $link . '" rel="nofollow">' . sprintf($tr->_("Idea: %s (Remove filter)"), $this->selected_idea) . '</a>';
+  echo '</div>';
+}
+?>
+
+<?php
+if(!empty($this->selected_author))
+{
+  echo '<div id="archive-author-filter">';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'author' => null), '', false);
+  echo '<a href="' . $link . '" rel="nofollow">' . sprintf($tr->_("Author: %s (Remove filter)"), $this->selected_author) . '</a>';
+  echo '</div>';
+}
+?>
+
 </div>
 
 <br />
