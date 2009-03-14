@@ -488,7 +488,7 @@ class ComicController extends Controller
       $select->from($comics, array('id', 'aid', 'name', 'upublished', 'idea', 'author', 'avgrate'));
       $select->order(array("$by $ord", 'id DESC'));
 
-      if (is_int($year))
+      if (in_array($year, $ylist) && $year != 'all')
       {
         $select->where('YEAR(published) = ?', $year);
       }
