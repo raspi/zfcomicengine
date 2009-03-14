@@ -2,6 +2,32 @@
 $tr = Zend_Registry::get('Zend_Translate');
 
 $posts = $this->posts;
+
+$page_number = $this->page_number;
+$page_count = $this->page_count;
+
+$first = 1;
+$latest = $page_count;
+
+$next = $page_number +1;
+$prev = $page_number -1;
+
+// Next, previous first and last page links
+$first_link = $this->url(array('controller' => 'index', 'action' => 'index', 'page' => $first), '', false);
+$last_link = $this->url(array('controller' => 'index', 'action' => 'index', 'page' => $latest), '', false);
+$next_link = $this->url(array('controller' => 'index', 'action' => 'index', 'page' => $next), '', false);
+$prev_link = $this->url(array('controller' => 'index', 'action' => 'index', 'page' => $prev), '', false);
+
+$add_link_first = $page_number != $first ? true : false;
+$add_link_last = $page_number != $latest ? true : false;
+
+$nav = null;
+$nav .= '<li class="button button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-latest">';   if ($add_link_last)  {$nav .= '<a href="' . $last_link . '">';}  $nav .= $tr->_("Latest");   if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= "\n";
+
 ?>
 
 <h2><?php echo $tr->_("Front page");?></h2>
@@ -11,6 +37,7 @@ $posts = $this->posts;
 </div>
 
 <div id="posts" class="external-urls">
+<div class="navigation"><?php echo $nav;?></div>
 <?php
 if(is_array($posts) && !empty($posts))
 {
@@ -43,6 +70,7 @@ else
   echo $tr->_('No posts');
 }
 ?>
+<div class="navigation"><?php echo $nav;?></div>
 </div>
 
 <div id="statistics">
