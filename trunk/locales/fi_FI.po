@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: zfComicEngine 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-14 13:35+0200\n"
-"PO-Revision-Date: 2009-03-14 13:45+0200\n"
+"PO-Revision-Date: 2009-03-14 13:48+0200\n"
 "Last-Translator: Pekka Järvinen <pekka.jarvinen@gmail.com>\n"
 "Language-Team: zfComicEngine\n"
 "MIME-Version: 1.0\n"
@@ -548,7 +548,7 @@ msgstr "Etusivu"
 
 #: ..\application\modules\default\views\scripts\index\index.phtml:84
 msgid "Latest comic comments"
-msgstr "Uusimman sarjakuvan kommentit"
+msgstr "Uusimmat sarjakuvien kommentit"
 
 #: ..\application\modules\default\views\scripts\index\index.phtml:138
 msgid "Top ten comics"
