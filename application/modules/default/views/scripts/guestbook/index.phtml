@@ -53,12 +53,22 @@ if(is_array($l) && !empty($l))
     $d->setTimestamp($l[$i]['uadded']);
 
     echo sprintf('<div class="%s">', trim($class));
-    echo '<div class="asker"><img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" />' . " $name " . $d->toString($this->dateformat) . '</div>';
+
+    echo '<div class="asker">';
+
+    echo '<img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" />';
+    echo " $name ";
+    echo $d->toString($this->dateformat);
+    echo ' (' . $this->relativetime($l[$i]['uadded']) . ')';
+    echo '</div>';
+
     echo '<div class="question">' . $q . '</div>';
+
     if(!empty($a))
     {
       echo '<div class="answer">' . $a . '</div>';
     }
+
     echo "</div>\n";
 
     $even = !$even;
