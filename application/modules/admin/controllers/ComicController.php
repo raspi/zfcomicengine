@@ -11,12 +11,15 @@ class Admin_ComicController extends Controller
 
   public function indexAction()
   {
-    $comics = new Comics();
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+    $this->view->dateformat = $config->dateformat;
+
+    $comics = new VIEW_Comics();
     $comics->cache_result = false;
 
     $select = $comics->select();
-    $select->from($comics, array('id', 'name', 'added'));
-    $select->order(array('added DESC', 'id'));
+    $select->from($comics, array('id', 'name', 'upublished'));
+    $select->order(array('published DESC', 'id DESC'));
     $result = $comics->fetchAll($select);
 
     $this->view->comics = array();

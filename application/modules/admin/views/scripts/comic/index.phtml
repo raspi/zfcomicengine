@@ -22,6 +22,8 @@ if(is_array($l) && !empty($l))
   echo "</tr>\n";
 
   $even = true;
+  
+  $d = new Zend_Date();
 
   for($i=0; $i<count($l); $i++)
   {
@@ -41,13 +43,12 @@ if(is_array($l) && !empty($l))
     $edit_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'edit', 'id' => $id), '', true);
 
     $name = $this->escape($l[$i]['name']);
-    $added = $this->escape($l[$i]['added']);
-    $added = str_replace(' ', '&nbsp;', $added);
+    $d->setTimestamp($l[$i]['upublished']);
 
     echo sprintf('<tr class="%s">', trim($class));
     echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
     echo '<td align="left"><a href="' . $edit_link . '">' . $name . '</a></td>';
-    echo '<td align="left">' . $added . '</td>';
+    echo '<td align="left">' . str_replace(' ', '&nbsp;', $d->toString($this->dateformat)) . '</td>';
     echo "</tr>\n";
 
     $even = !$even;
