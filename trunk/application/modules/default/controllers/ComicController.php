@@ -258,6 +258,8 @@ class ComicController extends Controller
           if(!$this->_auth->hasIdentity())
           {
             $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+            
+            $htmlent = Zend_Filter_HtmlEntities(ENT_COMPAT, 'UTF-8');
 
             if (!empty($config->plugin->akismet->key))
             {
@@ -290,7 +292,7 @@ class ComicController extends Controller
 
           $insert = array(
             'nick' => $values['name'],
-            'comment' => $values['comment'],
+            'comment' => $htmlent->filter($values['comment']),
             'comicid' => $iComicID,
             'added' => new Zend_Db_Expr('NOW()'),
             'isstaff' => $this->_auth->hasIdentity() ? '1' : '0',

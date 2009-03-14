@@ -201,7 +201,8 @@ if (is_array($comments) && !empty($comments))
     $country = $comments[$i]['country'];
 
     $nick = $this->escape($comments[$i]['nick']);
-    $comment = $this->escape($comments[$i]['comment']);
+    $comment = $comments[$i]['comment'];
+
     $rate = $comments[$i]['rate'];
     if(empty($rate))
     {
