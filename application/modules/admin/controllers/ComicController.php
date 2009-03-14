@@ -205,16 +205,21 @@ class Admin_ComicController extends Controller
    */
   public function editAction()
   {
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+    $this->view->dateformat = $config->dateformat;
+
     $ID = $this->getRequest()->getParam('id', false);
     $this->view->id = $ID;
 
-    $comics = new Comics();
+    $comics = new VIEW_Comics();
     $comics->cache_result = false;
-
+    
     $select = $comics->select();
-    $select->from($comics, array('name', 'idea'));
+    $select->from($comics, array('author', 'aid', 'name', 'idea', 'upublished', 'dates' => 'DATE(published)', 'times' => 'TIME(published)'));
     $select->where('id = ?', $ID);
     $info = $comics->fetchRow($select)->toArray();
+    
+    $this->view->info = $info;
 
     $form = new comicForm();
     $form->setMethod(Zend_Form::METHOD_POST);
@@ -234,18 +239,39 @@ class Admin_ComicController extends Controller
     $idea->setLabel($this->tr->_('Idea'));
     $idea->addFilter('StringTrim');
 
+    $pday = new Zend_Dojo_Form_Element_DateTextBox('date');
+    $pday->setRequired(true);
+    $pday->setLabel($this->tr->_('Day published'));
+    $pday->addFilter('StringTrim');
+    $pday->setSelector('date');
+    $pday->setDatePattern('yyyy-MM-dd');
+
+    $ptime = new Zend_Dojo_Form_Element_TimeTextBox('time');
+    $ptime->setRequired(true);
+    $ptime->setLabel($this->tr->_('Time published'));
+    $ptime->addFilter('StringTrim');
+    $ptime->setSelector('time');
+    //$ptime->setTimePattern('HH:mm:ss');
 
     $form->addElement($name);
     $form->addElement($idea);
 
+    $form->addElement($pday);
+    $form->addElement($ptime);
+
     $form->addElement($submit);
     
-    $form->populate(
-      array(
-        'name' => $info['name'],
-        'idea' => $info['idea'],
-      )
-    );
+    if (!$this->getRequest()->isPost())
+    {
+      $form->populate(
+        array(
+          'name' => $info['name'],
+          'idea' => $info['idea'],
+          'date' => $info['dates'],
+          'time' => 'T' . $info['times']
+        )
+      );
+    }
 
     // POST
     if ($this->getRequest()->isPost())
@@ -254,12 +280,15 @@ class Admin_ComicController extends Controller
       if ($form->isValid($_POST))
       {
         $values = $form->getValues();
+        
+        $pub = new Zend_Date("{$values['date']} {$values['time']}");
       
         $update = array(
           'name' => $values['name'],
           'idea' => $values['idea'],
+          'published' => new Zend_Db_Expr("FROM_UNIXTIME(" . $pub->getTimestamp() . ")")
         );
-
+        
         $this->_db->beginTransaction();
 
         try
