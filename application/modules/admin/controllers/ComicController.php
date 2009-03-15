@@ -211,9 +211,26 @@ class Admin_ComicController extends Controller
     $ID = $this->getRequest()->getParam('id', false);
     $this->view->id = $ID;
 
+    $comics_raw = new Comics();
+    $comics_raw->cache_result = false;
+
     $comics = new VIEW_Comics();
     $comics->cache_result = false;
+
+    $authors = new Authors();
+    $authors->cache_result = false;
+
+    $select = $authors->select();
+    $select->from($authors, array('id', 'name'));
+    $select->order(array('name ASC'));
+    $result = $authors->fetchAll($select)->toArray();
     
+    $author_list = array();
+    for($i=0; $i<count($result); $i++)
+    {
+      $author_list[$result[$i]['id']] = $result[$i]['name'];
+    }
+
     $select = $comics->select();
     $select->from($comics, array('author', 'aid', 'name', 'idea', 'upublished', 'dates' => 'DATE(published)', 'times' => 'TIME(published)'));
     $select->where('id = ?', $ID);
@@ -251,13 +268,20 @@ class Admin_ComicController extends Controller
     $ptime->setLabel($this->tr->_('Time published'));
     $ptime->addFilter('StringTrim');
     $ptime->setSelector('time');
-    //$ptime->setTimePattern('HH:mm:ss');
+
+    $authorid = new Zend_Form_Element_Select('authorid');
+    $authorid->setRequired(true);
+    $authorid->setLabel($this->tr->_('Author'));
+    $authorid->addMultiOptions($author_list);
+
 
     $form->addElement($name);
     $form->addElement($idea);
 
     $form->addElement($pday);
     $form->addElement($ptime);
+
+    $form->addElement($authorid);
 
     $form->addElement($submit);
     
@@ -268,7 +292,8 @@ class Admin_ComicController extends Controller
           'name' => $info['name'],
           'idea' => $info['idea'],
           'date' => $info['dates'],
-          'time' => 'T' . $info['times']
+          'time' => 'T' . $info['times'],
+          'authorid' => $info['aid']
         )
       );
     }
@@ -286,14 +311,15 @@ class Admin_ComicController extends Controller
         $update = array(
           'name' => $values['name'],
           'idea' => $values['idea'],
-          'published' => new Zend_Db_Expr("FROM_UNIXTIME(" . $pub->getTimestamp() . ")")
+          'published' => new Zend_Db_Expr("FROM_UNIXTIME(" . $pub->getTimestamp() . ")"),
+          'authorid' => $values['authorid']
         );
         
         $this->_db->beginTransaction();
 
         try
         {
-          $comics->update($update, $comics->getAdapter()->quoteInto('id = ?', $ID));
+          $comics_raw->update($update, $comics_raw->getAdapter()->quoteInto('id = ?', $ID));
 
           $this->_db->commit();
 
