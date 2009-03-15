@@ -498,3 +498,8 @@ div .navigation
   border: 1px dashed #000;
   display: block;
 }
+
+#archive-year-list ul li.selected a
+{
+  color: #f00;
+}
