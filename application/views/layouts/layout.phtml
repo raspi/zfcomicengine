@@ -68,6 +68,21 @@ if ($this->dojo()->isEnabled())
 <!-- /Dojo -->
 
 <?php
+// Import custom CSS files from config.ini
+if(!empty($config->css))
+{
+  $customcss = explode(' ', $config->css);
+
+  $cssstr = '';
+
+  for ($i = 0; $i < count($customcss); $i++)
+  {
+    $cssstr .= '@import "' . $customcss[$i] . '";' . "\n";
+  }
+  
+  $this->headStyle()->appendStyle($cssstr);
+}
+
 echo $this->headStyle();
 ?>
 </head>
