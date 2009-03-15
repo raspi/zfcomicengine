@@ -39,6 +39,16 @@ class Admin_IndexController extends Controller
    */
   public function indexAction()
   {
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', array('site', 'language', 'contact', 'cache'));
+    $this->view->config = $config;
+
+  }
+
+  /**
+   * Admin front page
+   */
+  public function postsAction()
+  {
     $posts = new Posts();
     $posts->cache_result = false;
     
@@ -331,7 +341,7 @@ class Admin_IndexController extends Controller
 
           $this->_db->commit();
 
-          return $this->_helper->redirector->gotoUrl("/admin/index/");
+          return $this->_helper->redirector->gotoUrl("/admin/index/posts");
 
         }
         catch (Exception $e)
@@ -432,7 +442,7 @@ class Admin_IndexController extends Controller
 
           $this->_db->commit();
 
-          return $this->_helper->redirector->gotoUrl("/admin/index/");
+          return $this->_helper->redirector->gotoUrl("/admin/index/posts");
 
         }
         catch (Exception $e)
@@ -891,5 +901,14 @@ class Admin_IndexController extends Controller
 
 
   } // /function
+
+  /**
+   * Change password
+   */
+  public function changePasswordAction()
+  {
+    // @TODO
+  }
+
 
 } // /class

@@ -11,14 +11,15 @@ class navigation
 
     $m['admin'] = array
     (
-      array ('title' => $tr->_("Posts"),          'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'index')),
-      array ('title' => $tr->_("Comic"),          'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'index')),
-      array ('title' => $tr->_("Comic comments"), 'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments')),
-      array ('title' => $tr->_("Guestbook"),      'url' => array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'index')),
-      array ('title' => $tr->_("Pages"),          'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'pages')),
-      array ('title' => $tr->_("Authors"),        'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'authors')),
-      array ('title' => $tr->_("Bans"),           'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'bans')),
-      array ('title' => $tr->_("Logout"),         'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), 'id' => 'logout')
+      array ('title' => $tr->_("Admin front page"), 'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'index')),
+      array ('title' => $tr->_("Posts"),            'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'posts')),
+      array ('title' => $tr->_("Comic"),            'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'index')),
+      array ('title' => $tr->_("Comic comments"),   'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments')),
+      array ('title' => $tr->_("Guestbook"),        'url' => array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'index')),
+      array ('title' => $tr->_("Pages"),            'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'pages')),
+      array ('title' => $tr->_("Authors"),          'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'authors')),
+      array ('title' => $tr->_("Bans"),             'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'bans')),
+      array ('title' => $tr->_("Logout"),           'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), 'id' => 'logout')
     );
 
     $m['public'] = array
