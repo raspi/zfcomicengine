@@ -349,10 +349,31 @@ class Admin_ComicController extends Controller
   {
     $ID = $this->getRequest()->getParam('id', false);
     // @TODO
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . '/admin/comic/change-image/id/' . $id);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('change image'));
+
+    $form->addElement($submit);
+
+    // Form POSTed
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+      }
+    }
+
+    $this->view->form = $form;
+
   } // /function
   
   /**
-   * Comments
+   * Comments listing
    */
   public function commentsAction()
   {
@@ -386,7 +407,7 @@ class Admin_ComicController extends Controller
       $this->view->page_number = $page_number;
 
       $select = $comments->select();
-      $select->from($comments, array('id', 'nick', 'comment', 'added', 'rate', 'isstaff', 'comicid'));
+      $select->from($comments, array('id', 'nick', 'comment', 'added', 'rate', 'isstaff', 'comicid', 'ipaddr', 'host', 'useragent', 'country'));
       $select->order(array('id DESC'));
       $select->limitPage(1+$page_number, $per_page);
       $this->view->comments = $comments->fetchAll($select)->toArray();
@@ -395,6 +416,9 @@ class Admin_ComicController extends Controller
 
   } // /function
   
+  /**
+   * Edit comment
+   */
   public function editCommentAction()
   {
     $id = $this->getRequest()->getParam('id', false);
@@ -502,5 +526,57 @@ class Admin_ComicController extends Controller
     $this->view->form = $form;
 
   }
+
+  /**
+   * Remove comment
+   */
+  public function removeCommentAction()
+  {
+    $comments = new Comments();
+    $comments->cache_result = false;
+
+    $id = $this->getRequest()->getParam('id', false);
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . '/admin/comic/remove-comment/id/' . $id);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Remove comment'));
+
+    $form->addElement($submit);
+
+    // Form POSTed
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $comments->delete($comments->getAdapter()->quoteInto('id = ?', $id));
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/comic/comments/");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      } // /if
+    } // /if
+
+    $this->view->form = $form;
+
+  } // /function
+
+
 
 } // /class
