@@ -577,6 +577,58 @@ class Admin_ComicController extends Controller
 
   } // /function
 
+  public function commentStatsAction()
+  {
+    $comments = new Comments();
+    $comments->cache_result = false;
 
+    // Comment count by count
+    $select = $comments->select();
+    $select->from($comments, array('c' => 'COUNT(id)'));
+    $this->view->by_count = $comments->fetchRow($select)->toArray();
+
+    // Latest comment by date
+    $select = $comments->select();
+    $select->from($comments, array('m' => 'MAX(added)'));
+    $this->view->latest = $comments->fetchRow($select)->toArray();
+
+    // First comment by date
+    $select = $comments->select();
+    $select->from($comments, array('m' => 'MIN(added)'));
+    $this->view->first = $comments->fetchRow($select)->toArray();
+
+
+    // Comment count by year
+    $select = $comments->select();
+    $select->from($comments, array('y' => 'YEAR(added)', 'c' => 'COUNT(YEAR(added))'));
+    $select->group(array('YEAR(added)'));
+    $select->order(array('c DESC'));
+    $this->view->by_year = $comments->fetchAll($select)->toArray();
+
+    // Comment count by country
+    $select = $comments->select();
+    $select->from($comments, array('country', 'c' => 'COUNT(country)'));
+    $select->limit(25);
+    $select->group(array('country'));
+    $select->order(array('c DESC'));
+    $this->view->by_country = $comments->fetchAll($select)->toArray();
+
+    // Comment count by nick
+    $select = $comments->select();
+    $select->from($comments, array('nick', 'c' => 'COUNT(nick)'));
+    $select->limit(100);
+    $select->order(array('c DESC'));
+    $select->group(array('nick'));
+    $this->view->by_nick = $comments->fetchAll($select)->toArray();
+
+    // Comment count by user-agent
+    $select = $comments->select();
+    $select->from($comments, array('useragent', 'c' => 'COUNT(useragent)'));
+    $select->limit(100);
+    $select->order(array('c DESC'));
+    $select->group(array('useragent'));
+    $this->view->by_browser = $comments->fetchAll($select)->toArray();
+
+  } // /function
 
 } // /class

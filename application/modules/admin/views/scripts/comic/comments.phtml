@@ -22,8 +22,9 @@ $nav .= '<li class="button button-previous">'; if ($add_link_first) {$nav .= '<a
 $nav .= '<li class="button button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
 $nav .= '</ul>';
 $nav .= "\n";
-
 ?>
+
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comment-stats'), '', true); ?>"><?php echo $tr->_("Comments statistics");?></a>
 
 <h2><?php echo $tr->_("Edit comments");?></h2>
 <div class="navigation"><?php echo $nav;?></div>
