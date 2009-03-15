@@ -110,4 +110,54 @@ class Admin_GuestbookController extends Controller
 
   } // /function
 
+  /**
+   * Remove guestbook entry
+   */
+  public function removeAction()
+  {
+    $guestbook = new Guestbook();
+    $guestbook->cache_result = false;
+    
+    $id = $this->getRequest()->getParam('id', false);
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . '/admin/guestbook/remove/id/' . $id);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Remove entry'));
+
+    $form->addElement($submit);
+
+    // Form POSTed
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $guestbook->delete($guestbook->getAdapter()->quoteInto('id = ?', $id));
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/guestbook/index/");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      } // /if
+    } // /if
+
+    $this->view->form = $form;
+
+  } // /function
+
 } // /class
