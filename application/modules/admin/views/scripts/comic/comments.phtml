@@ -16,9 +16,11 @@ $add_link_first = $page_number != $first ? true : false;
 $add_link_last = true;
 
 $nav = null;
+$nav .= '<ul>';
 $nav .= '<li class="button button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
 $nav .= '<li class="button button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
 $nav .= '<li class="button button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '</ul>';
 $nav .= "\n";
 
 ?>
