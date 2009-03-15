@@ -1,63 +1,16 @@
 <?php
 $tr = Zend_Registry::get('Zend_Translate');
 ?>
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'change-password'), '', true); ?>"><?php echo $tr->_("Change password");?></a>
 
-<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'add'), '', true); ?>"><?php echo $tr->_("Add new post");?></a>
+<h2><?php echo $tr->_("Config.ini");?></h2>
+<?php echo sprintf($tr->_("Name: '%s'"), $this->config->name);?><br />
+<?php echo sprintf($tr->_("Slogan: '%s'"), $this->config->slogan);?><br />
+<?php echo sprintf($tr->_("Debug mode: '%s'"), $this->config->debug);?><br />
+<?php echo sprintf($tr->_("Language: '%s'"), $this->config->language);?><br />
+<?php echo sprintf($tr->_("E-mail sender address: '%s'"), $this->config->sender);?><br />
+<?php echo sprintf($tr->_("Cache directory: '%s'"), $this->config->directory);?><br />
+<?php echo sprintf($tr->_("Date format: '%s'"), $this->config->dateformat);?><br />
+<?php echo sprintf($tr->_("Akismet key: '%s'"), $this->config->plugin->akismet->key);?><br />
+<?php echo sprintf($tr->_("Google analytics key: '%s'"), $this->config->plugin->googleanalytics->key);?><br />
 
-<?php
-$l = $this->posts;
-
-if(is_array($l) && !empty($l))
-{
-  echo '<table width="100%">' . "\n";
-
-  echo '<col width="1" />' . "\n";
-  echo '<col width="100%" />' . "\n";
-  echo '<col width="1" />' . "\n";
-
-  echo '<tr>';
-  echo '<td align="center">' . $tr->_("Post ID") . '</td>';
-  echo '<td align="center">' . $tr->_("Subject") . '</td>';
-  echo '<td align="center">' . $tr->_("Published") . '</td>';
-  echo "</tr>\n";
-
-  $even = true;
-
-  for($i=0; $i<count($l); $i++)
-  {
-    $class = null;
-
-    if($even)
-    {
-      $class = 'even ';
-    }
-    else
-    {
-      $class = 'odd ';
-    }
-
-    $id = $l[$i]['id'];
-    
-    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'edit', 'id' => $id), '', true);
-    
-    $subject = $this->escape($l[$i]['subject']);
-    $added = $this->escape($l[$i]['added']);
-    $added = str_replace(' ', '&nbsp;', $added);
-
-    echo sprintf('<tr class="%s">', trim($class));
-    echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
-    echo '<td align="left"><a href="' . $edit_link . '">' . $subject . '</a></td>';
-    echo '<td align="left">' . $added . '</td>';
-    echo "</tr>\n";
-
-    $even = !$even;
-  }
-
-  echo "</table>\n";
-
-}
-else
-{
-  echo $tr->_("No posts");
-}
-?>
