@@ -18,6 +18,7 @@ if(is_array($l) && !empty($l))
   echo '<td align="center">' . $tr->_("Question") . '</td>';
   echo '<td align="center">' . $tr->_("Answer") . '</td>';
   echo '<td align="center">' . $tr->_("Added") . '</td>';
+  echo '<td align="center">' . $tr->_("Remove") . '</td>';
   echo "</tr>\n";
 
   $even = true;
@@ -38,6 +39,7 @@ if(is_array($l) && !empty($l))
     $id = $l[$i]['id'];
 
     $edit_link = $this->url(array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'answer', 'id' => $id), '', true);
+    $remove_link = $this->url(array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'remove', 'id' => $id), '', true);
 
     $added = strip_tags($l[$i]['added']);
 
@@ -49,6 +51,7 @@ if(is_array($l) && !empty($l))
     echo '<td align="left"><a href="' . $edit_link . '">' . $question . '</a></td>';
     echo '<td align="left"><a href="' . $edit_link . '">' . $answer . '</a></td>';
     echo '<td align="left"><a href="' . $edit_link . '">' . $added . '</a></td>';
+    echo '<td align="left"><a href="' . $remove_link . '">' . $tr->_("Remove") . '</a></td>';
     echo "</tr>\n";
 
     $even = !$even;
