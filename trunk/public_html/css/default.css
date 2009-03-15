@@ -461,3 +461,40 @@ input, textarea
 {
   color: #f00;
 }
+
+div .navigation
+{
+  margin: auto auto;
+  text-align: center;
+}
+
+.navigation ul
+{
+	clear: both;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: none;
+	white-space: nowrap;
+}
+
+.navigation ul li
+{
+	position: relative;
+	white-space: nowrap;
+	border: none;
+	padding: 0;
+	background-repeat: no-repeat;
+	display: inline;
+	padding-right: 1em;
+}
+
+#intro
+{
+  padding: 1em;
+  text-align: center;
+  background-color: #fff;
+  color: #66f;
+  border: 1px dashed #000;
+  display: block;
+}
