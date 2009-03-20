@@ -245,8 +245,6 @@ class Admin_IndexController extends Controller
 
           $this->_auth->getStorage()->write($authAdapter->getResultRowObject(null, 'password'));
 
-          $userid = $this->_auth->getIdentity()->id;
-
           return $this->_helper->redirector('index');
 
         }
@@ -916,8 +914,118 @@ class Admin_IndexController extends Controller
    */
   public function changePasswordAction()
   {
-    // @TODO
-  }
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', array('database', 'contact'));
+
+    $users = new Authors();
+    $users->cache_result = false;
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAction($this->_request->getBaseUrl() . '/admin/index/login');
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Log in'));
+
+    $npass = new Zend_Form_Element_Password('newpassword');
+    $npass->setRequired(true);
+    $npass->setLabel($this->tr->_('New password'));
+    $npass->addFilter('StringTrim');
+    $npass->addValidator('StringLength', false, array(6));
+
+    $npass2 = new Zend_Form_Element_Password('newpassword2');
+    $npass2->setRequired(true);
+    $npass2->setLabel($this->tr->_('New password again'));
+    $npass2->addFilter('StringTrim');
+    $npass2->addValidator('StringLength', false, array(6));
+
+    $opass = new Zend_Form_Element_Password('oldpassword');
+    $opass->setRequired(true);
+    $opass->setLabel($this->tr->_('Current password'));
+    $opass->addFilter('StringTrim');
+
+    $form->addElement($npass);
+    $form->addElement($npass2);
+    $form->addElement($opass);
+    $form->addElement($submit);
+
+
+    // POST
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+        
+        if ($values['newpassword'] === $values['newpassword2'])
+        {
+          $new_password = $values['newpassword'];
+        }
+        else
+        {
+          // Fixme
+          throw new Exception($this->tr->_("New password mismatch."));
+        }
+        
+        if ($new_password === $values['oldpassword'])
+        {
+          // Fixme
+          throw new Exception($this->tr->_("Password can't be same as before."));
+        }
+
+        $select = $users->select();
+        $select->from($users, array('password'));
+        $select->where('id=?', $this->_auth->getIdentity()->id);
+        $result = $users->fetchRow($select);
+
+        if (!is_null($result))
+        {
+          $result = $result->toArray();
+          $result = $result['password']; // Salted + MD5 of current user password
+        }
+        else
+        {
+          throw new Exception($this->tr->_("User doesn't exist!"));
+        }
+
+
+        if (md5($config->salt . $values['oldpassword']) === $result)
+        {
+          $new_password = md5($config->salt . $new_password);
+          
+          $update = array(
+            'password' => $new_password
+          );
+        }
+        else
+        {
+          throw new Exception($this->tr->_("Wrong password entered."));
+        }
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $users->update($update, $users->getAdapter()->quoteInto('id = ?', $this->_auth->getIdentity()->id));
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/index");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      } // /Valid
+
+    } // /POST
+
+    $this->view->form = $form;
+
+  } // /function
 
 
 } // /class
