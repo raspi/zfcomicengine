@@ -924,7 +924,7 @@ class Admin_IndexController extends Controller
     $form->setAction($this->_request->getBaseUrl() . '/admin/index/login');
 
     $submit = new Zend_Form_Element_Submit('submit');
-    $submit->setLabel($this->tr->_('Log in'));
+    $submit->setLabel($this->tr->_('Change password'));
 
     $npass = new Zend_Form_Element_Password('newpassword');
     $npass->setRequired(true);
