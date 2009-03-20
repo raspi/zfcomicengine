@@ -41,11 +41,20 @@ class Admin_IndexController extends Controller
   {
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', array('site', 'language', 'contact', 'cache'));
     $this->view->config = $config;
+    
+    
+    $this->view->akismet_valid = false;
+    if(!empty($config->plugin->akismet->key))
+    {
+      $akismet = new Zend_Service_Akismet($config->plugin->akismet->key, $this->getRequest()->getScheme() . '://' . $this->getRequest()->getHttpHost());
+      $this->view->akismet_valid = $akismet->verifyKey($config->plugin->akismet->key);
+    }
+
 
   }
 
   /**
-   * Admin front page
+   * Posts
    */
   public function postsAction()
   {

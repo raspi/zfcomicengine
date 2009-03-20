@@ -11,6 +11,25 @@ $tr = Zend_Registry::get('Zend_Translate');
 <?php echo sprintf($tr->_("E-mail sender address: '%s'"), $this->config->sender);?><br />
 <?php echo sprintf($tr->_("Cache directory: '%s'"), $this->config->directory);?><br />
 <?php echo sprintf($tr->_("Date format: '%s'"), $this->config->dateformat);?><br />
-<?php echo sprintf($tr->_("Akismet key: '%s'"), $this->config->plugin->akismet->key);?><br />
+
+<?php
+// Akismet API Key
+echo sprintf($tr->_("Akismet key: '%s'"), $this->config->plugin->akismet->key);
+
+if (!empty($this->config->plugin->akismet->key))
+{
+  echo ' (';
+  if ($this->akismet_valid)
+  {
+    echo $tr->_("Valid");
+  }
+  else
+  {
+    echo $tr->_("Invalid");
+  }
+  echo ')';
+}
+?>
+<br />
 <?php echo sprintf($tr->_("Google analytics key: '%s'"), $this->config->plugin->googleanalytics->key);?><br />
 
