@@ -18,7 +18,7 @@ $last_link = $this->url(array('id' => $latest, 'name' => $this->escape($this->ln
 $next_link = $this->url(array('id' => $next, 'name' => $this->escape($this->nextname)), 'comic', false);
 $prev_link = $this->url(array('id' => $prev, 'name' => $this->escape($this->prevname)), 'comic', false);
 
-$random_link = $this->url(array('controller' => 'comic', 'action' => 'random'), '', true);
+$random_link = $this->url(array('controller' => 'comic', 'action' => 'random'), 'public', true);
 
 $comic_image = $this->url(array('id' => $this->info['md5sum'], 'name' => $this->escape($this->info['name'])), 'comicimage', true);
 
