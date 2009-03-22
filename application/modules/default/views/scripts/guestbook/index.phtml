@@ -1,26 +1,8 @@
 <?php
 $tr = Zend_Registry::get('Zend_Translate');
-
-// Custom CSS
-$css = <<<CSS
-  #fieldset-mail
-  {
-    display: none;
-    visibility: hidden;
-  }
-
-  .zend_form
-  {
-    margin-top: -2em;
-  }
-CSS;
-$this->headStyle()->appendStyle($css);
 ?>
-<h2><?php echo $tr->_("Add new guestbook entry");?></h2>
-<div id="guestbook-form">
-  <?php echo $this->gbform;?>
-</div>
-
+<a rel="nofollow" href="<?php echo $this->url(array('controller' => 'guestbook', 'action' => 'add'), '', true); ?>"><?php echo $tr->_("Add new guestbook entry");?></a>
+<br />
 <h2><?php echo $tr->_("Guestbook");?></h2>
 <div id="guestbook" class="external-urls">
 <?php
@@ -59,7 +41,7 @@ if(is_array($l) && !empty($l))
     echo '<img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" />';
     echo " $name ";
     echo $d->toString($this->dateformat);
-    echo ' (' . $this->relativetime($l[$i]['uadded']) . ')';
+    echo ' (' . sprintf($tr->_("%s ago"), $this->relativetime($l[$i]['uadded'])) . ')';
     echo '</div>';
 
     echo '<div class="question">' . $q . '</div>';
