@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zfComicEngine 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-14 13:35+0200\n"
-"PO-Revision-Date: 2009-03-14 13:48+0200\n"
+"POT-Creation-Date: 2009-03-22 16:15+0200\n"
+"PO-Revision-Date: 2009-03-22 16:19+0200\n"
 "Last-Translator: Pekka Järvinen <pekka.jarvinen@gmail.com>\n"
 "Language-Team: zfComicEngine\n"
 "MIME-Version: 1.0\n"
@@ -18,11 +18,11 @@ msgstr ""
 "X-Poedit-Country: FINLAND\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ..\application\bootstrap.php:88
+#: ..\application\bootstrap.php:90
 msgid "Database salt is not configured!"
 msgstr "Tietokannan suola ei ole konfiguroitu"
 
-#: ..\application\bootstrap.php:129
+#: ..\application\bootstrap.php:131
 msgid "Too old MySQL server. Please update."
 msgstr "Liian vanha MySQL-palvelin. Ole hyvä ja päivitä."
 
@@ -31,20 +31,20 @@ msgid "Add comic"
 msgstr "Lisää sarjakuva"
 
 #: ..\application\modules\admin\controllers\ComicController.php:51
-#: ..\application\modules\admin\controllers\ComicController.php:233
-#: ..\application\modules\admin\controllers\IndexController.php:741
-#: ..\application\modules\admin\controllers\IndexController.php:832
+#: ..\application\modules\admin\controllers\ComicController.php:250
+#: ..\application\modules\admin\controllers\IndexController.php:758
+#: ..\application\modules\admin\controllers\IndexController.php:849
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:20
 #: ..\application\modules\admin\views\scripts\index\authors.phtml:20
 #: ..\application\modules\default\controllers\GuestbookController.php:39
 #: ..\application\modules\default\controllers\IndexController.php:206
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:54
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:81
 msgid "Name"
 msgstr "Nimi"
 
 #: ..\application\modules\admin\controllers\ComicController.php:57
-#: ..\application\modules\admin\controllers\ComicController.php:239
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:60
+#: ..\application\modules\admin\controllers\ComicController.php:256
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:87
 msgid "Idea"
 msgstr "Idea"
 
@@ -52,33 +52,42 @@ msgstr "Idea"
 msgid "Upload file:"
 msgstr "Lähetä tiedosto:"
 
-#: ..\application\modules\admin\controllers\ComicController.php:229
+#: ..\application\modules\admin\controllers\ComicController.php:246
 #: ..\application\modules\admin\views\scripts\comic\edit.phtml:8
 msgid "Edit comic"
 msgstr "Muokkaa sarjakuvaa"
 
-#: ..\application\modules\admin\controllers\ComicController.php:244
+#: ..\application\modules\admin\controllers\ComicController.php:261
 msgid "Day published"
 msgstr "Julkaisupäivä"
 
-#: ..\application\modules\admin\controllers\ComicController.php:251
+#: ..\application\modules\admin\controllers\ComicController.php:268
 msgid "Time published"
 msgstr "Julkaisuaika"
 
-#: ..\application\modules\admin\controllers\ComicController.php:390
+#: ..\application\modules\admin\controllers\ComicController.php:274
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:84
+msgid "Author"
+msgstr "Tekijä"
+
+#: ..\application\modules\admin\controllers\ComicController.php:358
+msgid "change image"
+msgstr "vaihda kuva"
+
+#: ..\application\modules\admin\controllers\ComicController.php:440
 #: ..\application\modules\admin\views\scripts\comic\edit-comment.phtml:5
 msgid "Edit comment"
 msgstr "Muokkaa kommenttia"
 
-#: ..\application\modules\admin\controllers\ComicController.php:394
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:45
+#: ..\application\modules\admin\controllers\ComicController.php:444
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:49
 #: ..\application\modules\default\controllers\ComicController.php:160
 #: ..\application\modules\default\views\scripts\comic\index.phtml:174
 msgid "Nick"
 msgstr "Lempinimi"
 
-#: ..\application\modules\admin\controllers\ComicController.php:401
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:46
+#: ..\application\modules\admin\controllers\ComicController.php:451
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:50
 #: ..\application\modules\default\controllers\ComicController.php:167
 #: ..\application\modules\default\controllers\GuestbookController.php:46
 #: ..\application\modules\default\controllers\IndexController.php:213
@@ -86,14 +95,19 @@ msgstr "Lempinimi"
 msgid "Comment"
 msgstr "Kommentti"
 
-#: ..\application\modules\admin\controllers\ComicController.php:415
+#: ..\application\modules\admin\controllers\ComicController.php:465
 #: ..\application\modules\default\controllers\ComicController.php:181
 msgid "Rate comic"
 msgstr "Arvostele"
 
-#: ..\application\modules\admin\controllers\ComicController.php:419
+#: ..\application\modules\admin\controllers\ComicController.php:469
 msgid "Is staff comment"
 msgstr "On hallinnoijan kommentti"
+
+#: ..\application\modules\admin\controllers\ComicController.php:545
+#: ..\application\modules\admin\views\scripts\comic\remove-comment.phtml:5
+msgid "Remove comment"
+msgstr "Poista kommentti"
 
 #: ..\application\modules\admin\controllers\GuestbookController.php:50
 #: ..\application\modules\admin\views\scripts\guestbook\answer.phtml:8
@@ -101,24 +115,28 @@ msgid "Answer to guestbook entry"
 msgstr "Vastaa vieraskirjan kysymykseen"
 
 #: ..\application\modules\admin\controllers\GuestbookController.php:54
-#: ..\application\modules\admin\controllers\IndexController.php:292
-#: ..\application\modules\admin\controllers\IndexController.php:386
-#: ..\application\modules\admin\controllers\IndexController.php:491
+#: ..\application\modules\admin\controllers\IndexController.php:309
+#: ..\application\modules\admin\controllers\IndexController.php:403
+#: ..\application\modules\admin\controllers\IndexController.php:508
 msgid "Content"
 msgstr "Sisältö"
 
-#: ..\application\modules\admin\controllers\IndexController.php:74
-#: ..\application\modules\admin\controllers\IndexController.php:115
+#: ..\application\modules\admin\controllers\GuestbookController.php:128
+msgid "Remove entry"
+msgstr "Poista merkintä"
+
+#: ..\application\modules\admin\controllers\IndexController.php:93
+#: ..\application\modules\admin\controllers\IndexController.php:134
 #: ..\application\modules\admin\views\scripts\index\reset-password.phtml:7
 msgid "Reset password"
 msgstr "Nollaa salasana"
 
-#: ..\application\modules\admin\controllers\IndexController.php:78
-#: ..\application\modules\admin\controllers\IndexController.php:156
+#: ..\application\modules\admin\controllers\IndexController.php:97
+#: ..\application\modules\admin\controllers\IndexController.php:175
 msgid "E-Mail"
 msgstr "Sähköposti"
 
-#: ..\application\modules\admin\controllers\IndexController.php:109
+#: ..\application\modules\admin\controllers\IndexController.php:128
 #, php-format
 msgid ""
 "Your password has been reseted.\n"
@@ -129,116 +147,211 @@ msgstr ""
 "Uusi salasana: %s\n"
 "\n"
 
-#: ..\application\modules\admin\controllers\IndexController.php:124
-#: ..\application\modules\admin\controllers\IndexController.php:237
+#: ..\application\modules\admin\controllers\IndexController.php:143
+#: ..\application\modules\admin\controllers\IndexController.php:254
 msgid "Check email address"
 msgstr "Tarkista sähköpostiosoite"
 
-#: ..\application\modules\admin\controllers\IndexController.php:152
+#: ..\application\modules\admin\controllers\IndexController.php:171
 msgid "Log in"
 msgstr "Kirjaudu"
 
-#: ..\application\modules\admin\controllers\IndexController.php:164
+#: ..\application\modules\admin\controllers\IndexController.php:183
 msgid "Password"
 msgstr "Salasana"
 
-#: ..\application\modules\admin\controllers\IndexController.php:241
+#: ..\application\modules\admin\controllers\IndexController.php:258
 msgid "Check password"
 msgstr "Tarkista salasana"
 
-#: ..\application\modules\admin\controllers\IndexController.php:282
+#: ..\application\modules\admin\controllers\IndexController.php:299
 msgid "Add post"
 msgstr "Lisää merkintä"
 
-#: ..\application\modules\admin\controllers\IndexController.php:286
-#: ..\application\modules\admin\controllers\IndexController.php:380
-#: ..\application\modules\admin\views\scripts\index\index.phtml:20
+#: ..\application\modules\admin\controllers\IndexController.php:303
+#: ..\application\modules\admin\controllers\IndexController.php:397
+#: ..\application\modules\admin\views\scripts\index\posts.phtml:20
 msgid "Subject"
 msgstr "Otsikko"
 
-#: ..\application\modules\admin\controllers\IndexController.php:376
-#: ..\application\modules\admin\controllers\IndexController.php:487
-#: ..\application\modules\admin\controllers\IndexController.php:828
+#: ..\application\modules\admin\controllers\IndexController.php:393
+#: ..\application\modules\admin\controllers\IndexController.php:504
+#: ..\application\modules\admin\controllers\IndexController.php:845
 msgid "Edit post"
 msgstr "Muokkaa merkintää"
 
-#: ..\application\modules\admin\controllers\IndexController.php:596
+#: ..\application\modules\admin\controllers\IndexController.php:613
 #: ..\application\modules\admin\views\scripts\index\add-ban.phtml:5
 msgid "Add new ban"
 msgstr "Lisää uusi banni"
 
-#: ..\application\modules\admin\controllers\IndexController.php:600
+#: ..\application\modules\admin\controllers\IndexController.php:617
 msgid "IP Address"
 msgstr "IP-osoite"
 
-#: ..\application\modules\admin\controllers\IndexController.php:606
+#: ..\application\modules\admin\controllers\IndexController.php:623
 msgid "CIDR"
 msgstr "CIDR-numero"
 
-#: ..\application\modules\admin\controllers\IndexController.php:612
+#: ..\application\modules\admin\controllers\IndexController.php:629
 msgid "Hostname"
 msgstr "Isäntänimi"
 
-#: ..\application\modules\admin\controllers\IndexController.php:737
+#: ..\application\modules\admin\controllers\IndexController.php:754
 #: ..\application\modules\admin\views\scripts\index\add-author.phtml:5
 #: ..\application\modules\admin\views\scripts\index\authors.phtml:5
 msgid "Add new author"
 msgstr "Lisää uusi tekijä"
 
-#: ..\application\modules\admin\controllers\IndexController.php:747
-#: ..\application\modules\admin\controllers\IndexController.php:838
+#: ..\application\modules\admin\controllers\IndexController.php:764
+#: ..\application\modules\admin\controllers\IndexController.php:855
 #: ..\application\modules\default\controllers\ComicController.php:152
 msgid "Email"
 msgstr "Sähköposti"
+
+#: ..\application\modules\admin\controllers\IndexController.php:927
+#: ..\application\modules\admin\views\scripts\index\change-password.phtml:5
+#: ..\application\modules\admin\views\scripts\index\index.phtml:4
+msgid "Change password"
+msgstr "Vaihda salasana"
+
+#: ..\application\modules\admin\controllers\IndexController.php:931
+msgid "New password"
+msgstr "Uusi salasana"
+
+#: ..\application\modules\admin\controllers\IndexController.php:937
+msgid "New password again"
+msgstr "Uusi salasana uudestaan"
+
+#: ..\application\modules\admin\controllers\IndexController.php:943
+msgid "Current password"
+msgstr "Nykyinen salasana"
+
+#: ..\application\modules\admin\controllers\IndexController.php:966
+msgid "New password mismatch."
+msgstr "Uusi salasana ei täsmää."
+
+#: ..\application\modules\admin\controllers\IndexController.php:972
+msgid "Password can't be same as before."
+msgstr "Salasana ei voi olla sama."
+
+#: ..\application\modules\admin\controllers\IndexController.php:987
+msgid "User doesn't exist!"
+msgstr "Käyttäjää ei löydy!"
+
+#: ..\application\modules\admin\controllers\IndexController.php:1001
+msgid "Wrong password entered."
+msgstr "Väärä salasana."
 
 #: ..\application\modules\admin\views\scripts\comic\add.phtml:5
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:5
 msgid "Add new comic"
 msgstr "Lisää uusi sarjakuva"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:19
+#: ..\application\modules\admin\views\scripts\comic\change-image.phtml:5
+msgid "Change image"
+msgstr "Vaihda kuva"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:5
+msgid "Comic comment statistics"
+msgstr "Sarjakuvan kommenttitilastot"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:6
+#, php-format
+msgid "Latest comment: %s"
+msgstr "Uusin kommentti: %s"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:7
+#, php-format
+msgid "First comment: %s"
+msgstr "Ensimmäinen kommentti: %s"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:9
+msgid "Number of comments by year"
+msgstr "Kommentteja per vuosi"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:15
+msgid "Comments by country"
+msgstr "Kommentteja per maa"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:21
+msgid "Number of comments by browser user-agent"
+msgstr "Kommentteja per selain"
+
+#: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:27
+msgid "Number of comments by nick"
+msgstr "Kommentteja per lempinimi"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:20
 #: ..\application\modules\default\views\scripts\comic\index.phtml:33
-#: ..\application\modules\default\views\scripts\index\index.phtml:25
+#: ..\application\modules\default\views\scripts\index\index.phtml:26
 msgid "First"
 msgstr "Ensimmäinen"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:20
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:21
 #: ..\application\modules\default\views\scripts\comic\index.phtml:34
-#: ..\application\modules\default\views\scripts\index\index.phtml:26
+#: ..\application\modules\default\views\scripts\index\index.phtml:27
 msgid "Previous"
 msgstr "Edellinen"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:21
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:22
 #: ..\application\modules\default\views\scripts\comic\index.phtml:35
-#: ..\application\modules\default\views\scripts\index\index.phtml:27
+#: ..\application\modules\default\views\scripts\index\index.phtml:28
 msgid "Next"
 msgstr "Seuraava"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:26
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:27
+msgid "Comments statistics"
+msgstr "Kommenttitilastot"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:29
 msgid "Edit comments"
 msgstr "Muokkaa kommentteja"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:43
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:47
 msgid "Comment ID"
 msgstr "Kommentti-ID"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:44
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:48
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:19
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:51
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:78
 msgid "Comic ID"
 msgstr "Sarjakuva-ID"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:47
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:51
 #: ..\application\modules\default\views\scripts\comic\index.phtml:176
 msgid "Rate"
 msgstr "Arvio"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:48
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:52
 #: ..\application\modules\admin\views\scripts\guestbook\index.phtml:20
 msgid "Added"
 msgstr "Lisätty"
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:96
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:53
+msgid "Info"
+msgstr "Tietoa"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:54
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:104
+#: ..\application\modules\admin\views\scripts\guestbook\index.phtml:21
+#: ..\application\modules\admin\views\scripts\guestbook\index.phtml:54
+msgid "Remove"
+msgstr "Poista"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:99
+msgid "IP"
+msgstr "IP-osoite"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:100
+msgid "Host"
+msgstr "Isäntänimi"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:101
+msgid "Browser"
+msgstr "Selain"
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:116
 #: ..\application\modules\default\views\scripts\comic\index.phtml:241
 msgid "No comments"
 msgstr "Ei kommentteja"
@@ -248,13 +361,13 @@ msgid "Change comic image"
 msgstr "Vaihda sarjakuvan kuva"
 
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:21
-#: ..\application\modules\admin\views\scripts\index\index.phtml:21
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:66
+#: ..\application\modules\admin\views\scripts\index\posts.phtml:21
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:93
 msgid "Published"
 msgstr "Julkaistu"
 
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:62
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:122
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:150
 msgid "No comics"
 msgstr "Ei sarjakuvia"
 
@@ -275,10 +388,14 @@ msgstr "Kysymys"
 msgid "Answer"
 msgstr "Vastaus"
 
-#: ..\application\modules\admin\views\scripts\guestbook\index.phtml:62
-#: ..\application\modules\default\views\scripts\guestbook\index.phtml:70
+#: ..\application\modules\admin\views\scripts\guestbook\index.phtml:65
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:80
 msgid "No guestbook entries"
 msgstr "Ei vieraskirjamerkintöjä"
+
+#: ..\application\modules\admin\views\scripts\guestbook\remove.phtml:5
+msgid "Remove guestbook entry"
+msgstr "Poista vieraskirjan merkintä"
 
 #: ..\application\modules\admin\views\scripts\index\add-ban.phtml:7
 msgid "CIDR info:"
@@ -309,7 +426,7 @@ msgid "/128 is one IP address"
 msgstr "/128 on yksi IP-osoite"
 
 #: ..\application\modules\admin\views\scripts\index\add.phtml:5
-#: ..\application\modules\admin\views\scripts\index\index.phtml:5
+#: ..\application\modules\admin\views\scripts\index\posts.phtml:5
 msgid "Add new post"
 msgstr "Lisää uusi merkintä"
 
@@ -325,8 +442,8 @@ msgid "Email address"
 msgstr "Sähköpostiosoite"
 
 #: ..\application\modules\admin\views\scripts\index\authors.phtml:60
-#: ..\application\modules\admin\views\scripts\index\index.phtml:61
-#: ..\application\modules\default\views\scripts\index\index.phtml:70
+#: ..\application\modules\admin\views\scripts\index\posts.phtml:61
+#: ..\application\modules\default\views\scripts\index\index.phtml:76
 msgid "No posts"
 msgstr "Ei merkintöjä"
 
@@ -366,9 +483,62 @@ msgstr "Muokkaa bannia"
 msgid "edit post"
 msgstr "Muokkaa merkintää"
 
-#: ..\application\modules\admin\views\scripts\index\index.phtml:19
-msgid "Post ID"
-msgstr "Merkintä-ID"
+#: ..\application\modules\admin\views\scripts\index\index.phtml:6
+msgid "Config.ini"
+msgstr "Config.ini-asetustiedosto"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:7
+#, php-format
+msgid "Name: '%s'"
+msgstr "Nimi: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:8
+#, php-format
+msgid "Slogan: '%s'"
+msgstr "Slogan: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:9
+#, php-format
+msgid "Debug mode: '%s'"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:10
+#, php-format
+msgid "Language: '%s'"
+msgstr "Kieli: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:11
+#, php-format
+msgid "E-mail sender address: '%s'"
+msgstr "Lähettäjän sähköpostiosoite: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:12
+#, php-format
+msgid "Cache directory: '%s'"
+msgstr "Välimuistihakemisto: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:13
+#, php-format
+msgid "Date format: '%s'"
+msgstr "Päivämäärän muoto: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:17
+#, php-format
+msgid "Akismet key: '%s'"
+msgstr "Akismet-avain: '%s'"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:24
+msgid "Valid"
+msgstr "Voimassa"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:28
+msgid "Invalid"
+msgstr "Ei voimassa"
+
+#: ..\application\modules\admin\views\scripts\index\index.phtml:34
+#, php-format
+msgid "Google analytics key: '%s'"
+msgstr "Google analytics -avain: '%s'"
 
 #: ..\application\modules\admin\views\scripts\index\login.phtml:4
 msgid "Forgot password?"
@@ -377,6 +547,10 @@ msgstr "Unohditko salasanan?"
 #: ..\application\modules\admin\views\scripts\index\login.phtml:6
 msgid "Login"
 msgstr "Kirjaudu"
+
+#: ..\application\modules\admin\views\scripts\index\posts.phtml:19
+msgid "Post ID"
+msgstr "Merkintä-ID"
 
 #: ..\application\modules\admin\views\scripts\index\reset-password.phtml:5
 msgid "Login page"
@@ -412,29 +586,40 @@ msgid "Note: Akismet plugin has flagged this message as spam"
 msgstr "Huom: Akismet-lisäosa on merkinnyt tämän viestin spammiksi"
 
 #: ..\application\modules\default\controllers\IndexController.php:284
-#: ..\classes\navigation.php:30
+#: ..\classes\navigation.php:31
 msgid "Feedback"
 msgstr "Palaute"
 
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:7
-#: ..\classes\navigation.php:28
+#: ..\classes\navigation.php:29
 msgid "Comic archive"
 msgstr "Sarjakuva-arkisto"
 
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:19
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:21
 msgid "All years"
 msgstr "Kaikki vuodet"
 
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:57
-msgid "Author"
-msgstr "Tekijä"
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:42
+#, php-format
+msgid "Idea: %s (Remove filter)"
+msgstr "Idea: %s (Poista)"
 
-#: ..\application\modules\default\views\scripts\comic\archive.phtml:63
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:52
+#, php-format
+msgid "Author: %s (Remove filter)"
+msgstr "Tekijä: %s (Poista)"
+
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:90
 msgid "Rating"
 msgstr "Arvio"
 
+#: ..\application\modules\default\views\scripts\comic\archive.phtml:146
+#, php-format
+msgid "%s comics found"
+msgstr "%s sarjakuvaa löytyi"
+
 #: ..\application\modules\default\views\scripts\comic\index.phtml:36
-#: ..\application\modules\default\views\scripts\index\index.phtml:28
+#: ..\application\modules\default\views\scripts\index\index.phtml:29
 msgid "Latest"
 msgstr "Uusin"
 
@@ -459,8 +644,8 @@ msgid "Previous comic"
 msgstr "Edellinen sarjakuva"
 
 #: ..\application\modules\default\views\scripts\comic\index.phtml:102
-#: ..\classes\navigation.php:15
-#: ..\classes\navigation.php:27
+#: ..\classes\navigation.php:16
+#: ..\classes\navigation.php:28
 msgid "Comic"
 msgstr "Sarjakuva"
 
@@ -528,12 +713,12 @@ msgid "Comic rating: %s"
 msgstr "Sarjakuvan laadun arvio: %s"
 
 #: ..\application\modules\default\views\scripts\guestbook\index.phtml:24
-#: ..\classes\navigation.php:17
+#: ..\classes\navigation.php:18
 msgid "Guestbook"
 msgstr "Vieraskirja"
 
 #: ..\application\modules\default\views\scripts\index\about.phtml:5
-#: ..\classes\navigation.php:29
+#: ..\classes\navigation.php:30
 msgid "About"
 msgstr "Tietoa"
 
@@ -541,81 +726,155 @@ msgstr "Tietoa"
 msgid "Send feedback"
 msgstr "Lähetä palautetta"
 
-#: ..\application\modules\default\views\scripts\index\index.phtml:33
-#: ..\classes\navigation.php:26
+#: ..\application\modules\default\views\scripts\index\index.phtml:35
+#: ..\classes\navigation.php:27
 msgid "Front page"
 msgstr "Etusivu"
 
-#: ..\application\modules\default\views\scripts\index\index.phtml:84
+#: ..\application\modules\default\views\scripts\index\index.phtml:90
 msgid "Latest comic comments"
 msgstr "Uusimmat sarjakuvien kommentit"
 
-#: ..\application\modules\default\views\scripts\index\index.phtml:138
+#: ..\application\modules\default\views\scripts\index\index.phtml:144
 msgid "Top ten comics"
 msgstr "Parhaat sarjakuvat"
 
-#: ..\application\modules\default\views\scripts\index\index.phtml:190
+#: ..\application\modules\default\views\scripts\index\index.phtml:196
 msgid "Worst ten comics"
 msgstr "Huonoimmat sarjakuvat"
 
 #: ..\application\modules\default\views\scripts\index\links.phtml:5
-#: ..\classes\navigation.php:32
+#: ..\classes\navigation.php:33
 msgid "Links"
 msgstr "Linkit"
 
+#: ..\application\views\helpers\Relativetime.php:31
+msgid "year"
+msgstr "vuosi"
+
+#: ..\application\views\helpers\Relativetime.php:31
+msgid "years"
+msgstr "vuotta"
+
+#: ..\application\views\helpers\Relativetime.php:32
+msgid "week"
+msgstr "viikko"
+
+#: ..\application\views\helpers\Relativetime.php:32
+msgid "weeks"
+msgstr "viikkoa"
+
+#: ..\application\views\helpers\Relativetime.php:33
+msgid "day"
+msgstr "päivä"
+
+#: ..\application\views\helpers\Relativetime.php:33
+msgid "days"
+msgstr "päivää"
+
+#: ..\application\views\helpers\Relativetime.php:34
+msgid "hour"
+msgstr "tunti"
+
+#: ..\application\views\helpers\Relativetime.php:34
+msgid "hours"
+msgstr "tuntia"
+
+#: ..\application\views\helpers\Relativetime.php:35
+msgid "minute"
+msgstr "minuutti"
+
+#: ..\application\views\helpers\Relativetime.php:35
+msgid "minutes"
+msgstr "minuuttia"
+
+#: ..\application\views\helpers\Relativetime.php:36
+msgid "second"
+msgstr "sekunti"
+
+#: ..\application\views\helpers\Relativetime.php:36
+msgid "seconds"
+msgstr "sekuntia"
+
 #: ..\application\views\layouts\layout.phtml:30
-#: ..\classes\navigation.php:14
-msgid "Posts"
-msgstr "Merkinnät"
+#, php-format
+msgid "%s - Posts feed"
+msgstr "%s - Merkinnät"
 
 #: ..\application\views\layouts\layout.phtml:31
-msgid "Comics"
-msgstr "Sarjakuvat"
+#, php-format
+msgid "%s - Comics feed"
+msgstr "%s - Sarjakuvat"
 
 #: ..\application\views\layouts\layout.phtml:32
-#: ..\classes\navigation.php:16
-msgid "Comic comments"
-msgstr "Sarjakuvan kommentit"
+#, php-format
+msgid "%s - Comic comments feed"
+msgstr "%s - Sarjakuvan kommentit"
 
 #: ..\application\views\layouts\layout.phtml:33
-msgid "Latest comic comments for latest comic"
-msgstr "Uusimman sarjakuvan uusimmat kommentit"
+#, php-format
+msgid "%s - Latest comic comments for latest comic feed"
+msgstr "%s - Uusimman sarjakuvan uusimmat kommentit"
 
-#: ..\application\views\layouts\layout.phtml:96
+#: ..\application\views\layouts\layout.phtml:34
+#, php-format
+msgid "%s - Guestbook entries feed"
+msgstr "%s - Vieraskirja"
+
+#: ..\application\views\layouts\layout.phtml:112
 #, php-format
 msgid "Executed %s SQL queries in %s seconds"
 msgstr "Suoritettiin %s SQL-kyselyä %s sekunnissa"
 
-#: ..\application\views\layouts\layout.phtml:100
+#: ..\application\views\layouts\layout.phtml:116
 #, php-format
 msgid "Rendered in %s seconds"
 msgstr "Sivu luotiin %s sekunnissa"
 
-#: ..\classes\navigation.php:18
+#: ..\application\views\layouts\layout.phtml:120
+#, php-format
+msgid "Powered by %sraspi's zfComicEngine%s version %s"
+msgstr "Moottorina %raspin zfComicEngines%s versio %s"
+
+#: ..\classes\navigation.php:14
+msgid "Admin front page"
+msgstr "Pääkäyttäjän etusivu"
+
+#: ..\classes\navigation.php:15
+msgid "Posts"
+msgstr "Merkinnät"
+
+#: ..\classes\navigation.php:17
+msgid "Comic comments"
+msgstr "Sarjakuvan kommentit"
+
+#: ..\classes\navigation.php:19
 msgid "Pages"
 msgstr "Sivut"
 
-#: ..\classes\navigation.php:19
+#: ..\classes\navigation.php:20
 msgid "Authors"
 msgstr "Tekijät"
 
-#: ..\classes\navigation.php:20
+#: ..\classes\navigation.php:21
 msgid "Bans"
 msgstr "Bannit"
 
-#: ..\classes\navigation.php:21
+#: ..\classes\navigation.php:22
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
-#: ..\classes\navigation.php:31
+#: ..\classes\navigation.php:32
 msgid "Guest book"
 msgstr "Vieraskirja"
 
-#: ..\classes\navigation.php:80
+#: ..\classes\navigation.php:81
 #, php-format
 msgid "Logged in as %s"
 msgstr "Kirjauduttu sisään nimellä %s"
 
+#~ msgid "Comics"
+#~ msgstr "Sarjakuvat"
 #~ msgid "Add question"
 #~ msgstr "Lisää kysymys"
 #~ msgid "Settings"
