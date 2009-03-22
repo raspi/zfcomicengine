@@ -175,7 +175,7 @@ if(is_array($l) && !empty($l))
     $link = $this->url(array('id' => $id, 'name' => $name), 'comic', true);
 
     echo sprintf('<tr class="%s">', trim($class));
-    echo '<td align="center">' . $rating . '</td>';
+    echo '<td align="center">' . round($rating, 2) . '</td>';
     echo '<td align="left"><a href="' . $link . '">' . $name . '</a></td>';
     echo "</tr>\n";
 
@@ -227,7 +227,7 @@ if(is_array($l) && !empty($l))
     $link = $this->url(array('id' => $id, 'name' => $name), 'comic', true);
 
     echo sprintf('<tr class="%s">', trim($class));
-    echo '<td align="center">' . $rating . '</td>';
+    echo '<td align="center">' . round($rating, 2) . '</td>';
     echo '<td align="left"><a href="' . $link . '">' . $name . '</a></td>';
     echo "</tr>\n";
 
