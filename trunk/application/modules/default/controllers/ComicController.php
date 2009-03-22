@@ -10,6 +10,20 @@ class ComicController extends Controller
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
     $this->view->dateformat = $config->dateformat;
 
+    if (isset($_COOKIE['zfce-settings']))
+    {
+      $cookie_settings = unserialize(base64_decode($_COOKIE['zfce-settings']));
+    }
+    else
+    {
+      $cookie_settings = array();
+    }
+    
+    if(!is_array($cookie_settings))
+    {
+      $cookie_settings = array();
+    }
+
     $comics = new Comics();
     $view_comics = new VIEW_Comics();
     $comments = new Comments();
@@ -135,7 +149,7 @@ class ComicController extends Controller
     $showcomments = $this->getRequest()->getParam('comments', 'show');
     $showcomments = $showcomments == 'hide' ? false : true;
     $this->view->showcomments = $showcomments;
-    
+
     $urlhelper = new Zend_Controller_Action_Helper_Url();
 
     // Comment form
@@ -163,6 +177,11 @@ class ComicController extends Controller
     $name->addFilter('StringTrim');
     $name->addValidator('NotEmpty', true);
     $name->addValidator('StringLength', false, array(3, 20));
+
+    if(isset($cookie_settings['name']))
+    {
+      $name->setValue($cookie_settings['name']);
+    }
 
     $comment = new Zend_Form_Element_Text('comment');
     $comment->setRequired(true);
@@ -314,6 +333,11 @@ class ComicController extends Controller
             $comments->insert($insert);
 
             $this->_db->commit();
+            
+            $cookie_settings['name'] = $values['name'];
+
+            // Memorize user's name
+            setcookie('zfce-settings', base64_encode(serialize($cookie_settings)), mktime(0, 0, 0, 1, 1, date('Y') + 30), '/');
 
             return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
           }
@@ -403,7 +427,7 @@ class ComicController extends Controller
     }
     else if($comic_view_session->ok === false)
     {
-      return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID");
+      return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => ''), 'comic', false);
     }
     else
     {
