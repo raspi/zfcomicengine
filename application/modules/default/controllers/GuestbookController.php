@@ -9,8 +9,30 @@ class GuestbookController extends Controller
     $guestbook = new Guestbook();
 
     $select = $guestbook->select();
+    $select->from($guestbook, array('c' => 'COUNT(*)'));
+    $result = $guestbook->fetchRow($select)->toArray();
+    $count = (int)$result['c'];
+    
+    $per_page = 50;
+
+    try
+    {
+      $pages_count = 1 + ceil($count / $per_page);
+    }
+    catch(Exception $e)
+    {
+      $pages_count = 1;
+    }
+
+    $this->view->page_count = $pages_count;
+
+    $page_number = (int)$this->getRequest()->getParam('page', $pages_count);
+    $this->view->page_number = $page_number;
+
+    $select = $guestbook->select();
     $select->from($guestbook, array('name', 'email', 'question', 'answer', 'uadded' => 'UNIX_TIMESTAMP(added)', 'country'));
     $select->order(array('id DESC'));
+    $select->limitPage($pages_count - $page_number, $per_page);
     $result = $guestbook->fetchAll($select);
     $this->view->entries = array();
     if(!is_null($result))
