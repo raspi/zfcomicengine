@@ -1,5 +1,7 @@
 <?php
 // Bootstrap
+define('VERSION', '1.0.0');
+
 error_reporting(E_ALL | E_STRICT);  
 ignore_user_abort(true);
 ini_set('display_startup_errors', 1);  
