@@ -160,6 +160,8 @@ class GuestbookController extends Controller
    */
   public function feedAction()
   {
+    $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
+
     // Disable main layout
     $this->_helper->layout->disableLayout();
 
@@ -171,18 +173,20 @@ class GuestbookController extends Controller
     $select->limit(10);
     $result = $guestbook->fetchAll($select);
 
-    $result = array();
-
     if(!is_null($result))
     {
       $result = $result->toArray();
+    }
+    else
+    {
+      $result = array();
     }
 
     $entries = array();
 
     if(!empty($result))
     {
-      for($i=0; $i<count($posts); $i++)
+      for($i=0; $i<count($result); $i++)
       {
         $id = $result[$i]['id'];
         $question = $result[$i]['question'];
@@ -200,7 +204,7 @@ class GuestbookController extends Controller
 
     $feed = array(
       'charset' => 'UTF-8',
-      'title' => 'My Comic',
+      'title' => $config->name,
       'link' => 'http://' . $_SERVER['HTTP_HOST'],
       'entries' => $entries
     );
