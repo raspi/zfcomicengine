@@ -76,7 +76,7 @@ class GuestbookController extends Controller
       for($i=0; $i<count($result); $i++)
       {
         $id = $result[$i]['id'];
-        $question = $result[$i]['question'];
+        $question = strip_tags($result[$i]['question']);
         $added = $result[$i]['added'];
         $link = $this->view->url(array('controller' => 'guestbook', 'action' => 'index', 'via' => 'feed'), '', true);
 
@@ -174,6 +174,9 @@ class GuestbookController extends Controller
           return $this->_helper->redirector->gotoRoute(array('controller' => 'guestbook', 'action' => 'index'), '', true);
         }
 
+        require_once 'commenthandler.php';
+        $values['comment'] = linkify($values['comment']);
+
         $useragent = $this->getRequest()->getHeader('User-Agent');
         $ip = $this->getRequest()->getServer('REMOTE_ADDR');
 
@@ -195,6 +198,7 @@ class GuestbookController extends Controller
 
         if (!empty($config->plugin->akismet->key))
         {
+
           $data = array(
             'user_ip'              => $ip,
             'user_agent'           => $useragent,
