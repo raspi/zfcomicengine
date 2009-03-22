@@ -154,5 +154,60 @@ class GuestbookController extends Controller
     $this->view->gbform = $form;
 
   } // /function
+  
+  /**
+   * RSS feed of latest guestbook entries
+   */
+  public function feedAction()
+  {
+    // Disable main layout
+    $this->_helper->layout->disableLayout();
+
+    $guestbook = new Guestbook();
+
+    $select = $guestbook->select();
+    $select->from($guestbook, array('id', 'question', 'added', 'country', 'name'));
+    $select->order(array('id DESC'));
+    $select->limit(10);
+    $result = $guestbook->fetchAll($select);
+
+    $result = array();
+
+    if(!is_null($result))
+    {
+      $result = $result->toArray();
+    }
+
+    $entries = array();
+
+    if(!empty($result))
+    {
+      for($i=0; $i<count($posts); $i++)
+      {
+        $id = $result[$i]['id'];
+        $question = $result[$i]['question'];
+        $added = $result[$i]['added'];
+        $link = $this->view->url(array('controller' => 'guestbook', 'action' => 'index', 'via' => 'feed'), '', true);
+
+        $entries[] = array(
+          'title' => $question,
+          'link' => $link,
+          'description' => strip_tags($question),
+          'content' => $question
+        );
+      } // /for
+    } // /if
+
+    $feed = array(
+      'charset' => 'UTF-8',
+      'title' => 'My Comic',
+      'link' => 'http://' . $_SERVER['HTTP_HOST'],
+      'entries' => $entries
+    );
+
+    $feeddata = Zend_Feed::importArray($feed, 'rss');
+    $feeddata->send();
+
+  } // /function
 
 } // /class
