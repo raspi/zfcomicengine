@@ -633,5 +633,34 @@ class Admin_ComicController extends Controller
     $this->view->by_browser = $comments->fetchAll($select)->toArray();
 
   } // /function
+  
+  public function dnsResolveAction()
+  {
+    $comments = new Comments();
+    $comments->cache_result = false;
+
+    $select = $comments->select();
+    $select->from($comments, array('ipaddr'));
+    $select->group(array('ipaddr'));
+    $select->order(array('ipaddr ASC'));
+    $select->where("(host = '') OR (host IS NULL)");
+    $result = $comments->fetchAll($select);
+
+    if (!is_null($result))
+    {
+      $result = $result->toArray();
+      
+      for ($i=0; $i<count($result); $i++)
+      {
+        $row = $result[$i];
+        $host = gethostbyaddr($row['ipaddr']);
+        $comments->update(array('host' => $host), $comments->getAdapter()->quoteInto('ipaddr = ?', $row['ipaddr']));
+
+        usleep(10000);
+      } // /for
+    }
+
+    return $this->_helper->redirector->gotoRoute(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments'), '', true);
+  } // /function
 
 } // /class
