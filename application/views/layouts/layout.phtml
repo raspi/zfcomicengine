@@ -27,11 +27,11 @@ zfComicEngine (c) Pekka Järvinen 2009
 $this->headLink(array('rel' => 'icon', 'type' => 'image/png', 'href' => '/images/favicon.png'));
 
 // RSS links
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Posts feed"), $config->name), 'href' => $this->url(array('controller' => 'index', 'action' => 'feed'), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comics feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comic' ), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comic comments feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comments' ), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Latest comic comments for latest comic feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Guestbook entries feed"), $config->name), 'href' => $this->url(array('controller' => 'guestbook', 'action' => 'feed'), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Posts feed"), $config->name), 'href' => $this->url(array('controller' => 'index', 'action' => 'feed'), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comics feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comic' ), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comic comments feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comments' ), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Latest comic comments for latest comic feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Guestbook entries feed"), $config->name), 'href' => $this->url(array('controller' => 'guestbook', 'action' => 'feed'), 'public', true)));
 
 // CSS
 $this->headLink()->appendStylesheet('/css/default.css');
