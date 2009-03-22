@@ -24,6 +24,7 @@ $nav .= '</ul>';
 $nav .= "\n";
 ?>
 
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'dns-resolve'), '', true); ?>"><?php echo $tr->_("Resolve non-resolved IP addresses to hostnames");?></a>
 <a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comment-stats'), '', true); ?>"><?php echo $tr->_("Comments statistics");?></a>
 
 <h2><?php echo $tr->_("Edit comments");?></h2>
