@@ -10,17 +10,17 @@ $prev = $this->previous;
 $selected = $this->selected;
 
 // Link to this page
-$this_link = 'http://' . $_SERVER['HTTP_HOST'] . $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $selected, 'name' => $this->escape($this->info['name'])), '', true);
+$this_link = 'http://' . $_SERVER['HTTP_HOST'] . $this->url(array('id' => $selected, 'name' => $this->escape($this->info['name'])), 'comic', true);
 
 // Next, previous first and last comic links
-$first_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $first, 'name' => $this->escape($this->fname)), '', false);
-$last_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $latest, 'name' => $this->escape($this->lname)), '', false);
-$next_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $next, 'name' => $this->escape($this->nextname)), '', false);
-$prev_link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $prev, 'name' => $this->escape($this->prevname)), '', false);
+$first_link = $this->url(array('id' => $first, 'name' => $this->escape($this->fname)), 'comic', false);
+$last_link = $this->url(array('id' => $latest, 'name' => $this->escape($this->lname)), 'comic', false);
+$next_link = $this->url(array('id' => $next, 'name' => $this->escape($this->nextname)), 'comic', false);
+$prev_link = $this->url(array('id' => $prev, 'name' => $this->escape($this->prevname)), 'comic', false);
 
 $random_link = $this->url(array('controller' => 'comic', 'action' => 'random'), '', true);
 
-$comic_image = $this->url(array('controller' => 'comic', 'action' => 'display-comic', 'id' => $this->info['md5sum'], 'name' => $this->escape($this->info['name'])), '', true);
+$comic_image = $this->url(array('id' => $this->info['md5sum'], 'name' => $this->escape($this->info['name'])), 'comicimage', true);
 
 $add_link_first = $selected != $first ? true : false;
 $add_link_last = $selected != $latest ? true : false;

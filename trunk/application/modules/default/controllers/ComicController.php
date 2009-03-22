@@ -74,7 +74,7 @@ class ComicController extends Controller
     // No such ID, redirect to latest comic id
     if (!$comicExists)
     {
-      return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iLatestID, 'name' => $this->view->lname), '', false);
+      return $this->_helper->redirector->gotoRoute(array('id' => $iLatestID, 'name' => $this->view->lname), 'comic', false);
     }
     
     // Get comic information
@@ -88,7 +88,7 @@ class ComicController extends Controller
 
     if ($idtest === false || $nametest === false)
     {
-      return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
+      return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
     }
 
     $this->view->selected = $iComicID;

@@ -119,7 +119,7 @@ if(is_array($l) && !empty($l))
     $comment = $l[$i]['comment'];
     $country = $l[$i]['country'];
 
-    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $title), '', true);
+    $link = $this->url(array('id' => $id, 'name' => $title), 'comic', true);
 
     echo sprintf('<tr class="%s">', trim($class));
     echo '<td align="center"><a href="' . $link . '" title="' . $title . '">#' . $id . '</a></td>';
@@ -172,7 +172,7 @@ if(is_array($l) && !empty($l))
     $name = $this->escape($l[$i]['name']);
     $rating = $l[$i]['avgrate'];
 
-    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name), '', true);
+    $link = $this->url(array('id' => $id, 'name' => $name), 'comic', true);
 
     echo sprintf('<tr class="%s">', trim($class));
     echo '<td align="center">' . $rating . '</td>';
@@ -224,7 +224,7 @@ if(is_array($l) && !empty($l))
     $name = $this->escape($l[$i]['name']);
     $rating = $l[$i]['avgrate'];
 
-    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name), '', true);
+    $link = $this->url(array('id' => $id, 'name' => $name), 'comic', true);
 
     echo sprintf('<tr class="%s">', trim($class));
     echo '<td align="center">' . $rating . '</td>';
