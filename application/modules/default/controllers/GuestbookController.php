@@ -108,6 +108,8 @@ class GuestbookController extends Controller
   {
     $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
 
+    $guestbook = new Guestbook();
+
     // Form
     $form = new comicForm();
     $form->setMethod(Zend_Form::METHOD_POST);
@@ -177,7 +179,7 @@ class GuestbookController extends Controller
 
         try
         {
-          $tc = new Zend_Service_Team_Cymru();
+          $tc = new Zend_Service_TeamCymru();
           $tcinfo = $tc->getIpInfo($ip);
 
           $country = $tcinfo['country'];
