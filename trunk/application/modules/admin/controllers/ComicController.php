@@ -577,6 +577,9 @@ class Admin_ComicController extends Controller
 
   } // /function
 
+  /**
+   * Comment statistics
+   */
   public function commentStatsAction()
   {
     $comments = new Comments();
