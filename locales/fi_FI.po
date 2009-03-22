@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: zfComicEngine 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-22 16:15+0200\n"
-"PO-Revision-Date: 2009-03-22 16:19+0200\n"
+"PO-Revision-Date: 2009-03-22 16:34+0200\n"
 "Last-Translator: Pekka Järvinen <pekka.jarvinen@gmail.com>\n"
 "Language-Team: zfComicEngine\n"
 "MIME-Version: 1.0\n"
@@ -834,7 +834,7 @@ msgstr "Sivu luotiin %s sekunnissa"
 #: ..\application\views\layouts\layout.phtml:120
 #, php-format
 msgid "Powered by %sraspi's zfComicEngine%s version %s"
-msgstr "Moottorina %raspin zfComicEngines%s versio %s"
+msgstr "Moottorina %sraspin zfComicEngines%s versio %s"
 
 #: ..\classes\navigation.php:14
 msgid "Admin front page"
