@@ -35,12 +35,12 @@ class ComicController extends Controller
       if($this->_auth->hasIdentity())
       {
         // Redirect to "Add comic page"
-        return $this->_helper->redirector->gotoUrl("/admin/comic/index");
+        return $this->_helper->redirector->gotoRoute(array('module' => 'admin', 'controller' => 'comic', 'action' => 'index'), '', true);
       }
       else
       {
         // Redirect to login page
-        return $this->_helper->redirector->gotoUrl("/admin/index/login");
+        return $this->_helper->redirector->gotoRoute(array('module' => 'admin', 'controller' => 'index', 'action' => 'login'), '', true);
       }
     }
     else
@@ -74,7 +74,7 @@ class ComicController extends Controller
     // No such ID, redirect to latest comic id
     if (!$comicExists)
     {
-      return $this->_helper->redirector->gotoUrl("/comic/");
+      return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iLatestID, 'name' => $this->view->lname), '', false);
     }
     
     // Get comic information
@@ -86,9 +86,9 @@ class ComicController extends Controller
     $idtest = $this->getRequest()->getParam('id', false);
     $nametest = $this->getRequest()->getParam('name', false);
 
-    if($idtest === false || $nametest === false)
+    if ($idtest === false || $nametest === false)
     {
-      return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID/name/" . $this->view->info['name']);
+      return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
     }
 
     $this->view->selected = $iComicID;
@@ -203,7 +203,7 @@ class ComicController extends Controller
 
         if(!empty($values['email']) || !$comic_view_session->ok)
         {
-          return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID");
+          return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
         }
 
         if ($comicExists)
@@ -238,7 +238,7 @@ class ComicController extends Controller
           
           if ($is_banned)
           {
-            return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID");
+            return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
           }
 
           try
@@ -311,8 +311,7 @@ class ComicController extends Controller
 
             $this->_db->commit();
 
-            return $this->_helper->redirector->gotoUrl("/comic/index/id/$iComicID");
-
+            return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
           }
           catch (Exception $e)
           {
@@ -324,7 +323,7 @@ class ComicController extends Controller
         }
         else
         {
-          return $this->_helper->redirector->gotoUrl("/comic");
+          return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index'), '', false);
         }
       }
     }
