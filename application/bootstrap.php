@@ -65,11 +65,69 @@ $frontController->throwExceptions(true);
 $frontController->setBaseUrl('/');
 //$frontController->setParam('useDefaultControllerAlways', true);
 $frontController->addModuleDirectory(dirname(__FILE__) . '/modules');
-/*
-$frontController->setControllerDirectory(
-  array('default' => dirname(__FILE__) . '/default/controllers')
+
+$router = $frontController->getRouter();
+
+$route = new Zend_Controller_Router_Route(
+  ':controller/:action/*',
+  array(
+    'module' => 'default',
+    'controller' => 'index',
+    'action' => 'index'
+  ),
+  array(
+  )
 );
-*/
+
+$router->addRoute('public', $route);
+
+$route = new Zend_Controller_Router_Route(
+  'admin/:controller/:action/*',
+  array(
+    'module' => 'admin',
+    'controller' => 'index',
+    'action' => 'index'
+  ),
+  array(
+  )
+);
+
+$router->addRoute('admin', $route);
+
+
+$route = new Zend_Controller_Router_Route(
+  'comic/:id/:name/*',
+  array(
+    'module' => 'default',
+    'controller' => 'comic',
+    'action' => 'index',
+    'id' => 0,
+    'name' => ''
+  ),
+  array(
+    'id' => '^\d+$'
+  )
+);
+
+$router->addRoute('comic', $route);
+
+
+$route = new Zend_Controller_Router_Route(
+  'comic-image/:id/:name',
+  array(
+    'module' => 'default',
+    'controller' => 'comic',
+    'action' => 'display-comic',
+    'id' => 0,
+    'name' => ''
+   ),
+  array(
+    'id' => '^[\da-f]+$'
+  )
+);
+
+$router->addRoute('comicimage', $route);
+
 
 Zend_Layout::startMvc(array('layoutPath' => dirname(__FILE__) . '/views/layouts'));
 

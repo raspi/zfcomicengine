@@ -11,26 +11,26 @@ class navigation
 
     $m['admin'] = array
     (
-      array ('title' => $tr->_("Admin front page"), 'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'index')),
-      array ('title' => $tr->_("Posts"),            'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'posts')),
-      array ('title' => $tr->_("Comic"),            'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'index')),
-      array ('title' => $tr->_("Comic comments"),   'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments')),
-      array ('title' => $tr->_("Guestbook"),        'url' => array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'index')),
-      array ('title' => $tr->_("Pages"),            'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'pages')),
-      array ('title' => $tr->_("Authors"),          'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'authors')),
-      array ('title' => $tr->_("Bans"),             'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'bans')),
-      array ('title' => $tr->_("Logout"),           'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), 'id' => 'logout')
+      array ('title' => $tr->_("Admin front page"), 'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'index'), 'router' => 'admin'),
+      array ('title' => $tr->_("Posts"),            'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'posts'), 'router' => 'admin'),
+      array ('title' => $tr->_("Comic"),            'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'index'), 'router' => 'admin'),
+      array ('title' => $tr->_("Comic comments"),   'url' => array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments'), 'router' => 'admin'),
+      array ('title' => $tr->_("Guestbook"),        'url' => array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'index'), 'router' => 'admin'),
+      array ('title' => $tr->_("Pages"),            'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'pages'), 'router' => 'admin'),
+      array ('title' => $tr->_("Authors"),          'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'authors'), 'router' => 'admin'),
+      array ('title' => $tr->_("Bans"),             'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'bans'), 'router' => 'admin'),
+      array ('title' => $tr->_("Logout"),           'url' => array('module' => 'admin', 'controller' => 'index', 'action' => 'logout'), 'id' => 'logout', 'router' => 'admin')
     );
 
     $m['public'] = array
     (
-      array ('title' => $tr->_("Front page"),    'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'index')),
-      array ('title' => $tr->_("Comic"),         'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'index')),
-      array ('title' => $tr->_("Comic archive"), 'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'archive')),
-      array ('title' => $tr->_("About"),         'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'about')),
-      array ('title' => $tr->_("Feedback"),      'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'feedback')),
-      array ('title' => $tr->_("Guest book"),    'url' => array('module' => 'default', 'controller' => 'guestbook', 'action' => 'index')),
-      array ('title' => $tr->_("Links"),         'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'links'))
+      array ('title' => $tr->_("Front page"),    'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'index'), 'router' => 'public'),
+      array ('title' => $tr->_("Comic"),         'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'index'), 'router' => 'public'),
+      array ('title' => $tr->_("Comic archive"), 'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'archive'), 'router' => 'public'),
+      array ('title' => $tr->_("About"),         'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'about'), 'router' => 'public'),
+      array ('title' => $tr->_("Feedback"),      'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'feedback'), 'router' => 'public'),
+      array ('title' => $tr->_("Guest book"),    'url' => array('module' => 'default', 'controller' => 'guestbook', 'action' => 'index'), 'router' => 'public'),
+      array ('title' => $tr->_("Links"),         'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'links'), 'router' => 'public')
     );
 
     return $m;
@@ -54,6 +54,7 @@ class navigation
 
       $title = $arr[$i]['title'];
       $url = $arr[$i]['url'];
+      $router = $arr[$i]['router'];
 
       if ($url['module'] == $module && $url['controller'] == $controller && $url['action'] == $action)
       {
@@ -61,7 +62,9 @@ class navigation
         $this->selected = $title;
       }
 
-      $o .= '<li ' . (!is_null($id) ? 'id="' . $id . '" ' : '') . 'class="' . $class . '"><a href="' . $l->url($url, '', true) . '">' . $title . '</a></li>';
+      unset($url['module']);
+
+      $o .= '<li ' . (!is_null($id) ? 'id="' . $id . '" ' : '') . 'class="' . $class . '"><a href="' . $l->url($url, $router, true) . '">' . $title . '</a></li>';
     }
 
     return $o;

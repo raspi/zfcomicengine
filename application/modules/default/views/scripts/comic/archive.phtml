@@ -117,7 +117,7 @@ if(is_array($l) && !empty($l))
     $idea = $this->escape($l[$i]['idea']);
     $rating = $l[$i]['avgrate'];
 
-    $link = $this->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name), '', true);
+    $link = $this->url(array('id' => $id, 'name' => $name), 'comic', true);
 
     $author_filter = $this->url(array('controller' => 'comic', 'action' => 'archive', 'author' => $authorid), '', false);
     $idea_filter = $this->url(array('controller' => 'comic', 'action' => 'archive', 'idea' => $idea), '', false);
