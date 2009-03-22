@@ -261,7 +261,9 @@ class ComicController extends Controller
           {
             $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
             
-            $htmlent = new Zend_Filter_HtmlEntities(ENT_COMPAT, 'UTF-8');
+            require_once 'commenthandler.php';
+            
+            $values['comment'] = linkify($values['comment']);
 
             if (!empty($config->plugin->akismet->key))
             {
@@ -294,7 +296,7 @@ class ComicController extends Controller
 
           $insert = array(
             'nick' => $values['name'],
-            'comment' => $htmlent->filter($values['comment']),
+            'comment' => $values['comment'],
             'comicid' => $iComicID,
             'added' => new Zend_Db_Expr('NOW()'),
             'isstaff' => $this->_auth->hasIdentity() ? '1' : '0',
@@ -594,7 +596,7 @@ class ComicController extends Controller
           {
             $nick = $result[$i]['nick'];
             $title = $result[$i]['title'];
-            $comment = $result[$i]['comment'];
+            $comment = strip_tags($result[$i]['comment']);
             $comicid = $result[$i]['comicid'];
             $rate = $result[$i]['rate'];
             $country = $result[$i]['country'];
@@ -645,7 +647,7 @@ class ComicController extends Controller
             {
               $nick = $result[$i]['nick'];
               $title = $result[$i]['title'];
-              $comment = $result[$i]['comment'];
+              $comment = strip_tags($result[$i]['comment']);
               $comicid = $result[$i]['comicid'];
               $rate = $result[$i]['rate'];
               $country = $result[$i]['country'];

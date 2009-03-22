@@ -116,7 +116,7 @@ if(is_array($l) && !empty($l))
 
     $id = $l[$i]['comicid'];
     $title = $this->escape($l[$i]['title']);
-    $comment = $l[$i]['comment'];
+    $comment = strip_tags($l[$i]['comment']);
     $country = $l[$i]['country'];
 
     $link = $this->url(array('id' => $id, 'name' => $title), 'comic', true);
