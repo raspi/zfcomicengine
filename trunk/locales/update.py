@@ -1,6 +1,9 @@
 # vim: set et ts=4 sw=4 fenc=ascii nomod:
 
-import fnmatch, os, subprocess, sys
+import fnmatch
+import os
+import subprocess
+import sys
 
 PACKAGE = "zfComicEngine"
 VERSION = "1.0.0"
