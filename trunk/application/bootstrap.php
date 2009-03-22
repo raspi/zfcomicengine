@@ -76,6 +76,8 @@ $route = new Zend_Controller_Router_Route(
     'action' => 'index'
   ),
   array(
+    'controller' => '^\w+$',
+    'action' => '^\w+$',
   )
 );
 
@@ -96,7 +98,7 @@ $router->addRoute('admin', $route);
 
 
 $route = new Zend_Controller_Router_Route(
-  'comic/:id/:name/*',
+  'c/:id/:name/*',
   array(
     'module' => 'default',
     'controller' => 'comic',
@@ -105,7 +107,8 @@ $route = new Zend_Controller_Router_Route(
     'name' => ''
   ),
   array(
-    'id' => '^\d+$'
+    'id' => '^\d+$',
+    'name' => '^[^/]+$'
   )
 );
 

@@ -135,12 +135,14 @@ class ComicController extends Controller
     $showcomments = $this->getRequest()->getParam('comments', 'show');
     $showcomments = $showcomments == 'hide' ? false : true;
     $this->view->showcomments = $showcomments;
+    
+    $urlhelper = new Zend_Controller_Action_Helper_Url();
 
     // Comment form
     $form = new comicForm();
     $form->add_asterisk = false;
     $form->setMethod(Zend_Form::METHOD_POST);
-    $form->setAction($this->_request->getBaseUrl() . '/comic/index/id/' . $iComicID . '/name/' . $this->view->info['name']);
+    $form->setAction($this->_request->getBaseUrl() . $urlhelper->url(array('id' => $iComicID, 'name' => $this->view->info['name'], 'comments' => null), 'comic', true));
 
     $submit = new Zend_Form_Element_Submit('submit');
     $submit->setLabel($this->tr->_('Add comment'));
@@ -203,7 +205,7 @@ class ComicController extends Controller
 
         if(!empty($values['email']) || !$comic_view_session->ok)
         {
-          return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
+          return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
         }
 
         if ($comicExists)
@@ -238,7 +240,7 @@ class ComicController extends Controller
           
           if ($is_banned)
           {
-            return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
+            return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
           }
 
           try
@@ -259,7 +261,7 @@ class ComicController extends Controller
           {
             $config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../../config.ini', 'site');
             
-            $htmlent = Zend_Filter_HtmlEntities(ENT_COMPAT, 'UTF-8');
+            $htmlent = new Zend_Filter_HtmlEntities(ENT_COMPAT, 'UTF-8');
 
             if (!empty($config->plugin->akismet->key))
             {
@@ -311,7 +313,7 @@ class ComicController extends Controller
 
             $this->_db->commit();
 
-            return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index', 'id' => $iComicID, 'name' => $this->view->info['name']), '', false);
+            return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
           }
           catch (Exception $e)
           {
@@ -323,7 +325,7 @@ class ComicController extends Controller
         }
         else
         {
-          return $this->_helper->redirector->gotoRoute(array('module' => 'default', 'controller' => 'comic', 'action' => 'index'), '', false);
+          return $this->_helper->redirector->gotoRoute(array('id' => 0, 'name' => ''), 'comic', false);
         }
       }
     }
@@ -563,7 +565,7 @@ class ComicController extends Controller
             $name = $result[$i]['name'];
             $published = $result[$i]['published'];
 
-            $link = $this->view->url(array('controller' => 'comic', 'action' => 'index', 'id' => $id, 'name' => $name, 'via' => 'feed'), '', true);
+            $link = $this->view->url(array('id' => $id, 'name' => $name, 'via' => 'feed'), 'comic', true);
 
             $entries[] = array(
               'title' => $name,
@@ -597,7 +599,7 @@ class ComicController extends Controller
             $rate = $result[$i]['rate'];
             $country = $result[$i]['country'];
 
-            $link = $this->view->url(array('controller' => 'comic', 'action' => 'index', 'id' => $comicid, 'name' => $title, 'via' => 'feed'), '', true);
+            $link = $this->view->url(array('id' => $comicid, 'name' => $title, 'via' => 'feed'), 'comic', true);
 
             $entries[] = array(
               'title' => "$title: [$country] $nick",
@@ -648,7 +650,7 @@ class ComicController extends Controller
               $rate = $result[$i]['rate'];
               $country = $result[$i]['country'];
 
-              $link = $this->view->url(array('controller' => 'comic', 'action' => 'index', 'id' => $cinfo['id'], 'name' => $cinfo['name'], 'via' => 'feed'), '', true);
+              $link = $this->view->url(array('id' => $cinfo['id'], 'name' => $cinfo['name'], 'via' => 'feed'), 'comic', true);
 
               $entries[] = array(
                 'title' => "$title: [$country] $nick",
@@ -694,7 +696,7 @@ class ComicController extends Controller
     $select->limit(1);
     $result = $comics->fetchRow($select)->toArray();
 
-    return $this->_helper->redirector->gotoUrl('/comic/index/id/' . $result['id'] . '/name/' . $this->view->escape($result['name']));
+    return $this->_helper->redirector->gotoRoute(array('id' => $result['id'], 'name' => $this->view->escape($result['name'])), 'comic', false);
   } // /function
 
 } // /class
