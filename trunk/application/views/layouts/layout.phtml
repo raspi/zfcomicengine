@@ -15,7 +15,7 @@ $title = $navigation->selected;
 echo "\x3c?xml version=\"1.0\" encoding=\"UTF-8\"?\x3e\n";
 echo $this->doctype() . "\n";
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo substr($config->language, 0, 2); ?>">
 <head>
 <!--
 zfComicEngine (c) Pekka Järvinen 2009
@@ -27,10 +27,11 @@ zfComicEngine (c) Pekka Järvinen 2009
 $this->headLink(array('rel' => 'icon', 'type' => 'image/png', 'href' => '/images/favicon.png'));
 
 // RSS links
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Posts"), 'href' => $this->url(array('controller' => 'index', 'action' => 'feed'), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Comics"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comic' ), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Comic comments"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comments' ), '', true)));
-$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => $tr->_("Latest comic comments for latest comic"), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Posts feed"), $config->name), 'href' => $this->url(array('controller' => 'index', 'action' => 'feed'), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comics feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comic' ), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comic comments feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comments' ), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Latest comic comments for latest comic feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), '', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Guestbook entries feed"), $config->name), 'href' => $this->url(array('controller' => 'guestbook', 'action' => 'feed'), '', true)));
 
 // CSS
 $this->headLink()->appendStylesheet('/css/default.css');
@@ -115,9 +116,10 @@ echo sprintf($tr->_("Executed %s SQL queries in %s seconds"), $queryCount, round
 echo sprintf($tr->_("Rendered in %s seconds"), round(microtime(true) - SCRIPT_START_TIME, 3));
 ?>
  |
-    Powered by <a href="http://code.google.com/p/zfcomicengine/">raspi's zfComicEngine</a>
-
-    <br />
+<?php
+echo sprintf($tr->_("Powered by %sraspi's zfComicEngine%s version %s"), '<a href="http://code.google.com/p/zfcomicengine/">', '</a>', VERSION);
+?>
+  <br />
 
 <?php if ($config->debug == 'on'):?>
 <div id="sql-query-list">
