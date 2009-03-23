@@ -27,6 +27,9 @@ class ComicController extends Controller
     $comics = new Comics();
     $view_comics = new VIEW_Comics();
     $comments = new Comments();
+    $comments_raw = new Comments();
+    $comments_raw->cache_result = false;
+    
 
     $comic_view_session = new Zend_Session_Namespace('comic_view');
 
@@ -232,6 +235,18 @@ class ComicController extends Controller
           $useragent = $this->getRequest()->getHeader('User-Agent');
           $ip = $this->getRequest()->getServer('REMOTE_ADDR');
           
+          // User posted less than 3 seconds ago from this IP?
+          $select = $comments_raw->select();
+          $select->from($comments_raw, array('c' => 'COUNT(*)'));
+          $select->where('ipaddr = ?', $ip);
+          $select->where('added BETWEEN (NOW() - INTERVAL 3 SECOND) AND NOW()');
+
+          $result = $comments_raw->fetchRow($select)->toArray();
+          if ((int)$result['c'] > 0)
+          {
+            return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
+          }
+
           $bans = new Bans();
           $bans->cache_result = false;
 
@@ -283,6 +298,19 @@ class ComicController extends Controller
             require_once 'commenthandler.php';
             
             $values['comment'] = linkify($values['comment']);
+
+            // This comic contains exact same nick and comment already?
+            $select = $comments_raw->select();
+            $select->from($comments_raw, array('c' => 'COUNT(*)'));
+            $select->where('nick = ?', $values['name']);
+            $select->where('comment = ?', $values['comment']);
+            $select->where('comicid = ?', $iComicID);
+
+            $result = $comments_raw->fetchRow($select)->toArray();
+            if ((int)$result['c'] > 0)
+            {
+              return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
+            }
 
             if (!empty($config->plugin->akismet->key))
             {
