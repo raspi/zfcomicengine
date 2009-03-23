@@ -101,9 +101,9 @@ class ComicController extends Controller
     $this->view->info = $view_comics->fetchRow($select)->toArray();
 
     $idtest = $this->getRequest()->getParam('id', false);
-    $nametest = $this->getRequest()->getParam('name', false);
+    $nametest = $this->getRequest()->getParam('name', '');
 
-    if ($idtest === false || $nametest === false)
+    if ($idtest === false || empty($nametest))
     {
       return $this->_helper->redirector->gotoRoute(array('id' => $iComicID, 'name' => $this->view->info['name']), 'comic', false);
     }
