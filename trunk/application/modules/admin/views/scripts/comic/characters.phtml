@@ -2,12 +2,8 @@
 $tr = Zend_Registry::get('Zend_Translate');
 ?>
 
-<h2><?php echo $tr->_("Characters");?></h2>
-<div id="character-info">
-<?php echo $this->text;?>
-</div>
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'add-character'), '', true); ?>"><?php echo $tr->_("Add character");?></a>
 
-<div id="character-list">
 <?php
 $l = $this->characters;
 if (is_array($l) && !empty($l))
@@ -17,11 +13,14 @@ if (is_array($l) && !empty($l))
   echo '<table width="100%">' . "\n";
 
   echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
   echo '<col width="100%" />' . "\n";
 
 
   echo '<tr>';
-
+  echo '<td align="center">' . $tr->_("ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Image") . '</td>';
+  echo '<td align="center">' . $tr->_("Description") . '</td>';
   echo "</tr>\n";
 
   $even = true;
@@ -39,13 +38,17 @@ if (is_array($l) && !empty($l))
       $class = 'odd ';
     }
 
+    $id = $l[$i]['id'];
     $name = $this->escape($l[$i]['name']);
     $desc = $l[$i]['descr'];
 
     $img = $l[$i]['md5sum'];
-    $img_link = $this->url(array('controller' => 'comic', 'action' => 'display-character', 'id' => $img, 'name' => $name), '', true);
+    $img_link = $this->url(array('module' => 'default', 'controller' => 'comic', 'action' => 'display-character', 'id' => $img, 'name' => $name), '', true);
+
+    $edit_link = $this->url(array('controller' => 'comic', 'action' => 'edit-character', 'id' => $id), '', true);
 
     echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center"><a href="' . $edit_link . '">' . $id .  '</a></td>';
     echo '<td align="center" class="character"><img src="' . $img_link . '" alt="' . $name . '" class="character-image" /><br />' . $name . '</td>';
     echo '<td align="left" class="character-description">' . $desc. '</td>';
     echo "</tr>\n";
@@ -56,5 +59,8 @@ if (is_array($l) && !empty($l))
   echo "</table>\n";
 
 }
+else
+{
+  echo $tr->_("No characters");
+}
 ?>
-</div>
