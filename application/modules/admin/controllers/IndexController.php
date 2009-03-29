@@ -380,8 +380,22 @@ class Admin_IndexController extends Controller
     $posts = new Posts();
     $posts->cache_result = false;
 
+    $authors = new Authors();
+    $authors->cache_result = false;
+
+    $select = $authors->select();
+    $select->from($authors, array('id', 'name'));
+    $select->order(array('name ASC'));
+    $result = $authors->fetchAll($select)->toArray();
+
+    $author_list = array();
+    for ($i=0; $i < count($result); $i++)
+    {
+      $author_list[$result[$i]['id']] = $result[$i]['name'];
+    }
+
     $select = $posts->select();
-    $select->from($posts, array('subject', 'added', 'content'));
+    $select->from($posts, array('subject', 'added', 'content', 'authorid'));
     $select->where('id = ?', $ID);
     $info = $posts->fetchRow($select)->toArray();
     
@@ -415,7 +429,13 @@ class Admin_IndexController extends Controller
       'createLink', 'unlink', 'formatBlock'
     ));
 
+    $authorid = new Zend_Form_Element_Select('authorid');
+    $authorid->setRequired(true);
+    $authorid->setLabel($this->tr->_('Author'));
+    $authorid->addMultiOptions($author_list);
+
     $form->addElement($subject);
+    $form->addElement($authorid);
     $form->addElement($text);
 
     $form->addElement($submit);
@@ -423,7 +443,8 @@ class Admin_IndexController extends Controller
     $form->populate(
       array(
         'subject' => $info['subject'],
-        'text' => $info['content']
+        'text' => $info['content'],
+        'authorid' => $info['authorid']
       )
     );
 
@@ -435,7 +456,7 @@ class Admin_IndexController extends Controller
         $values = $form->getValues();
 
         $update = array(
-          'authorid' => $this->_auth->getIdentity()->id,
+          'authorid' => $values['authorid'],
           'subject' => $values['subject'],
           'content' => $values['text'],
           'added' => new Zend_Db_Expr('NOW()')
