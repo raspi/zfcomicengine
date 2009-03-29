@@ -753,4 +753,63 @@ class ComicController extends Controller
     return $this->_helper->redirector->gotoRoute(array('id' => $result['id'], 'name' => $this->view->escape($result['name'])), 'comic', false);
   } // /function
 
+  /**
+   * Character listing
+   */
+  public function charactersAction()
+  {
+    $characters = new Characters();
+
+    $select = $characters->select();
+    $select->from($characters, array('name', 'descr', 'md5sum'));
+    $result = $characters->fetchAll($select);
+
+    if (!is_null($result))
+    {
+      $result = $result->toArray();
+      $this->view->characters = $result;
+    }
+    else
+    {
+      $this->view->characters = array();
+    }
+
+  } // /function
+
+  /**
+   * Display character image
+   */
+  public function displayCharacterAction()
+  {
+    $characters = new Characters();
+
+    $id = $this->getRequest()->getParam('id', '');
+
+    $select = $characters->select();
+    $select->from($characters, array('filesize', 'filemime', 'filedata'));
+    $select->where('md5sum = ?', $id);
+    $result = $characters->fetchRow($select);
+
+    $response = $this->getResponse();
+
+    if (!is_null($result))
+    {
+      $result->toArray();
+
+      // Disable main layout
+      $this->_helper->layout->disableLayout();
+
+      $response->setHeader('Content-Type', $result['filemime'], true);
+
+      $this->view->data = $result['filedata'];
+    }
+    else
+    {
+      $response->setHeader('HTTP/1.1', '404 Not Found');
+      $response->setHeader('Status', '404 File not found');
+      $this->view->data = '404';
+    }
+
+  } // /function
+
 } // /class

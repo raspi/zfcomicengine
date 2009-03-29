@@ -1,0 +1,60 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<h2><?php echo $tr->_("Characters");?></h2>
+<div id="character-list">
+<?php
+$l = $this->characters;
+if (is_array($l) && !empty($l))
+{
+  $d = new Zend_Date();
+
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+
+
+  echo '<tr>';
+
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $name = $this->escape($l[$i]['name']);
+    $desc = $l[$i]['descr'];
+
+    $img = $l[$i]['md5sum'];
+    $img_link = $this->url(array('id' => $img), '', true);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center"><img src="' . $img_link . '" alt="' . $name . '" /><br />' . $name . '</td>';
+    echo '<td align="left">' . $desc. '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No characters");
+}
+?>
+</div>
