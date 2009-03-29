@@ -9,6 +9,38 @@ ini_set('display_errors', 1);
 ini_set('default_charset', 'utf-8'); 
 date_default_timezone_set('Europe/Helsinki');
 
+// Gettext module not found. Note: You can't translate this error!
+if (!extension_loaded('gettext'))
+{
+  echo "Gettext PHP module not loaded! See http://php.net/manual/en/book.gettext.php";
+  die;
+}
+
+// Check PHP version
+if (version_compare(PHP_VERSION, '5.2', '>=') === -1)
+{
+  printf (_("Too old PHP version (%s). Please update."), PHP_VERSION);
+  die;
+}
+
+// List of required extensions
+$required_extensions = array(
+  'session', 'spl', 'standard', 'mbstring', 'gd', 'pdo', 'pdo_mysql', 'date', 'pcre', 'iconv'
+);
+
+// Get list of loaded extensions and lowercase all extension names
+$loaded_extensions = array_map('strtolower', get_loaded_extensions());
+
+// Check for required PHP extensions
+for ($i = 0; $i < count($required_extensions); $i++)
+{
+  if (!in_array($required_extensions[$i], $loaded_extensions, false))
+  {
+    printf(_("Extension '%s' not found!"), $required_extensions[$i]);
+    die;
+  } // /if
+} // /for
+
 set_include_path(realpath(dirname(__FILE__) . '/../library') . PATH_SEPARATOR . get_include_path());  
  
 require_once 'Zend/Loader.php'; 
@@ -68,6 +100,7 @@ $frontController->addModuleDirectory(dirname(__FILE__) . '/modules');
 
 $router = $frontController->getRouter();
 
+// Set custom routes
 $route = new Zend_Controller_Router_Route(
   ':controller/:action/*',
   array(

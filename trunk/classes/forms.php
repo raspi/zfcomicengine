@@ -5,6 +5,7 @@
 class comicForm extends Zend_Form
 {
   /**
+   * Add asterisk prefix to required fields?
    * @var bool
    */
   public $add_asterisk = true;
@@ -27,18 +28,25 @@ class comicForm extends Zend_Form
 
   } // /function
 
+  /**
+   * add new display group (fieldset)
+   */
   public function addDisplayGroup(array $elements, $name, $options = null)
   {
     parent::addDisplayGroup($elements, $name, $options);
-  }
+  } // /function
 
+  /**
+   * add new form element (input, textarea, ..)
+   */
   public function addElement($element, $name = null, $options = null)
   {
     parent::addElement($element, $name, $options);
 
     if ($element instanceof Zend_Form_Element)
     {
-      if($element->isRequired() && $this->add_asterisk)
+      // Add asterisk prefix
+      if ($element->isRequired() && $this->add_asterisk)
       {
         $element->setLabel("* " . $element->getLabel());
       }
@@ -58,10 +66,6 @@ class comicForm extends Zend_Form
 
     }
 
-    if ($element instanceof Zend_Form_Element_Text)
-    {
-    }
-
     if ($element instanceof Zend_Form_Element_Textarea)
     {
       $textarea_decorator = array(
@@ -74,36 +78,6 @@ class comicForm extends Zend_Form
 
       $element->setDecorators($textarea_decorator);
 
-    }
-
-    if ($element instanceof Zend_Dojo_Form_Element_Editor)
-    {
-      //$element->getDecorator('HtmlTag')->setOption('escape', false);
-      //$element->getDecorator('HtmlTag')->setEscape(false);
-/*
-      $textarea_decorator = array(
-        array('DijitElement'),
-        array('Errors'),
-        array('HtmlTag',
-          array('tag' => 'dd', 'escape' => false)
-        ),
-        array('Label',
-          array('tag' => 'dt')
-        )
-      );
-
-      $element->setDecorators($textarea_decorator);
-
-
-      //$decorator = $element->getDecorator('HtmlTag');
-      //$decorator->setOption('escape', false);
-      //var_dump($decorator);
-      //$element->addDecorator('HtmlTag', $decorator);
-
-      $editor_decorators = $element->getDecorators();
-
-      var_dump($editor_decorators);
-*/
     }
 
   } // /function
