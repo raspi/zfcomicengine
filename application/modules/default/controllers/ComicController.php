@@ -758,6 +758,9 @@ class ComicController extends Controller
    */
   public function charactersAction()
   {
+    $pages = new Pages();
+    $this->view->text = $pages->getPageContents('characters');
+
     $characters = new Characters();
 
     $select = $characters->select();
