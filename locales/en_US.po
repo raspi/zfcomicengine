@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zfComicEngine 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-22 16:15+0200\n"
+"POT-Creation-Date: 2009-03-29 08:23+0300\n"
 "PO-Revision-Date: 2009-03-01 15:39+0200\n"
 "Last-Translator: Pekka Järvinen <pekka.jarvinen@gmail.com>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,11 +18,21 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ..\application\bootstrap.php:90
+#: ..\application\bootstrap.php:22
+#, php-format
+msgid "Too old PHP version (%s). Please update."
+msgstr ""
+
+#: ..\application\bootstrap.php:39
+#, php-format
+msgid "Extension '%s' not found!"
+msgstr ""
+
+#: ..\application\bootstrap.php:184
 msgid "Database salt is not configured!"
 msgstr ""
 
-#: ..\application\bootstrap.php:131
+#: ..\application\bootstrap.php:225
 msgid "Too old MySQL server. Please update."
 msgstr ""
 
@@ -36,7 +46,7 @@ msgstr ""
 #: ..\application\modules\admin\controllers\IndexController.php:849
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:20
 #: ..\application\modules\admin\views\scripts\index\authors.phtml:20
-#: ..\application\modules\default\controllers\GuestbookController.php:39
+#: ..\application\modules\default\controllers\GuestbookController.php:131
 #: ..\application\modules\default\controllers\IndexController.php:206
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:81
 msgid "Name"
@@ -80,23 +90,23 @@ msgid "Edit comment"
 msgstr ""
 
 #: ..\application\modules\admin\controllers\ComicController.php:444
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:49
-#: ..\application\modules\default\controllers\ComicController.php:160
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:50
+#: ..\application\modules\default\controllers\ComicController.php:179
 #: ..\application\modules\default\views\scripts\comic\index.phtml:174
 msgid "Nick"
 msgstr ""
 
 #: ..\application\modules\admin\controllers\ComicController.php:451
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:50
-#: ..\application\modules\default\controllers\ComicController.php:167
-#: ..\application\modules\default\controllers\GuestbookController.php:46
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:51
+#: ..\application\modules\default\controllers\ComicController.php:191
+#: ..\application\modules\default\controllers\GuestbookController.php:138
 #: ..\application\modules\default\controllers\IndexController.php:213
 #: ..\application\modules\default\views\scripts\comic\index.phtml:175
 msgid "Comment"
 msgstr ""
 
 #: ..\application\modules\admin\controllers\ComicController.php:465
-#: ..\application\modules\default\controllers\ComicController.php:181
+#: ..\application\modules\default\controllers\ComicController.php:205
 msgid "Rate comic"
 msgstr ""
 
@@ -202,7 +212,7 @@ msgstr ""
 
 #: ..\application\modules\admin\controllers\IndexController.php:764
 #: ..\application\modules\admin\controllers\IndexController.php:855
-#: ..\application\modules\default\controllers\ComicController.php:152
+#: ..\application\modules\default\controllers\ComicController.php:171
 msgid "Email"
 msgstr ""
 
@@ -281,74 +291,81 @@ msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\comments.phtml:20
 #: ..\application\modules\default\views\scripts\comic\index.phtml:33
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:24
 #: ..\application\modules\default\views\scripts\index\index.phtml:26
 msgid "First"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\comments.phtml:21
 #: ..\application\modules\default\views\scripts\comic\index.phtml:34
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:25
 #: ..\application\modules\default\views\scripts\index\index.phtml:27
 msgid "Previous"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\comments.phtml:22
 #: ..\application\modules\default\views\scripts\comic\index.phtml:35
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:26
 #: ..\application\modules\default\views\scripts\index\index.phtml:28
 msgid "Next"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\comments.phtml:27
+msgid "Resolve non-resolved IP addresses to hostnames"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:28
 msgid "Comments statistics"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:29
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:30
 msgid "Edit comments"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:47
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:48
 msgid "Comment ID"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:48
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:49
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:19
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:78
 msgid "Comic ID"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:51
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:52
 #: ..\application\modules\default\views\scripts\comic\index.phtml:176
 msgid "Rate"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:52
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:53
 #: ..\application\modules\admin\views\scripts\guestbook\index.phtml:20
 msgid "Added"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:53
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:54
 msgid "Info"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:54
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:104
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:55
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:105
 #: ..\application\modules\admin\views\scripts\guestbook\index.phtml:21
 #: ..\application\modules\admin\views\scripts\guestbook\index.phtml:54
 msgid "Remove"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:99
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:100
 msgid "IP"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:100
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:101
 msgid "Host"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:101
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:102
 msgid "Browser"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\comments.phtml:116
+#: ..\application\modules\admin\views\scripts\comic\comments.phtml:117
 #: ..\application\modules\default\views\scripts\comic\index.phtml:241
 msgid "No comments"
 msgstr ""
@@ -386,7 +403,7 @@ msgid "Answer"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\guestbook\index.phtml:65
-#: ..\application\modules\default\views\scripts\guestbook\index.phtml:80
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:93
 msgid "No guestbook entries"
 msgstr ""
 
@@ -432,8 +449,8 @@ msgid "Author ID"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\index\authors.phtml:21
-#: ..\application\modules\default\controllers\GuestbookController.php:31
-#: ..\application\modules\default\controllers\GuestbookController.php:54
+#: ..\application\modules\default\controllers\GuestbookController.php:123
+#: ..\application\modules\default\controllers\GuestbookController.php:146
 #: ..\application\modules\default\controllers\IndexController.php:198
 msgid "Email address"
 msgstr ""
@@ -555,18 +572,19 @@ msgstr ""
 msgid "Login page"
 msgstr ""
 
-#: ..\application\modules\default\controllers\ComicController.php:146
+#: ..\application\modules\default\controllers\ComicController.php:165
 #: ..\application\modules\default\controllers\IndexController.php:194
 msgid "Add comment"
 msgstr ""
 
-#: ..\application\modules\default\controllers\ComicController.php:194
-#: ..\application\modules\default\controllers\GuestbookController.php:69
+#: ..\application\modules\default\controllers\ComicController.php:218
+#: ..\application\modules\default\controllers\GuestbookController.php:161
 msgid "Do not fill fields in this fieldset"
 msgstr ""
 
-#: ..\application\modules\default\controllers\GuestbookController.php:27
-#: ..\application\modules\default\views\scripts\guestbook\index.phtml:19
+#: ..\application\modules\default\controllers\GuestbookController.php:119
+#: ..\application\modules\default\views\scripts\guestbook\add.phtml:18
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:32
 msgid "Add new guestbook entry"
 msgstr ""
 
@@ -585,7 +603,7 @@ msgid "Note: Akismet plugin has flagged this message as spam"
 msgstr ""
 
 #: ..\application\modules\default\controllers\IndexController.php:284
-#: ..\classes\navigation.php:31
+#: ..\classes\navigation.php:32
 msgid "Feedback"
 msgstr ""
 
@@ -617,7 +635,17 @@ msgstr ""
 msgid "%s comics found"
 msgstr ""
 
+#: ..\application\modules\default\views\scripts\comic\characters.phtml:5
+#: ..\classes\navigation.php:31
+msgid "Characters"
+msgstr ""
+
+#: ..\application\modules\default\views\scripts\comic\characters.phtml:61
+msgid "No characters"
+msgstr ""
+
 #: ..\application\modules\default\views\scripts\comic\index.phtml:36
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:27
 #: ..\application\modules\default\views\scripts\index\index.phtml:29
 msgid "Latest"
 msgstr ""
@@ -710,9 +738,15 @@ msgstr ""
 msgid "Comic rating: %s"
 msgstr ""
 
-#: ..\application\modules\default\views\scripts\guestbook\index.phtml:24
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:34
 #: ..\classes\navigation.php:18
 msgid "Guestbook"
+msgstr ""
+
+#: ..\application\modules\default\views\scripts\guestbook\index.phtml:75
+#: ..\application\modules\default\views\scripts\index\index.phtml:68
+#, php-format
+msgid "%s ago"
 msgstr ""
 
 #: ..\application\modules\default\views\scripts\index\about.phtml:5
@@ -742,7 +776,7 @@ msgid "Worst ten comics"
 msgstr ""
 
 #: ..\application\modules\default\views\scripts\index\links.phtml:5
-#: ..\classes\navigation.php:33
+#: ..\classes\navigation.php:34
 msgid "Links"
 msgstr ""
 
@@ -862,11 +896,11 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: ..\classes\navigation.php:32
+#: ..\classes\navigation.php:33
 msgid "Guest book"
 msgstr ""
 
-#: ..\classes\navigation.php:81
+#: ..\classes\navigation.php:85
 #, php-format
 msgid "Logged in as %s"
 msgstr ""

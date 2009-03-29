@@ -10,6 +10,7 @@
 ..\application\modules\admin\views\scripts\comic\change-image.phtml
 ..\application\modules\admin\views\scripts\comic\comment-stats.phtml
 ..\application\modules\admin\views\scripts\comic\comments.phtml
+..\application\modules\admin\views\scripts\comic\dns-resolve.phtml
 ..\application\modules\admin\views\scripts\comic\edit-comment.phtml
 ..\application\modules\admin\views\scripts\comic\edit.phtml
 ..\application\modules\admin\views\scripts\comic\index.phtml
@@ -32,10 +33,13 @@
 ..\application\modules\admin\views\scripts\index\posts.phtml
 ..\application\modules\admin\views\scripts\index\reset-password.phtml
 ..\application\modules\default\views\scripts\comic\archive.phtml
+..\application\modules\default\views\scripts\comic\characters.phtml
+..\application\modules\default\views\scripts\comic\display-character.phtml
 ..\application\modules\default\views\scripts\comic\display-comic.phtml
 ..\application\modules\default\views\scripts\comic\feed.phtml
 ..\application\modules\default\views\scripts\comic\index.phtml
 ..\application\modules\default\views\scripts\comic\random.phtml
+..\application\modules\default\views\scripts\guestbook\add.phtml
 ..\application\modules\default\views\scripts\guestbook\feed.phtml
 ..\application\modules\default\views\scripts\guestbook\index.phtml
 ..\application\modules\default\views\scripts\index\about.phtml
@@ -45,6 +49,7 @@
 ..\application\modules\default\views\scripts\index\links.phtml
 ..\application\views\layouts\db_error_layout.phtml
 ..\application\views\layouts\layout.phtml
+..\classes\commenthandler.php
 ..\classes\controller.php
 ..\classes\db.php
 ..\classes\filter_html.php
