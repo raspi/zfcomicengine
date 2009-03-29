@@ -10,10 +10,10 @@ $prev = $this->previous;
 $selected = $this->selected;
 
 // Next, previous first and last comic links
-$first_link = $this->url(array('id' => $first), 'comic', false);
-$last_link = $this->url(array('id' => $latest), 'comic', false);
-$next_link = $this->url(array('id' => $next), 'comic', false);
-$prev_link = $this->url(array('id' => $prev), 'comic', false);
+$first_link = $this->url(array('id' => $first), '', false);
+$last_link = $this->url(array('id' => $latest), '', false);
+$next_link = $this->url(array('id' => $next), '', false);
+$prev_link = $this->url(array('id' => $prev), '', false);
 
 $comic_image = $this->url(array('id' => $this->info['md5sum'], 'name' => '-'), 'comicimage', true);
 
