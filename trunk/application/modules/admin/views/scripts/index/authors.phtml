@@ -44,7 +44,7 @@ if(is_array($l) && !empty($l))
     $email = $this->escape($l[$i]['email']);
 
     echo sprintf('<tr class="%s">', trim($class));
-    echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="center"><a href="' . $edit_link . '">' . $id . '</a></td>';
     echo '<td align="left"><a href="' . $edit_link . '">' . $name . '</a></td>';
     echo '<td align="left">' . $email . '</td>';
     echo "</tr>\n";
