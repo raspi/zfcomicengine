@@ -45,7 +45,7 @@ if(is_array($l) && !empty($l))
     $added = str_replace(' ', '&nbsp;', $added);
 
     echo sprintf('<tr class="%s">', trim($class));
-    echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="center"><a href="' . $edit_link . '">' . $id . '</a></td>';
     echo '<td align="left"><a href="' . $edit_link . '">' . $subject . '</a></td>';
     echo '<td align="left">' . $added . '</td>';
     echo "</tr>\n";
