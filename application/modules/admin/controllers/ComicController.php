@@ -80,7 +80,7 @@ class Admin_ComicController extends Controller
       if ($form->isValid($_POST))
       {
         $upload = new Zend_File_Transfer_Adapter_Http();
-        $upload->addValidator('IsImage', false, array('image/pjpeg', 'image/jpeg', 'image/png'));
+        $upload->addValidator('IsImage', false, array('image/pjpeg', 'image/jpeg', 'image/png', 'image/gif'));
         $upload->addValidator('Size', false, array('min' => 1));
         $upload->addValidator('Count', false, array('min' => 1, 'max' => $file_count));
         $upload->addValidator('FilesSize', false, array('min' => 1));
@@ -139,7 +139,6 @@ class Admin_ComicController extends Controller
 
                 list($width, $height, $type, $attr) = getimagesize($fpath);
 
-                // Haetaan tiedoston sisältö
                 $contents = file_get_contents($fpath);
 
                 $insert = array(
@@ -348,14 +347,27 @@ class Admin_ComicController extends Controller
   public function changeImageAction()
   {
     $ID = $this->getRequest()->getParam('id', false);
-    // @TODO
+
+    $comic_files = new Comics();
+    $comic_files->cache_result = false;
 
     $form = new comicForm();
     $form->setMethod(Zend_Form::METHOD_POST);
-    $form->setAction($this->_request->getBaseUrl() . '/admin/comic/change-image/id/' . $id);
+    $form->setAction($this->_request->getBaseUrl() . '/admin/comic/change-image/id/' . $ID);
 
     $submit = new Zend_Form_Element_Submit('submit');
-    $submit->setLabel($this->tr->_('change image'));
+    $submit->setLabel($this->tr->_('Change image'));
+
+    $file_count = 1;
+
+    $file = new Zend_Form_Element_File('file');
+    $file->setRequired(false);
+    $file->setLabel($this->tr->_('Upload file:'));
+    $file->addValidator('Count', false, array('min' => 1, 'max' => $file_count));
+    $file->addValidator('Size', false, 104857600);
+    $file->setMultiFile($file_count);
+
+    $form->addElement($file);
 
     $form->addElement($submit);
 
@@ -364,9 +376,115 @@ class Admin_ComicController extends Controller
     {
       if ($form->isValid($_POST))
       {
-        $values = $form->getValues();
-      }
-    }
+        $upload = new Zend_File_Transfer_Adapter_Http();
+        $upload->addValidator('IsImage', false, array('image/pjpeg', 'image/jpeg', 'image/png', 'image/gif'));
+        $upload->addValidator('Size', false, array('min' => 1));
+        $upload->addValidator('Count', false, array('min' => 1, 'max' => $file_count));
+        $upload->addValidator('FilesSize', false, array('min' => 1));
+        $upload->setDestination('/tmp');
+
+        $files = $upload->getFileInfo();
+
+        foreach ($files as $file => $info)
+        {
+
+          if(!$upload->isUploaded($file))
+          {
+            $upload->receive($file);
+          }
+
+          if ($upload->isValid($file))
+          {
+
+            $fpath = $info['destination'] . '/' . $info['name'];
+            @chmod($fpath, 0777);
+
+            if (file_exists($fpath))
+            {
+              $up_mime = $info['type'];
+
+              switch ($up_mime)
+              {
+                default: break;
+                case 'image/pjpeg':
+                  $up_mime = 'image/jpeg';
+                break;
+              }
+
+              $md5 = md5_file($fpath);
+
+              $select = $comic_files->select();
+              $select->from($comic_files, array('c' => 'COUNT(id)'));
+              $select->where('md5sum = ?', $md5);
+
+              $has_file = $comic_files->fetchRow($select)->toArray();
+              $has_file = $has_file['c'] == '1' ? true : false;
+              unset($select);
+
+              // No file
+              if (!$has_file)
+              {
+                $basename = basename($info['name']);
+                $fextension = strtolower(pathinfo($basename, PATHINFO_EXTENSION));
+
+                // No file extension, skip file
+                if (empty($fextension))
+                {
+                  continue;
+                }
+
+                list($width, $height, $type, $attr) = getimagesize($fpath);
+
+                $contents = file_get_contents($fpath);
+
+                $update = array(
+                  'filedata' => $contents,
+                  'filemime' => $up_mime,
+                  'filesize' => $info['size'],
+                  'md5sum' => $md5,
+                  'filename' => $info['name'],
+                  'imgheight' => $height,
+                  'imgwidth' => $width
+                );
+
+                $this->_db->beginTransaction();
+
+                try
+                {
+                  $comic_files->update($update, $comic_files->getAdapter()->quoteInto('id = ?', $ID));
+
+                  $this->_db->commit();
+
+                }
+                catch (Exception $e)
+                {
+                  $this->_db->rollBack();
+                  var_dump($e);
+                  die;
+                }
+
+              }
+
+              // Destroy file
+              @unlink($fpath);
+
+            }
+
+          }
+          else
+          {
+            var_dump($file);
+            var_dump($info);
+            die;
+          }
+
+        } // /foreach
+
+        return $this->_helper->redirector->gotoUrl("/admin/comic/");
+
+      } // /Valid
+
+    } // /POST
 
     $this->view->form = $form;
 
