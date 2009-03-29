@@ -23,10 +23,12 @@ $add_link_last = $selected != $latest ? true : false;
 // Navigation links
 $nav = null;
 
+$nav .= '<ul>';
 $nav .= '<li class="button comic-button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
 $nav .= '<li class="button comic-button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
 $nav .= '<li class="button comic-button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
 $nav .= '<li class="button comic-button-latest">';   if ($add_link_last)  {$nav .= '<a href="' . $last_link . '">';}  $nav .= $tr->_("Latest");   if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '</ul>';
 $nav .= "\n";
 ?>
 
@@ -34,7 +36,24 @@ $nav .= "\n";
 <!-- Comic -->
 <img src="<?php echo $comic_image; ?>" alt="" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" />
 
-<ul>
-<?php echo $nav;?>
-</ul>
+<div class="navigation"><?php echo $nav;?></div>
 
+<?php
+$l = $this->characters;
+
+if(is_array($l) && !empty($l))
+{
+  for($i=0; $i<count($l); $i++)
+  {
+    $id = (int)$l[$i]['id'];
+    $character_name = $this->escape($l[$i]['name']);
+    $appears = in_array($id, $this->appearances, true) === true ? $tr->_("Yes") : $tr->_("No");
+
+    $toggle_link = $this->url(array('controller' => 'comic', 'action' => 'toggle-character-appearance', 'comicid' => $this->selected, 'characterid' => $id), '', true);
+
+    echo "$character_name: ";
+    echo '<a href="' . $toggle_link . '">' . $appears . '</a>';
+    echo "<br />\n";
+  }
+
+}

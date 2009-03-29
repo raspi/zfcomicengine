@@ -966,6 +966,70 @@ class Admin_ComicController extends Controller
     $result = $characters->fetchAll($select)->toArray();
 
     $this->view->characters = $result;
+
+    $select = $character_appearances->select();
+    $select->from($character_appearances, array('characterid'));
+    $select->where('comicid = ?', $iComicID);
+    $result = $character_appearances->fetchAll($select);
+
+    $this->view->appearances = array();
+    if(!is_null($result))
+    {
+      $result->toArray();
+
+      for($i=0; $i<count($result); $i++)
+      {
+        $this->view->appearances[] = (int)$result[$i]['characterid'];
+      }
+    }
+
+  } // /function
+
+  public function toggleCharacterAppearanceAction()
+  {
+    $this->_helper->layout->disableLayout();
+
+    $character_appearances = new CharacterAppearances();
+    $character_appearances->cache_result = false;
+
+    $comicid = $this->getRequest()->getParam('comicid', false);
+    $characterid = $this->getRequest()->getParam('characterid', false);
+
+    $select = $character_appearances->select();
+    $select->from($character_appearances, array('c' => 'COUNT(id)'));
+    $select->where('comicid = ?', $comicid);
+    $select->where('characterid = ?', $characterid);
+    $result = $character_appearances->fetchRow($select)->toArray();
+
+    $this->_db->beginTransaction();
+
+    try
+    {
+      // Found
+      if ((int)$result['c'] > 0)
+      {
+        $where = array();
+        $where[] = $character_appearances->getAdapter()->quoteInto('comicid = ?', $comicid);
+        $where[] = $character_appearances->getAdapter()->quoteInto('characterid = ?', $characterid);
+        $where = join(' AND ', $where);
+
+        $character_appearances->delete($where);
+      }
+      else
+      {
+        $character_appearances->insert(array('characterid' => $characterid, 'comicid' => $comicid));
+      }
+
+      $this->_db->commit();
+
+    }
+    catch (Exception $e)
+    {
+      $this->_db->rollBack();
+      var_dump($e);
+    }
+
+    return $this->_helper->redirector->gotoRoute(array('controller' => 'comic', 'action' => 'edit-character-appearances', 'id' => $comicid), '', true);
   } // /function
 
 } // /class
