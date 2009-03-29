@@ -2,7 +2,8 @@
 $tr = Zend_Registry::get('Zend_Translate');
 ?>
 
-<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'add-character'), '', true); ?>"><?php echo $tr->_("Add character");?></a>
+<a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'add-character'), '', true); ?>"><?php echo $tr->_("Add character");?></a>
+<a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'edit-character-appearance'), '', true); ?>"><?php echo $tr->_("Edit character appearances");?></a>
 
 <?php
 $l = $this->characters;
@@ -43,7 +44,7 @@ if (is_array($l) && !empty($l))
     $desc = $l[$i]['descr'];
 
     $img = $l[$i]['md5sum'];
-    $img_link = $this->url(array('module' => 'default', 'controller' => 'comic', 'action' => 'display-character', 'id' => $img, 'name' => $name), '', true);
+    $img_link = $this->url(array('module' => 'default', 'controller' => 'comic', 'action' => 'display-character', 'id' => $img, 'name' => $name), 'public', true);
 
     $edit_link = $this->url(array('controller' => 'comic', 'action' => 'edit-character', 'id' => $id), '', true);
 

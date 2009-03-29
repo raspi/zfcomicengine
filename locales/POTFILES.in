@@ -6,11 +6,15 @@
 ..\application\modules\default\controllers\GuestbookController.php
 ..\application\modules\default\controllers\IndexController.php
 ..\application\views\helpers\Relativetime.php
+..\application\modules\admin\views\scripts\comic\add-character.phtml
 ..\application\modules\admin\views\scripts\comic\add.phtml
 ..\application\modules\admin\views\scripts\comic\change-image.phtml
+..\application\modules\admin\views\scripts\comic\characters.phtml
 ..\application\modules\admin\views\scripts\comic\comment-stats.phtml
 ..\application\modules\admin\views\scripts\comic\comments.phtml
 ..\application\modules\admin\views\scripts\comic\dns-resolve.phtml
+..\application\modules\admin\views\scripts\comic\edit-character-appearances.phtml
+..\application\modules\admin\views\scripts\comic\edit-character.phtml
 ..\application\modules\admin\views\scripts\comic\edit-comment.phtml
 ..\application\modules\admin\views\scripts\comic\edit.phtml
 ..\application\modules\admin\views\scripts\comic\index.phtml
