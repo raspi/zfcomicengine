@@ -503,7 +503,7 @@ class ComicController extends Controller
       for($i=0; $i<count($result); $i++)
       {
         $y = (int)$result[$i]['years'];
-        $maxYear = max($maxYear, $y);
+        $maxYear = min($maxYear, $y);
         $ylist[] = $y;
       } // /for
 
