@@ -35,4 +35,8 @@ if (!empty($this->config->plugin->akismet->key))
 
 <h2><?php echo $tr->_("PHP information");?></h2>
 <?php echo sprintf($tr->_("PHP version: %s"), PHP_VERSION);?><br />
-<?php echo sprintf($tr->_("Loaded PHP extensions: %s"), join(', ', get_loaded_extensions()));?><br />
+<?php
+$exts = get_loaded_extensions();
+natsort($exts);
+echo sprintf($tr->_("Loaded PHP extensions: %s"), join(', ', $exts));
+?><br />
