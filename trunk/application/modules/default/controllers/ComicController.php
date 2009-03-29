@@ -498,14 +498,18 @@ class ComicController extends Controller
       unset($select);
 
       $ylist = array();
+      $yearswithoutall = array();
+
       $ylist[] = 'all';
-      $maxYear = 0;
-      for($i=0; $i<count($result); $i++)
+
+      for ($i=0; $i < count($result); $i++)
       {
         $y = (int)$result[$i]['years'];
-        $maxYear = min($maxYear, $y);
+        $yearswithoutall[] = $y;
         $ylist[] = $y;
       } // /for
+
+      $defaultYear = min($yearswithoutall);
 
       $this->view->years = $ylist;
 
@@ -535,7 +539,7 @@ class ComicController extends Controller
       $ord = $ord == 'asc' ? 'ASC' : 'DESC';
       $this->view->order = $ord;
 
-      $year = $this->getRequest()->getParam('year', $maxYear);
+      $year = $this->getRequest()->getParam('year', $defaultYear);
       $this->view->selected_year = $year;
 
       $author = $this->getRequest()->getParam('author', null);
@@ -549,7 +553,7 @@ class ComicController extends Controller
       $select->from($comics, array('id', 'aid', 'name', 'upublished', 'idea', 'author', 'avgrate'));
       $select->order(array("$by $ord", 'id DESC'));
 
-      if (in_array($year, $ylist) && $year != 'all')
+      if (in_array($year, $yearswithoutall))
       {
         $select->where('YEAR(published) = ?', $year);
       }
