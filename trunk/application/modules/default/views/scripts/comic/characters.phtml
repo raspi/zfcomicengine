@@ -3,6 +3,10 @@ $tr = Zend_Registry::get('Zend_Translate');
 ?>
 
 <h2><?php echo $tr->_("Characters");?></h2>
+<div id="character-info">
+<?php echo $this->text;?>
+</div>
+
 <div id="character-list">
 <?php
 $l = $this->characters;
@@ -39,11 +43,11 @@ if (is_array($l) && !empty($l))
     $desc = $l[$i]['descr'];
 
     $img = $l[$i]['md5sum'];
-    $img_link = $this->url(array('id' => $img), '', true);
+    $img_link = $this->url(array('module' => 'default', 'controller' => 'comic', 'action' => 'display-character', 'id' => $img), '', true);
 
     echo sprintf('<tr class="%s">', trim($class));
-    echo '<td align="center"><img src="' . $img_link . '" alt="' . $name . '" /><br />' . $name . '</td>';
-    echo '<td align="left">' . $desc. '</td>';
+    echo '<td align="center" class="character"><img src="' . $img_link . '" alt="' . $name . '" class="character-image" /><br />' . $name . '</td>';
+    echo '<td align="left" class="character-description">' . $desc. '</td>';
     echo "</tr>\n";
 
     $even = !$even;

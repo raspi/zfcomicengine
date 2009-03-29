@@ -472,7 +472,7 @@ class Admin_IndexController extends Controller
   {
     require_once 'filter_html.php';
 
-    $p = array('about', 'links', 'frontpage');
+    $p = array('about', 'links', 'frontpage', 'characters');
     $this->view->pages = $p;
 
     $page = $this->getRequest()->getParam('page', '-');
