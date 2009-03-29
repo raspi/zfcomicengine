@@ -113,7 +113,7 @@ $d->setTimestamp($this->info['upublished']);
   </div>
 
   <!-- Comic -->
-  <img src="<?php echo $comic_image; ?>" alt="" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" />
+  <img src="<?php echo $comic_image; ?>" alt="<?php echo $this->escape($this->info['name']);?>" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" class="comic-image-link" />
 
   <!-- Bottom navigation -->
   <div class="comic-navigation" id="comic-navigation-bottom">
