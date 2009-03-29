@@ -663,4 +663,195 @@ class Admin_ComicController extends Controller
     return $this->_helper->redirector->gotoRoute(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments'), '', true);
   } // /function
 
+  public function charactersAction()
+  {
+    $characters = new Characters();
+    $characters->cache_result = false;
+
+    $select = $characters->select();
+    $select->from($characters, array('id', 'name', 'descr', 'md5sum'));
+    $result = $characters->fetchAll($select);
+
+    if (!is_null($result))
+    {
+      $result = $result->toArray();
+      $this->view->characters = $result;
+    }
+    else
+    {
+      $this->view->characters = array();
+    }
+  } // /function
+
+  /**
+   * Add new character
+   */
+  public function addCharacterAction()
+  {
+    $characters = new Characters();
+    $characters->cache_result = false;
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
+    $form->setAction($this->_request->getBaseUrl() . "/admin/comic/add-character/");
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Add comic'));
+
+    $name = new Zend_Form_Element_Text('name');
+    $name->setRequired(true);
+    $name->setLabel($this->tr->_('Name'));
+    $name->addFilter('StringTrim');
+    $name->addValidator('StringLength', false, array(2));
+
+    $descr = new Zend_Form_Element_Text('descr');
+    $descr->setRequired(true);
+    $descr->setLabel($this->tr->_('Description'));
+    $descr->addFilter('StringTrim');
+    $descr->addValidator('StringLength', false, array(2));
+
+    $form->addElement($name);
+    $form->addElement($descr);
+    $form->addElement($submit);
+
+    // Form POSTed
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+
+        $insert = array(
+          'name' => $values['name'],
+          'descr' => $values['descr']
+        );
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $characters->insert($insert);
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/comic/characters/");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      } // /if
+    } // /if
+
+    $this->view->form = $form;
+
+  } // /function
+
+  /**
+   * Edit character
+   */
+  public function editCharacterAction()
+  {
+    $id = $this->getRequest()->getParam('id', false);
+
+    $characters = new Characters();
+    $characters->cache_result = false;
+
+    $select = $characters->select();
+    $select->from($characters, array('name', 'descr'));
+    $select->where("id = ?", $id);
+    $result = $characters->fetchRow($select)->toArray();
+
+    $form = new comicForm();
+    $form->setMethod(Zend_Form::METHOD_POST);
+    $form->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
+    $form->setAction($this->_request->getBaseUrl() . "/admin/comic/edit-character/id/" . $id);
+
+    $submit = new Zend_Form_Element_Submit('submit');
+    $submit->setLabel($this->tr->_('Add comic'));
+
+    $name = new Zend_Form_Element_Text('name');
+    $name->setRequired(true);
+    $name->setLabel($this->tr->_('Name'));
+    $name->addFilter('StringTrim');
+    $name->addValidator('StringLength', false, array(2));
+
+    $descr = new Zend_Form_Element_Text('descr');
+    $descr->setRequired(true);
+    $descr->setLabel($this->tr->_('Description'));
+    $descr->addFilter('StringTrim');
+    $descr->addValidator('StringLength', false, array(2));
+
+    $form->addElement($name);
+    $form->addElement($descr);
+    $form->addElement($submit);
+
+    if (!$this->getRequest()->isPost())
+    {
+      $form->populate(
+        array(
+          'name' => $result['name'],
+          'descr' => $result['descr']
+        )
+      );
+    }
+
+    // Form POSTed
+    if ($this->getRequest()->isPost())
+    {
+      if ($form->isValid($_POST))
+      {
+        $values = $form->getValues();
+
+        $update = array(
+          'name' => $values['name'],
+          'descr' => $values['descr']
+        );
+
+        $this->_db->beginTransaction();
+
+        try
+        {
+          $characters->update($update, $characters->getAdapter()->quoteInto('id = ?', $id));
+
+          $this->_db->commit();
+
+          return $this->_helper->redirector->gotoUrl("/admin/comic/characters/");
+        }
+        catch (Exception $e)
+        {
+          $this->_db->rollBack();
+          echo $e->getMessage();
+          var_dump($e);
+          die;
+        }
+
+      } // /if
+    } // /if
+
+    $this->view->form = $form;
+
+  } // /function
+
+  /**
+   * Edit character appearances in comics
+   */
+  public function editCharacterAppearancesAction()
+  {
+    $comic_files = new Comics();
+    $comic_files->cache_result = false;
+
+    $characters = new Characters();
+    $characters->cache_result = false;
+
+    $character_appearances = new CharacterAppearances();
+    $character_appearances->cache_result = false;
+
+  } // /function
+
 } // /class

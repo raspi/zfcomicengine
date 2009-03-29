@@ -3,6 +3,7 @@ $tr = Zend_Registry::get('Zend_Translate');
 ?>
 
 <a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'add'), '', true); ?>"><?php echo $tr->_("Add new comic");?></a>
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'characters'), '', true); ?>"><?php echo $tr->_("Characters");?></a>
 
 <?php
 $l = $this->comics;
