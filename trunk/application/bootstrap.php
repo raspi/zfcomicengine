@@ -9,17 +9,10 @@ ini_set('display_errors', 1);
 ini_set('default_charset', 'utf-8'); 
 date_default_timezone_set('Europe/Helsinki');
 
-// Gettext module not found. Note: You can't translate this error!
-if (!extension_loaded('gettext'))
-{
-  echo "Gettext PHP module not loaded! See http://php.net/manual/en/book.gettext.php";
-  die;
-}
-
 // Check PHP version
 if (version_compare(PHP_VERSION, '5.2', '>=') === -1)
 {
-  printf (_("Too old PHP version (%s). Please update."), PHP_VERSION);
+  printf("Too old PHP version (%s). Please update.", PHP_VERSION);
   die;
 }
 
@@ -36,7 +29,7 @@ for ($i = 0; $i < count($required_extensions); $i++)
 {
   if (!in_array($required_extensions[$i], $loaded_extensions, false))
   {
-    printf(_("Extension '%s' not found!"), $required_extensions[$i]);
+    printf("PHP Extension '%s' not found!", $required_extensions[$i]);
     die;
   } // /if
 } // /for
@@ -94,6 +87,7 @@ Zend_Registry::set('Cache', $cache);
 
 $frontController = Zend_Controller_Front::getInstance(); 
 $frontController->throwExceptions(true);
+// @TODO Load from config.ini
 $frontController->setBaseUrl('/');
 //$frontController->setParam('useDefaultControllerAlways', true);
 $frontController->addModuleDirectory(dirname(__FILE__) . '/modules');
