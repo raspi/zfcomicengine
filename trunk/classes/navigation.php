@@ -28,6 +28,7 @@ class navigation
       array ('title' => $tr->_("Comic"),         'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'index'), 'router' => 'public'),
       array ('title' => $tr->_("Comic archive"), 'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'archive'), 'router' => 'public'),
       array ('title' => $tr->_("About"),         'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'about'), 'router' => 'public'),
+      array ('title' => $tr->_("Characters"),    'url' => array('module' => 'default', 'controller' => 'comic', 'action' => 'characters'), 'router' => 'public'),
       array ('title' => $tr->_("Feedback"),      'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'feedback'), 'router' => 'public'),
       array ('title' => $tr->_("Guest book"),    'url' => array('module' => 'default', 'controller' => 'guestbook', 'action' => 'index'), 'router' => 'public'),
       array ('title' => $tr->_("Links"),         'url' => array('module' => 'default', 'controller' => 'index', 'action' => 'links'), 'router' => 'public')
