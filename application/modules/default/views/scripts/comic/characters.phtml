@@ -43,7 +43,7 @@ if (is_array($l) && !empty($l))
     $desc = $l[$i]['descr'];
 
     $img = $l[$i]['md5sum'];
-    $img_link = $this->url(array('module' => 'default', 'controller' => 'comic', 'action' => 'display-character', 'id' => $img), '', true);
+    $img_link = $this->url(array('controller' => 'comic', 'action' => 'display-character', 'id' => $img, 'name' => $name), '', true);
 
     echo sprintf('<tr class="%s">', trim($class));
     echo '<td align="center" class="character"><img src="' . $img_link . '" alt="' . $name . '" class="character-image" /><br />' . $name . '</td>';
