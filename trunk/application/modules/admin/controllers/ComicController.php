@@ -843,8 +843,11 @@ class Admin_ComicController extends Controller
    */
   public function editCharacterAppearancesAction()
   {
-    $comic_files = new Comics();
-    $comic_files->cache_result = false;
+    $view_comics = new VIEW_Comics();
+    $view_comics->cache_result = false;
+
+    $comics = new Comics();
+    $comics->cache_result = false;
 
     $characters = new Characters();
     $characters->cache_result = false;
@@ -852,6 +855,117 @@ class Admin_ComicController extends Controller
     $character_appearances = new CharacterAppearances();
     $character_appearances->cache_result = false;
 
+    $comic_view_session = new Zend_Session_Namespace('comic_view');
+
+    if (!isset($comic_view_session->ok) || $comic_view_session->ok === false)
+    {
+      $comic_view_session->ok = true;
+    }
+
+    // Get latest comic ID
+    $select = $comics->select();
+    $select->from($comics, array('id', 'name'));
+    $select->order(array('id DESC'));
+    $select->limit(1);
+    $result = $comics->fetchRow($select);
+
+    // There's no comics
+    if(is_null($result))
+    {
+      // Redirect to "Add comic page"
+      return $this->_helper->redirector->gotoRoute(array('module' => 'admin', 'controller' => 'comic', 'action' => 'index'), '', true);
+    }
+    else
+    {
+      $result->toArray();
+    }
+
+    $iLatestID = $result['id'];
+
+    $this->view->latest = $iLatestID;
+
+    // Get first comic ID
+    $select = $comics->select();
+    $select->from($comics, array('id', 'name'));
+    $select->order(array('id ASC'));
+    $select->limit(1);
+    $result = $comics->fetchRow($select)->toArray();
+    $iFirstID = $result['id'];
+
+    $this->view->first = $iFirstID;
+
+    // Get comic ID from URL parameter
+    // If it isn't set, use latest comic ID
+    $iComicID = $this->getRequest()->getParam('id', $iLatestID);
+
+    // Does the comic exist?
+    $comicExists = $comics->idExists($iComicID);
+
+    // No such ID, redirect to latest comic id
+    if (!$comicExists)
+    {
+      return $this->_helper->redirector->gotoRoute(array('id' => $iLatestID), '', false);
+    }
+
+    // Get comic information
+    $select = $view_comics->select();
+    $select->from($view_comics, array('author', 'name', 'md5sum', 'upublished', 'idea', 'imgwidth', 'imgheight', 'avgrate'));
+    $select->where('id = ?', $iComicID);
+    $this->view->info = $view_comics->fetchRow($select)->toArray();
+
+    $idtest = $this->getRequest()->getParam('id', false);
+
+    if ($idtest === false)
+    {
+      return $this->_helper->redirector->gotoRoute(array('id' => $iComicID), '', false);
+    }
+
+    $this->view->selected = $iComicID;
+
+    // Previous comic ID
+    $select = $comics->select();
+    $select->from($comics, array('id', 'name'));
+    $select->where('id < ?', $iComicID);
+    $select->order(array('id DESC'));
+    $select->limit(1);
+    $result = $comics->fetchRow($select);
+    if(!is_null($result))
+    {
+      $result = $result->toArray();
+      $iPreviousID = $result['id'];
+    }
+    else
+    {
+      $iPreviousID = $iFirstID;
+    }
+    $this->view->previous = $iPreviousID;
+
+    // Next comic ID
+    $select = $comics->select();
+    $select->from($comics, array('id', 'name'));
+    $select->where('id > ?', $iComicID);
+    $select->order(array('id ASC'));
+    $select->limit(1);
+    $result = $comics->fetchRow($select);
+    if(!is_null($result))
+    {
+      $result = $result->toArray();
+      $iNextID = $result['id'];
+    }
+    else
+    {
+      $iNextID = $iLatestID;
+    }
+
+    $this->view->next = $iNextID;
+
+
+    // Get character list
+    $select = $characters->select();
+    $select->from($characters, array('id', 'name'));
+    $result = $characters->fetchAll($select)->toArray();
+
+    $this->view->characters = $result;
   } // /function
 
 } // /class

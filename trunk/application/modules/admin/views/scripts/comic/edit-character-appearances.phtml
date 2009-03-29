@@ -1,8 +1,40 @@
 <?php
 $tr = Zend_Registry::get('Zend_Translate');
+
+$first = $this->first;
+$latest = $this->latest;
+
+$next = $this->next;
+$prev = $this->previous;
+
+$selected = $this->selected;
+
+// Next, previous first and last comic links
+$first_link = $this->url(array('id' => $first), 'comic', false);
+$last_link = $this->url(array('id' => $latest), 'comic', false);
+$next_link = $this->url(array('id' => $next), 'comic', false);
+$prev_link = $this->url(array('id' => $prev), 'comic', false);
+
+$comic_image = $this->url(array('id' => $this->info['md5sum'], 'name' => '-'), 'comicimage', true);
+
+$add_link_first = $selected != $first ? true : false;
+$add_link_last = $selected != $latest ? true : false;
+
+// Navigation links
+$nav = null;
+
+$nav .= '<li class="button comic-button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-latest">';   if ($add_link_last)  {$nav .= '<a href="' . $last_link . '">';}  $nav .= $tr->_("Latest");   if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= "\n";
 ?>
 
 <h2><?php echo $tr->_("Edit character appearances");?></h2>
-<?php
-// @TODO
-?>
+<!-- Comic -->
+<img src="<?php echo $comic_image; ?>" alt="" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" />
+
+<ul>
+<?php echo $nav;?>
+</ul>
+

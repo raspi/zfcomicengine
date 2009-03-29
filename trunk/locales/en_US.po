@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zfComicEngine 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-29 08:23+0300\n"
+"POT-Creation-Date: 2009-03-29 18:54+0300\n"
 "PO-Revision-Date: 2009-03-01 15:39+0200\n"
 "Last-Translator: Pekka Järvinen <pekka.jarvinen@gmail.com>\n"
 "Language-Team: en_US <LL@li.org>\n"
@@ -18,33 +18,27 @@ msgstr ""
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ..\application\bootstrap.php:22
-#, php-format
-msgid "Too old PHP version (%s). Please update."
-msgstr ""
-
-#: ..\application\bootstrap.php:39
-#, php-format
-msgid "Extension '%s' not found!"
-msgstr ""
-
-#: ..\application\bootstrap.php:184
+#: ..\application\bootstrap.php:178
 msgid "Database salt is not configured!"
 msgstr ""
 
-#: ..\application\bootstrap.php:225
+#: ..\application\bootstrap.php:219
 msgid "Too old MySQL server. Please update."
 msgstr ""
 
 #: ..\application\modules\admin\controllers\ComicController.php:47
+#: ..\application\modules\admin\controllers\ComicController.php:700
+#: ..\application\modules\admin\controllers\ComicController.php:776
 msgid "Add comic"
 msgstr ""
 
 #: ..\application\modules\admin\controllers\ComicController.php:51
 #: ..\application\modules\admin\controllers\ComicController.php:250
+#: ..\application\modules\admin\controllers\ComicController.php:704
+#: ..\application\modules\admin\controllers\ComicController.php:780
 #: ..\application\modules\admin\controllers\IndexController.php:758
 #: ..\application\modules\admin\controllers\IndexController.php:849
-#: ..\application\modules\admin\views\scripts\comic\index.phtml:20
+#: ..\application\modules\admin\views\scripts\comic\index.phtml:21
 #: ..\application\modules\admin\views\scripts\index\authors.phtml:20
 #: ..\application\modules\default\controllers\GuestbookController.php:131
 #: ..\application\modules\default\controllers\IndexController.php:206
@@ -117,6 +111,12 @@ msgstr ""
 #: ..\application\modules\admin\controllers\ComicController.php:545
 #: ..\application\modules\admin\views\scripts\comic\remove-comment.phtml:5
 msgid "Remove comment"
+msgstr ""
+
+#: ..\application\modules\admin\controllers\ComicController.php:710
+#: ..\application\modules\admin\controllers\ComicController.php:786
+#: ..\application\modules\admin\views\scripts\comic\characters.phtml:23
+msgid "Description"
 msgstr ""
 
 #: ..\application\modules\admin\controllers\GuestbookController.php:50
@@ -250,6 +250,11 @@ msgstr ""
 msgid "Wrong password entered."
 msgstr ""
 
+#: ..\application\modules\admin\views\scripts\comic\add-character.phtml:5
+#: ..\application\modules\admin\views\scripts\comic\characters.phtml:5
+msgid "Add character"
+msgstr ""
+
 #: ..\application\modules\admin\views\scripts\comic\add.phtml:5
 #: ..\application\modules\admin\views\scripts\comic\index.phtml:5
 msgid "Add new comic"
@@ -257,6 +262,20 @@ msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\change-image.phtml:5
 msgid "Change image"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\comic\characters.phtml:21
+#: ..\application\modules\admin\views\scripts\guestbook\index.phtml:17
+#: ..\application\modules\admin\views\scripts\index\bans.phtml:21
+msgid "ID"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\comic\characters.phtml:22
+msgid "Image"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\comic\characters.phtml:64
+msgid "No characters"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\comment-stats.phtml:5
@@ -327,7 +346,7 @@ msgid "Comment ID"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\comic\comments.phtml:49
-#: ..\application\modules\admin\views\scripts\comic\index.phtml:19
+#: ..\application\modules\admin\views\scripts\comic\index.phtml:20
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:78
 msgid "Comic ID"
 msgstr ""
@@ -370,28 +389,37 @@ msgstr ""
 msgid "No comments"
 msgstr ""
 
+#: ..\application\modules\admin\views\scripts\comic\edit-character-appearances.phtml:5
+msgid "Edit character appearances"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\comic\edit-character.phtml:5
+msgid "Edit character"
+msgstr ""
+
 #: ..\application\modules\admin\views\scripts\comic\edit.phtml:9
 msgid "Change comic image"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\index.phtml:21
+#: ..\application\modules\admin\views\scripts\comic\index.phtml:6
+#: ..\application\modules\default\views\scripts\comic\characters.phtml:5
+#: ..\classes\navigation.php:31
+msgid "Characters"
+msgstr ""
+
+#: ..\application\modules\admin\views\scripts\comic\index.phtml:22
 #: ..\application\modules\admin\views\scripts\index\posts.phtml:21
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:93
 msgid "Published"
 msgstr ""
 
-#: ..\application\modules\admin\views\scripts\comic\index.phtml:62
+#: ..\application\modules\admin\views\scripts\comic\index.phtml:63
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:150
 msgid "No comics"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\guestbook\answer.phtml:5
 msgid "Guestbook entry"
-msgstr ""
-
-#: ..\application\modules\admin\views\scripts\guestbook\index.phtml:17
-#: ..\application\modules\admin\views\scripts\index\bans.phtml:21
-msgid "ID"
 msgstr ""
 
 #: ..\application\modules\admin\views\scripts\guestbook\index.phtml:18
@@ -633,15 +661,6 @@ msgstr ""
 #: ..\application\modules\default\views\scripts\comic\archive.phtml:146
 #, php-format
 msgid "%s comics found"
-msgstr ""
-
-#: ..\application\modules\default\views\scripts\comic\characters.phtml:5
-#: ..\classes\navigation.php:31
-msgid "Characters"
-msgstr ""
-
-#: ..\application\modules\default\views\scripts\comic\characters.phtml:61
-msgid "No characters"
 msgstr ""
 
 #: ..\application\modules\default\views\scripts\comic\index.phtml:36
