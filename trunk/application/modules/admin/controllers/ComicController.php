@@ -697,7 +697,7 @@ class Admin_ComicController extends Controller
     $form->setAction($this->_request->getBaseUrl() . "/admin/comic/add-character/");
 
     $submit = new Zend_Form_Element_Submit('submit');
-    $submit->setLabel($this->tr->_('Add comic'));
+    $submit->setLabel($this->tr->_('Add character'));
 
     $name = new Zend_Form_Element_Text('name');
     $name->setRequired(true);
@@ -773,7 +773,7 @@ class Admin_ComicController extends Controller
     $form->setAction($this->_request->getBaseUrl() . "/admin/comic/edit-character/id/" . $id);
 
     $submit = new Zend_Form_Element_Submit('submit');
-    $submit->setLabel($this->tr->_('Add comic'));
+    $submit->setLabel($this->tr->_('Edit character'));
 
     $name = new Zend_Form_Element_Text('name');
     $name->setRequired(true);
