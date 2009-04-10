@@ -4,15 +4,16 @@ $tr = Zend_Registry::get('Zend_Translate');
 <a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'change-password'), '', true); ?>"><?php echo $tr->_("Change password");?></a>
 
 <h2><?php echo $tr->_("Config.ini");?></h2>
-<?php echo sprintf($tr->_("Name: '%s'"), $this->config->name);?><br />
-<?php echo sprintf($tr->_("Slogan: '%s'"), $this->config->slogan);?><br />
-<?php echo sprintf($tr->_("Debug mode: '%s'"), $this->config->debug);?><br />
-<?php echo sprintf($tr->_("Language: '%s'"), $this->config->language);?><br />
-<?php echo sprintf($tr->_("E-mail sender address: '%s'"), $this->config->sender);?><br />
-<?php echo sprintf($tr->_("Cache directory: '%s'"), $this->config->directory);?><br />
-<?php echo sprintf($tr->_("Date format: '%s'"), $this->config->dateformat);?><br />
+<ul>
+<li><?php echo sprintf($tr->_("Name: '%s'"), $this->config->name);?></li>
+<li><?php echo sprintf($tr->_("Slogan: '%s'"), $this->config->slogan);?></li>
+<li><?php echo sprintf($tr->_("Debug mode: '%s'"), $this->config->debug);?></li>
+<li><?php echo sprintf($tr->_("Language: '%s'"), $this->config->language);?></li>
+<li><?php echo sprintf($tr->_("E-mail sender address: '%s'"), $this->config->sender);?></li>
+<li><?php echo sprintf($tr->_("Cache directory: '%s'"), $this->config->directory);?></li>
+<li><?php echo sprintf($tr->_("Date format: '%s'"), $this->config->dateformat);?></li>
 
-<?php
+<li><?php
 // Akismet API Key
 echo sprintf($tr->_("Akismet key: '%s'"), $this->config->plugin->akismet->key);
 
@@ -30,13 +31,42 @@ if (!empty($this->config->plugin->akismet->key))
   echo ')';
 }
 ?>
-<br />
-<?php echo sprintf($tr->_("Google analytics key: '%s'"), $this->config->plugin->googleanalytics->key);?><br />
-
+</li>
+<li><?php echo sprintf($tr->_("Google analytics key: '%s'"), $this->config->plugin->googleanalytics->key);?></li>
+</ul>
 <h2><?php echo $tr->_("PHP information");?></h2>
-<?php echo sprintf($tr->_("PHP version: %s"), PHP_VERSION);?><br />
-<?php
+<ul>
+<li><?php echo sprintf($tr->_("PHP version: %s"), PHP_VERSION);?></li>
+<li><ul><?php
 $exts = get_loaded_extensions();
-natsort($exts);
-echo sprintf($tr->_("Loaded PHP extensions: %s"), join(', ', $exts));
-?><br />
+usort($exts, "strnatcasecmp");
+echo $tr->_("Loaded PHP extensions:");
+for($i=0; $i<count($exts); $i++)
+{
+  echo '<li>' . $exts[$i] . "</li>\n";
+}
+?></ul></li>
+<li><?php echo sprintf($tr->_("get_magic_quotes_gpc: '%s'"), get_magic_quotes_gpc());?></li>
+<li><?php echo sprintf($tr->_("get_magic_quotes_runtime: '%s'"), get_magic_quotes_runtime());?></li>
+<li><?php echo sprintf($tr->_("register_globals: %s"), trim(ini_get('register_globals')));?></li>
+<li><?php echo sprintf($tr->_("file_uploads: %s"), trim(ini_get('file_uploads')));?></li>
+<li><?php echo sprintf($tr->_("System temporary path: '%s'"), sys_get_temp_dir());?></li>
+<li><?php echo sprintf($tr->_("upload_max_filesize: %s"), trim(ini_get('upload_max_filesize')));?></li>
+<li><?php echo sprintf($tr->_("post_max_size: %s"), trim(ini_get('post_max_size')));?></li>
+<li><?php echo sprintf($tr->_("memory_limit: %s"), trim(ini_get('memory_limit')));?></li>
+</ul>
+
+<h2><?php echo $tr->_("Apache information");?></h2>
+<ul>
+<li><?php echo sprintf($tr->_("Apache version: %s"), apache_get_version());?></li>
+<li><ul><?php
+$exts = apache_get_modules();
+usort($exts, "strnatcasecmp");
+echo $tr->_("Loaded Apache modules:");
+for($i=0; $i<count($exts); $i++)
+{
+  echo '<li>' . $exts[$i] . "</li>\n";
+}
+?></ul></li>
+</ul>
+
