@@ -87,7 +87,7 @@ $l = $this->comments;
 
 if(is_array($l) && !empty($l))
 {
-  echo $tr->_('Latest comic comments');
+  echo '<span class="title">' . $tr->_('Latest comic comments') . "</span>\n";
 
   echo '<table width="100%">' . "\n";
 
@@ -141,8 +141,8 @@ $l = $this->topcomics;
 
 if(is_array($l) && !empty($l))
 {
-  echo $tr->_('Top ten comics');
-
+  echo '<span class="title">' . $tr->_('Top ten comics') . "</span>\n";
+  
   echo '<table width="100%">' . "\n";
 
   echo '<col width="1" />' . "\n";
@@ -191,9 +191,9 @@ if(is_array($l) && !empty($l))
 <?php
 $l = $this->bottomcomics;
 
-if(is_array($l) && !empty($l))
+if (is_array($l) && !empty($l))
 {
-  echo $tr->_('Worst ten comics');
+  echo '<span class="title">' . $tr->_('Worst ten comics') . "</span>\n";
 
   echo '<table width="100%">' . "\n";
 
