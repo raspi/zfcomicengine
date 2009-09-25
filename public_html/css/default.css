@@ -1,3 +1,21 @@
+/*
+DO NOT MODIFY THIS FILE! THIS FILE IS ALWAYS OVERRIDDEN WHEN UPDATING!
+
+Create your own CSS file instead.
+If you want to use this default CSS file as your base, use @import in your own custom CSS file.
+
+For example custom.css:
+@import /css/default.css
+
+body
+{
+  .. your own modifications ..
+}
+
+$Id$
+
+*/
+
 /* CSS RESET: */
 *
 {

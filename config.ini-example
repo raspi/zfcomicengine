@@ -16,7 +16,8 @@ name = Example
 ; Supported format tokens are: G - era, y - year, Y - ISO year, M - month, w - week of year, D - day of year, d - day of month E - day of week, e - number of weekday (1-7), h - hour 1-12, H - hour 0-23, m - minute, s - second A - milliseconds of day, z - timezone, Z - timezone offset, S - fractional second, a - period of day
 ; Additionally format tokens but non ISO conform are: SS - day suffix, eee - php number of weekday(0-6), ddd - number of days per month l - Leap year, B - swatch internet time, I - daylight saving time, X - timezone offset in seconds r - RFC2822 format, U - unix timestamp
 ; Not supported ISO tokens are u - extended year, Q - quarter, q - quarter, L - stand alone month, W - week of month F - day of week of month, g - modified julian, c - stand alone weekday, k - hour 0-11, K - hour 1-24 v - wall zone
-dateformat = HH:mm dd.MM.yyyy
+dateformat = dd.MM.yyyy
+hourformat = HH:mm dd.MM.yyyy
 
 ; OPTIONAL Slogan
 ; Placed after h1 header
@@ -24,8 +25,8 @@ dateformat = HH:mm dd.MM.yyyy
 slogan =
 
 ; OPTIONAL Custom CSS files separated with spaces
-;css = /custom1.css http://example.com/custom2.css
-css =
+;css = /my-custom.css
+css = /css/default.css
 
 ; OPTIONAL Akismet API Key for fighting spam
 ; See http://akismet.com/ for how to acquire API Key
@@ -71,9 +72,11 @@ dbname   = database name
 language = en_US
 
 [contact]
+; REQUIRED
 ; What is used to send emails for password reset etc
 sender = me@example.com
 
 [cache]
+; REQUIRED
 ;directory = /my/temp/dir/
 directory = /tmp/
