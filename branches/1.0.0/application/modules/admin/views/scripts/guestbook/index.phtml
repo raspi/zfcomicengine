@@ -1,0 +1,67 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<?php
+$l = $this->gb;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center">' . $tr->_("ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Question") . '</td>';
+  echo '<td align="center">' . $tr->_("Answer") . '</td>';
+  echo '<td align="center">' . $tr->_("Added") . '</td>';
+  echo '<td align="center">' . $tr->_("Remove") . '</td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i < count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+
+    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'answer', 'id' => $id), '', true);
+    $remove_link = $this->url(array('module' => 'admin', 'controller' => 'guestbook', 'action' => 'remove', 'id' => $id), '', true);
+
+    $added = strip_tags($l[$i]['added']);
+
+    $question = $this->escape($l[$i]['question']);
+    $answer = strip_tags($l[$i]['answer']);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="left"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $question . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $answer . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $added . '</a></td>';
+    echo '<td align="left"><a href="' . $remove_link . '">' . $tr->_("Remove") . '</a></td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No guestbook entries");
+}
+?>

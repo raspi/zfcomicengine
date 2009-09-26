@@ -1,0 +1,289 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$first = $this->first;
+$latest = $this->latest;
+
+$next = $this->next;
+$prev = $this->previous;
+
+$selected = $this->selected;
+
+// Link to this page
+$this_link = 'http://' . $_SERVER['HTTP_HOST'] . $this->url(array('id' => $selected, 'name' => $this->escape($this->info['name'])), 'comic', true);
+
+// Next, previous first and last comic links
+$first_link = $this->url(array('id' => $first, 'name' => $this->escape($this->fname)), 'comic', false);
+$last_link = $this->url(array('id' => $latest, 'name' => $this->escape($this->lname)), 'comic', false);
+$next_link = $this->url(array('id' => $next, 'name' => $this->escape($this->nextname)), 'comic', false);
+$prev_link = $this->url(array('id' => $prev, 'name' => $this->escape($this->prevname)), 'comic', false);
+
+$random_link = $this->url(array('controller' => 'comic', 'action' => 'random'), 'public', true);
+
+$comic_image = $this->url(array('id' => $this->info['md5sum'], 'name' => $this->escape($this->info['name'])), 'comicimage', true);
+
+$add_link_first = $selected != $first ? true : false;
+$add_link_last = $selected != $latest ? true : false;
+
+$comments = $this->comments;
+
+// Navigation links
+$nav = null;
+
+$nav .= '<li class="button comic-button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-latest">';   if ($add_link_last)  {$nav .= '<a href="' . $last_link . '">';}  $nav .= $tr->_("Latest");   if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button comic-button-random"><a href="' . $random_link . '">' . $tr->_("Random") . '</a></li>';
+$nav .= "\n";
+
+
+// Opera's navigation helper
+$this->headLink(array('rel' => 'first', 'title' => $tr->_("First comic"), 'href' => $first_link));
+$this->headLink(array('rel' => 'last', 'title' => $tr->_("Latest comic"), 'href' => $last_link));
+
+if ($add_link_last)
+{
+  $this->headLink(array('rel' => 'next', 'title' => $tr->_("Next comic"), 'href' => $next_link));
+}
+
+if ($add_link_first)
+{
+  $this->headLink(array('rel' => 'prev', 'title' => $tr->_("Previous comic"), 'href' => $prev_link));
+}
+
+
+// Custom CSS
+$css = <<<CSS
+#comment-form #fieldset-mail
+{
+  display: none;
+  visibility: hidden;
+}
+
+#fieldset-add dl dd, #fieldset-add dl dt
+{
+  float:left;
+}
+
+#fieldset-add dl dd
+{
+  padding-right: 1em;
+  padding-left: 0.5em;
+}
+
+#fieldset-add #name
+{
+  width: 5em;
+}
+
+#fieldset-add #comment
+{
+  width: 20em;
+}
+
+.zend_form
+{
+  margin-top: -2em;
+}
+
+.form-dd-submit
+{
+  padding: 0;
+}
+
+CSS;
+
+$this->headStyle()->appendStyle($css);
+
+$d = new Zend_Date();
+$d->setTimestamp($this->info['upublished']);
+?>
+<h2><?php echo $tr->_("Comic");?><a id="comic" /></h2>
+<div id="comic-image">
+  <div id="comic-info">
+    <?php echo $this->escape($this->info['author']);?> <?php echo $d->toString($this->dateformat);?> <b>::</b> <?php echo $this->escape($this->info['name']);?> <?php if(!empty($this->info['idea'])) {echo '('; echo sprintf($tr->_("Idea: %s"), $this->escape($this->info['idea'])); echo ')';}?>
+  </div>
+
+  <!-- Top navigation -->
+  <div class="comic-navigation" id="comic-navigation-top">
+    <ul class="navigation-list" id="navigation-list-top">
+      <?php echo $nav;?>
+    </ul>
+  </div>
+
+  <!-- Comic -->
+  <img src="<?php echo $comic_image; ?>" alt="<?php echo $this->escape($this->info['name']);?>" width="<?php echo $this->info['imgwidth']?>" height="<?php echo $this->info['imgheight']?>" class="comic-image-link" />
+
+  <!-- Bottom navigation -->
+  <div class="comic-navigation" id="comic-navigation-bottom">
+    <ul class="navigation-list" id="navigation-list-bottom">
+      <?php echo $nav;?>
+    </ul>
+  </div>
+
+  <div class="note"><?php echo $tr->_("You can use arrow keys to browse comics."); ?></div>
+
+  <!-- Bookmark this -->
+  <div id="bookmark-list">
+    <?php echo $tr->_("Submit to ");?>
+    <ul id="bookmarks">
+      <li><a id="facebook" title="<?php echo $tr->_("Submit to Facebook");?>" href="http://www.facebook.com/share.php?u=<?php echo $this_link;?>&amp;t=<?php echo $this->info['name'];?>" target="_blank">Facebook</a></li>
+      <li><a id="stumbleupon" title="<?php echo $tr->_("Submit to StumbleUpon");?>" href="http://stumbleupon.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">StumbleUpon</a></li>
+      <li><a id="digg" title="<?php echo $tr->_("Submit to Digg");?>" href="http://digg.com/submit?phase=2&amp;url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>&amp;bodytext=&amp;" target="_blank">Digg</a></li>
+      <li><a id="delicious" title="<?php echo $tr->_("Submit to Delicious");?>" href="http://del.icio.us/post?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">Delicious</a> </li>
+      <li><a id="reddit" title="<?php echo $tr->_("Submit to Reddit");?>" href="http://reddit.com/submit?url=<?php echo $this_link;?>&amp;title=<?php echo $this->info['name'];?>" target="_blank">Reddit</a></li>
+    </ul>
+  </div>
+
+</div><!-- /comic-image -->
+
+<h2><?php echo $tr->_("Comments");?><a id="comments" /></h2>
+<?php
+if ($this->showcomments)
+{
+  $link = $this->url(array('comments' => 'hide'), '', false);
+  echo '<a href="' . $link . '">' . $tr->_("Hide comments") . '</a>';
+}
+else
+{
+  $link = $this->url(array('comments' => null), '', false);
+  echo '<a href="' . $link . '">' . $tr->_("Show comments") . '</a>';
+}
+?>
+<div id="comment-form">
+  <?php echo $this->commentform;?>
+</div>
+
+<?php if ($this->showcomments): ?>
+<div id="comment-list" class="external-urls">
+<?php
+if (is_array($comments) && !empty($comments))
+{
+  echo '<table width="100%" cellspacing="0" cellpadding="0" id="comic-comments">' . "\n";
+  
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center"><b>' . $tr->_("Country") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Date") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Nick") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Comment") . '</b></td>';
+  echo '<td align="center"><b>' . $tr->_("Rate") . '</b></td>';
+  echo "</tr>\n";
+  
+  $even = true;
+
+  for($i=0; $i<count($comments); $i++)
+  {
+    $class = null;
+    
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+    
+    $isstaff = $comments[$i]['isstaff'] == '1' ? true : false;
+    
+    if ($isstaff)
+    {
+      $class .= 'staff-comment ';
+    }
+    
+    $country = $comments[$i]['country'];
+
+    $nick = $this->escape($comments[$i]['nick']);
+    $comment = $comments[$i]['comment'];
+
+    $rate = $comments[$i]['rate'];
+    if(empty($rate))
+    {
+      $rate = '&nbsp;';
+    }
+
+    $d->setTimestamp($comments[$i]['uadded']);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center" class="comment-country"><img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" /></td>';
+    echo '<td align="right" class="comment-added">' . str_replace(' ', '&nbsp;', $d->toString($this->dateformat)) . '</td>';
+    echo '<td align="right" class="comment-nick"><b>' . $nick . '</b>:&nbsp;</td>';
+    echo '<td align="left" class="comment-text">&nbsp;' . $comment . '</td>';
+    echo '<td align="center" class="comment-rate">' . $rate . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  } // /for
+
+  echo "</table>\n";
+  
+  echo "<br />\n";
+  
+  echo sprintf($tr->_("%d comment(s)"), count($comments));
+  
+  if(!empty($this->info['avgrate']))
+  {
+    echo '<div id="comic-rating">';
+    echo sprintf($tr->_("Comic rating: %s"), round($this->info['avgrate'], 3));
+    echo "</div>\n";
+  }
+
+}
+else
+{
+  echo $tr->_("No comments");
+}
+?>
+</div>
+<?php endif;?>
+
+<script type="text/javascript">
+//<![CDATA[
+function changepage (event)
+{
+  var key = event.keyCode;
+
+  if (key == dojo.keys.LEFT_ARROW || key == dojo.keys.RIGHT_ARROW)
+  {
+
+    if (false == (event.target.tagName.toLowerCase() == 'input') && false == (event.target.tagName.toLowerCase() == 'textarea'))
+    {
+
+      if (key == dojo.keys.RIGHT_ARROW)
+      {
+        var redirect = dojo.query("li.comic-button-next a");
+
+      }
+
+      if (key == dojo.keys.LEFT_ARROW)
+      {
+        var redirect = dojo.query("li.comic-button-previous a");
+
+      }
+
+      if (redirect.length && dojo.hasAttr(redirect[0], "href"))
+      {
+        window.location = dojo.attr(redirect[0], "href");
+      }
+
+    }
+
+  }
+
+}
+
+dojo.addOnLoad(
+function()
+{
+  dojo.connect(null, 'onkeypress', changepage);
+}
+);
+//]]>
+</script>

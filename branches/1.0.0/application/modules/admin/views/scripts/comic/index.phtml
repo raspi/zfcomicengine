@@ -1,0 +1,65 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'add'), '', true); ?>"><?php echo $tr->_("Add new comic");?></a>
+<a href="<?php echo $this->url(array('controller' => 'comic', 'action' => 'characters'), '', true); ?>"><?php echo $tr->_("Characters");?></a>
+
+<?php
+$l = $this->comics;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center">' . $tr->_("Comic ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Name") . '</td>';
+  echo '<td align="center">' . $tr->_("Published") . '</td>';
+  echo "</tr>\n";
+
+  $even = true;
+  
+  $d = new Zend_Date();
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+
+    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'edit', 'id' => $id), '', true);
+
+    $name = $this->escape($l[$i]['name']);
+    $d->setTimestamp($l[$i]['upublished']);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $name . '</a></td>';
+    echo '<td align="center">' . str_replace(' ', '&nbsp;', $d->toString($this->dateformat)) . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No comics");
+}
+?>

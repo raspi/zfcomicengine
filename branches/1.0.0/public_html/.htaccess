@@ -1,0 +1,32 @@
+AcceptPathInfo On
+RewriteEngine On          
+RewriteBase /   
+
+# No-WWW redirect
+RewriteCond %{HTTP_HOST} ^www.(.+)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+# Extension is NOT ...
+RewriteCond %{REQUEST_FILENAME} !\.(php|jpg|png|gif|js|txt|htm|html|css)$
+
+# File is NOT index.php
+RewriteCond %{REQUEST_FILENAME} !index\.php
+
+# Is NOT symlink
+RewriteCond %{REQUEST_FILENAME} !-s
+
+# Is NOT file
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# Is NOT directory
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Create rewriting rule
+RewriteRule ^(.*) index.php/$1 [QSA,L]
+
+# Hide Subversion metadata
+<IfModule autoindex_module>
+  IndexIgnore .svn
+</IfModule>
+
+RewriteRule \.svn/ - [F]

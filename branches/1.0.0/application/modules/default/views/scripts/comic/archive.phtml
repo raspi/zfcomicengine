@@ -1,0 +1,152 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$l = $this->clist;
+?>
+
+<h2><?php echo $tr->_("Comic archive");?></h2>
+<div id="archive-filters">
+
+<div id="archive-year-list">
+<ul>
+<?php
+if(is_array($this->years) && count($this->years) > 0)
+{
+  foreach($this->years as $year)
+  {
+    $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'year' => $year), '', false);
+
+    if($year == 'all')
+    {
+      $txt = $tr->_("All years");
+    }
+    else
+    {
+      $txt = $year;
+    }
+    
+    $class = $this->selected_year == $year ? 'selected' : '';
+    
+    echo '<li class="' . $class . '"><a href="' . $link . '" rel="nofollow">' . $txt . '</a></li>';
+  } // /foreach
+} // /if
+?>
+</ul>
+</div>
+
+<?php
+if(!empty($this->selected_idea))
+{
+  echo '<div id="archive-idea-filter">';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'idea' => null), '', false);
+  echo '<a href="' . $link . '" rel="nofollow">' . sprintf($tr->_("Idea: %s (Remove filter)"), $this->selected_idea) . '</a>';
+  echo '</div>';
+}
+?>
+
+<?php
+if(!empty($this->selected_author))
+{
+  echo '<div id="archive-author-filter">';
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'author' => null), '', false);
+  echo '<a href="' . $link . '" rel="nofollow">' . sprintf($tr->_("Author: %s (Remove filter)"), $this->selected_author) . '</a>';
+  echo '</div>';
+}
+?>
+
+</div>
+
+<br />
+
+<?php
+if(is_array($l) && !empty($l))
+{
+  $d = new Zend_Date();
+
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  
+  $order = $this->order == 'ASC' ? 'desc' : 'asc';
+
+  echo '<tr>';
+
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'id', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . str_replace(' ', '&nbsp;', $tr->_("Comic ID")) . '</a></td>';
+
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'name', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Name") . '</a></td>';
+
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'author', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Author") . '</a></td>';
+
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'idea', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Idea") . '</a></td>';
+
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'rating', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link . '" rel="nofollow">' . $tr->_("Rating") . '</a></td>';
+
+  $link = $this->url(array('controller' => 'comic', 'action' => 'archive', 'by' => 'published', 'order' => $order), '', false);
+  echo '<td align="center"><a href="' . $link. '" rel="nofollow">' . $tr->_("Published") . '</a></td>';
+
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    $name = $this->escape($l[$i]['name']);
+    $author = $this->escape($l[$i]['author']);
+    $authorid = $l[$i]['aid'];
+    $d->setTimestamp($l[$i]['upublished']);
+    $idea = $this->escape($l[$i]['idea']);
+    $rating = $l[$i]['avgrate'];
+
+    $link = $this->url(array('id' => $id, 'name' => $name), 'comic', true);
+
+    $author_filter = $this->url(array('controller' => 'comic', 'action' => 'archive', 'author' => $authorid), '', false);
+    $idea_filter = $this->url(array('controller' => 'comic', 'action' => 'archive', 'idea' => $idea), '', false);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="left"><a href="' . $link . '">' . $id . '</a></td>';
+    echo '<td align="left"><a href="' . $link . '">' . $name . '</a></td>';
+    echo '<td align="left"><a href="' . $author_filter . '" rel="nofollow">' . str_replace(' ', '&nbsp;', $author) . '</a></td>';
+
+    echo '<td align="left">';
+    if(!empty($idea))
+    {
+      echo '<a href="' . $idea_filter . '" rel="nofollow">' . $idea . '</a>';
+    }
+    echo '</td>';
+
+    echo '<td align="left">' . $rating . '</td>';
+    echo '<td align="left">' . str_replace(' ', '&nbsp;', $d->toString($this->dateformat)) . '</td>';
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+  
+  echo sprintf($tr->_("%s comics found"), count($l));
+}
+else
+{
+  echo $tr->_("No comics");
+}
+?>

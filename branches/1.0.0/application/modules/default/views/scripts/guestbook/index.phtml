@@ -1,0 +1,99 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$page_number = $this->page_number;
+$page_count = $this->page_count;
+
+$first = 1;
+$latest = $page_count;
+
+$next = $page_number +1;
+$prev = $page_number -1;
+
+// Next, previous first and last page links
+$first_link = $this->url(array('controller' => 'guestbook', 'action' => 'index', 'page' => $first), '', false);
+$last_link = $this->url(array('controller' => 'guestbook', 'action' => 'index', 'page' => $latest), '', false);
+$next_link = $this->url(array('controller' => 'guestbook', 'action' => 'index', 'page' => $next), '', false);
+$prev_link = $this->url(array('controller' => 'guestbook', 'action' => 'index', 'page' => $prev), '', false);
+
+$add_link_first = $page_number != $first ? true : false;
+$add_link_last = $page_number != $latest ? true : false;
+
+$nav = null;
+$nav .= '<ul>';
+$nav .= '<li class="button button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-latest">';   if ($add_link_last)  {$nav .= '<a href="' . $last_link . '">';}  $nav .= $tr->_("Latest");   if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '</ul>';
+$nav .= "\n";
+
+?>
+<a rel="nofollow" href="<?php echo $this->url(array('controller' => 'guestbook', 'action' => 'add'), '', true); ?>"><?php echo $tr->_("Add new guestbook entry");?></a>
+<br />
+<h2><?php echo $tr->_("Guestbook");?></h2>
+<div id="guestbook" class="external-urls">
+
+<div class="navigation"><?php echo $nav;?></div>
+
+<?php
+$l = $this->entries;
+
+if(is_array($l) && !empty($l))
+{
+  $d = new Zend_Date();
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $country = $l[$i]['country'];
+    $country = empty($country) ? 'unknown' : $country;
+
+    $name = $this->escape($l[$i]['name']);
+    $q = nl2br($this->escape($l[$i]['question']));
+    $a = $l[$i]['answer'];
+    $d->setTimestamp($l[$i]['uadded']);
+
+    echo sprintf('<div class="%s">', trim($class));
+
+    echo '<div class="asker">';
+
+    echo '<img src="/images/flags18x12/' . $country . '.png" alt="' . $country. '" width="18" height="12" />';
+    echo " $name ";
+    echo $d->toString($this->dateformat);
+    echo ' (' . sprintf($tr->_("%s ago"), $this->relativetime($l[$i]['uadded'])) . ')';
+    echo '</div>';
+
+    echo '<div class="question">' . $q . '</div>';
+
+    if(!empty($a))
+    {
+      echo '<div class="answer">' . $a . '</div>';
+    }
+
+    echo "</div>\n";
+
+    $even = !$even;
+  }
+
+}
+else
+{
+  echo $tr->_("No guestbook entries");
+}
+?>
+
+<div class="navigation"><?php echo $nav;?></div>
+
+</div>

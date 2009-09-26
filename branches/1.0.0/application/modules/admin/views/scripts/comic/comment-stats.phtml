@@ -1,0 +1,31 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+
+<h2><?php echo $tr->_("Comic comment statistics");?></h2>
+<?php echo sprintf($tr->_("Latest comment: %s"), $this->latest['m']);?><br />
+<?php echo sprintf($tr->_("First comment: %s"), $this->first['m']);?><br />
+
+<h3><?php echo $tr->_("Number of comments by year");?></h3>
+<?php
+// @TODO
+print_r($this->by_year);
+?>
+
+<h3><?php echo $tr->_("Comments by country");?></h3>
+<?php
+// @TODO
+print_r($this->by_country);
+?>
+
+<h3><?php echo $tr->_("Number of comments by browser user-agent");?></h3>
+<?php
+// @TODO
+print_r($this->by_browser);
+?>
+
+<h3><?php echo $tr->_("Number of comments by nick");?></h3>
+<?php
+// @TODO
+print_r($this->by_nick);
+?>

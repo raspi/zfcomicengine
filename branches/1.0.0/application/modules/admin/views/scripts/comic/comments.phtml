@@ -1,0 +1,120 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+
+$page_number = $this->page_number;
+
+$first = 0;
+$next = $page_number +1;
+$prev = $page_number -1;
+
+// Next, previous first and last page links
+$first_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments', 'page' => $first), '', false);
+$next_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments', 'page' => $next), '', false);
+$prev_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments', 'page' => $prev), '', false);
+
+$add_link_first = $page_number != $first ? true : false;
+$add_link_last = true;
+
+$nav = null;
+$nav .= '<ul>';
+$nav .= '<li class="button button-first">';    if ($add_link_first) {$nav .= '<a href="' . $first_link . '">';} $nav .= $tr->_("First");    if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-previous">'; if ($add_link_first) {$nav .= '<a href="' . $prev_link . '">';}  $nav .= $tr->_("Previous"); if ($add_link_first) {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '<li class="button button-next">';     if ($add_link_last)  {$nav .= '<a href="' . $next_link . '">';}  $nav .= $tr->_("Next");     if ($add_link_last)  {$nav .= '</a>';} $nav .= '</li>';
+$nav .= '</ul>';
+$nav .= "\n";
+?>
+
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'dns-resolve'), '', true); ?>"><?php echo $tr->_("Resolve non-resolved IP addresses to hostnames");?></a>
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comment-stats'), '', true); ?>"><?php echo $tr->_("Comments statistics");?></a>
+
+<h2><?php echo $tr->_("Edit comments");?></h2>
+<div class="navigation"><?php echo $nav;?></div>
+<?php
+$l = $this->comments;
+
+if(is_array($l) && !empty($l))
+{
+  echo '<table width="100%">' . "\n";
+
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="100%" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+  echo '<col width="1" />' . "\n";
+
+  echo '<tr>';
+  echo '<td align="center">' . $tr->_("Comment ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Comic ID") . '</td>';
+  echo '<td align="center">' . $tr->_("Nick") . '</td>';
+  echo '<td align="center">' . $tr->_("Comment") . '</td>';
+  echo '<td align="center">' . $tr->_("Rate") . '</td>';
+  echo '<td align="center">' . $tr->_("Added") . '</td>';
+  echo '<td align="center">' . $tr->_("Info") . '</td>';
+  echo '<td align="center">' . $tr->_("Remove") . '</td>';
+  echo "</tr>\n";
+
+  $even = true;
+
+  for($i=0; $i<count($l); $i++)
+  {
+    $class = null;
+
+    if($even)
+    {
+      $class = 'even ';
+    }
+    else
+    {
+      $class = 'odd ';
+    }
+
+    $id = $l[$i]['id'];
+    $comicid = $l[$i]['comicid'];
+    $rate = $l[$i]['rate'];
+    $useragent = $this->escape($l[$i]['useragent']);
+    $ip = $l[$i]['ipaddr'];
+    $host = $this->escape($l[$i]['host']);
+
+    $edit_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'edit-comment', 'id' => $id), '', true);
+    $remove_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'remove-comment', 'id' => $id), '', true);
+
+    $filter_by_comicid_link = $this->url(array('module' => 'admin', 'controller' => 'comic', 'action' => 'comments', 'comicid' => $comicid), '', false);
+
+    $nick = $this->escape($l[$i]['nick']);
+    $comment = $this->escape($l[$i]['comment']);
+
+    $added = $this->escape($l[$i]['added']);
+    $added = str_replace(' ', '&nbsp;', $added);
+
+    echo sprintf('<tr class="%s">', trim($class));
+    echo '<td align="center"><a href="' . $edit_link . '">' . $id . '</a></td>';
+    echo '<td align="center"><a href="' . $filter_by_comicid_link . '">' . $comicid . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $nick . '</a></td>';
+    echo '<td align="left"><a href="' . $edit_link . '">' . $comment . '</a></td>';
+    echo '<td align="center"><a href="' . $edit_link . '">' . $rate . '</a></td>';
+    echo '<td align="center"><a href="' . $edit_link . '">' . $added . '</a></td>';
+
+    echo '<td align="center">';
+    echo '<a href="#" title="' . $ip . '">' . $tr->_("IP") . '</a> ';
+    echo '<a href="#" title="' . $host . '">' . $tr->_("Host") . '</a> ';
+    echo '<a href="#" title="' . $useragent . '">' . $tr->_("Browser") . '</a>';
+    echo '</td>';
+
+    echo '<td align="center"><a href="' . $remove_link . '">' . $tr->_("Remove") . '</a></td>';
+
+    echo "</tr>\n";
+
+    $even = !$even;
+  }
+
+  echo "</table>\n";
+
+}
+else
+{
+  echo $tr->_("No comments");
+}
+?>
+<div class="navigation"><?php echo $nav;?></div>

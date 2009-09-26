@@ -1,0 +1,12 @@
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 365 days"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  SetOutputFilter DEFLATE
+</IfModule>
+
+RewriteEngine Off
+FileETag All
+IndexIgnore *

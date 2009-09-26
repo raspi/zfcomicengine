@@ -1,0 +1,7 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+?>
+<a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'reset-password'), '', true); ?>"><?php echo $tr->_("Forgot password?");?></a>
+
+<h2><?php echo $tr->_("Login");?></h2>
+<?php echo $this->form;?>

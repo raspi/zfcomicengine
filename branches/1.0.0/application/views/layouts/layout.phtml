@@ -1,0 +1,138 @@
+<?php
+require_once 'navigation.php';
+
+$navigation = new navigation();
+
+$tr = Zend_Registry::get('Zend_Translate');
+$auth = Zend_Auth::getInstance();
+$db = Zend_Registry::get('DB');
+
+$config = new Zend_Config_Ini(dirname(__FILE__) . '/../../../config.ini', 'site');
+
+$menu = $navigation->menu();
+$title = $navigation->selected;
+
+echo "\x3c?xml version=\"1.0\" encoding=\"UTF-8\"?\x3e\n";
+echo $this->doctype() . "\n";
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo substr($config->language, 0, 2); ?>">
+<head>
+<!--
+zfComicEngine (c) Pekka Järvinen 2009
+-->
+  <?php echo $this->headTitle($config->name . ' - ' . $title); ?>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php
+// Favicon
+$this->headLink(array('rel' => 'icon', 'type' => 'image/png', 'href' => '/images/favicon.png'));
+
+// RSS links
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Posts feed"), $config->name), 'href' => $this->url(array('controller' => 'index', 'action' => 'feed'), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comics feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comic' ), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Comic comments feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'comments' ), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Latest comic comments for latest comic feed"), $config->name), 'href' => $this->url(array('controller' => 'comic', 'action' => 'feed', 'cat' => 'last-comic-comments' ), 'public', true)));
+$this->headLink(array('rel' => 'alternate', 'type' => 'application/rss+xml', 'title' => sprintf($tr->_("%s - Guestbook entries feed"), $config->name), 'href' => $this->url(array('controller' => 'guestbook', 'action' => 'feed'), 'public', true)));
+
+// CSS
+$this->headLink()->appendStylesheet($config->css);
+
+$css  = '.external-urls a[href^="http:"]{background:url(' . "'/images/external-url.png'" . ') right center no-repeat;padding-right:12px;}' . "\n";
+$css .= '.external-urls a[href^="http://' . $_SERVER["HTTP_HOST"] . '"]{background:transparent;padding-right:0px;}';
+$this->headStyle()->appendStyle($css);
+
+echo $this->headLink();
+?>
+
+<!-- Stupid IE -->
+<!--[if lt IE 8]>
+<script src="/javascript/iefix/IE8.js" type="text/javascript"></script>
+<![endif]-->
+
+<!-- Dojo -->
+<?php
+// Dojo
+if ($this->dojo()->isEnabled())
+{
+  $this->dojo()->setLocalPath('http://ajax.googleapis.com/ajax/libs/dojo/1.1.1/dojo/dojo.js');
+  $this->dojo()->addStyleSheetModule('dijit.themes.tundra');
+
+  if ($auth->hasIdentity())
+  {
+    $this->dojo()->requireModule('dijit._editor.plugins.LinkDialog');
+    $this->dojo()->requireModule('dijit._editor.plugins.FontChoice');
+    $this->dojo()->requireModule('dijit._editor.plugins.EnterKeyHandling');
+  }
+
+  echo $this->dojo();
+}
+?>
+<!-- /Dojo -->
+
+<?php echo $this->headStyle();?>
+</head>
+<body class="tundra">
+  <div id="header">
+
+    <h1><?php echo $config->name;?></h1><div id="slogan"><?php echo $config->slogan;?></div>
+    
+    <?php echo $menu;?>
+
+  </div><!-- /header -->
+
+  <div id="content">
+    <?php echo $this->layout()->content; echo "\n"; ?>
+  </div><!-- /content -->
+  
+  <div id="footer">
+    <hr />
+<div id="footer-content">
+<?php
+$profiler = $db->getProfiler();
+
+$totalTime = $profiler->getTotalElapsedSecs();
+$queryCount = $profiler->getTotalNumQueries();
+
+echo sprintf($tr->_("Executed %s SQL queries in %s seconds"), $queryCount, round($totalTime, 3));
+?>
+ |
+<?php
+echo sprintf($tr->_("Rendered in %s seconds"), round(microtime(true) - SCRIPT_START_TIME, 3));
+?>
+ |
+<?php
+echo sprintf($tr->_("Powered by %sraspi's zfComicEngine%s version %s"), '<a href="http://code.google.com/p/zfcomicengine/">', '</a>', VERSION);
+?>
+  <br />
+
+<?php if ($config->debug == 'on'):?>
+<div id="sql-query-list">
+<ul>
+<?php
+foreach ($profiler->getQueryProfiles() as $query)
+{
+  echo "<li>" . $query->getQuery() . "</li>\n";
+}
+?>
+</ul>
+</div>
+<?php endif;?>
+
+</div>
+  </div><!-- /footer -->
+<?php if(!empty($config->plugin->googleanalytics->key)):?>
+<!-- Google analytics -->
+<script type="text/javascript">
+//<![CDATA[
+dojo.addOnLoad(
+function()
+{
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  var pageTracker = _gat._getTracker("UA-<?php echo $config->plugin->googleanalytics->key;?>");
+  pageTracker._trackPageview();
+}
+//]]>
+</script>
+<?php endif;?>
+</body>
+</html>

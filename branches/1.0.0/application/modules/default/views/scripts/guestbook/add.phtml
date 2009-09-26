@@ -1,0 +1,21 @@
+<?php
+$tr = Zend_Registry::get('Zend_Translate');
+// Custom CSS
+$css = <<<CSS
+  #fieldset-mail
+  {
+    display: none;
+    visibility: hidden;
+  }
+
+  .zend_form
+  {
+    margin-top: -2em;
+  }
+CSS;
+$this->headStyle()->appendStyle($css);
+?>
+<h2><?php echo $tr->_("Add new guestbook entry");?></h2>
+<div id="guestbook-form">
+  <?php echo $this->gbform;?>
+</div>
