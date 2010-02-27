@@ -45,12 +45,16 @@ FLUSH PRIVILEGES;
 }}}
 To quit write `quit` or `\q`
 
-= Get latest version from SVN trunk =
+= Select version =
+== Released ==
+Download [http://code.google.com/p/zfcomicengine/downloads/list latest version]
+== SVN ==
 Example:
 {{{
 svn --force export http://zfcomicengine.googlecode.com/svn/trunk/ /home/zfce
 }}}
 Or if you want SVN metadata, use [http://code.google.com/p/zfcomicengine/source/checkout checkout].
+
 
 = Configure zfce =
   * Modify `config.ini` with database settings
