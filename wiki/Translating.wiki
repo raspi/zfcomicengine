@@ -1,7 +1,13 @@
 #labels Featured
 #How to translate
 
-= How to translate =
+= Translating using Launchpad =
+ * Create user at http://launchpad.net
+ * Go to https://translations.launchpad.net/zfcomicengine
+ * Add your translation
+ * I will upload new finished translations to SVN
+
+= Translating with your own machine =
   * Get latest HEAD version from SVN trunk
   * Go to *locales* directory
 == New translation ==
